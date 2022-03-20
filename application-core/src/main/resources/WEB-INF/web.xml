@@ -13,15 +13,15 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
-    <security-constraint>
+    <org.ias.tks.appcore.security-constraint>
         <web-resource-collection>
             <web-resource-name>MVC-1.0-SNAPSHOT</web-resource-name>
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
-        <user-data-constraint>
+        <userEnt-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+        </userEnt-data-constraint>
+    </org.ias.tks.appcore.security-constraint>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
