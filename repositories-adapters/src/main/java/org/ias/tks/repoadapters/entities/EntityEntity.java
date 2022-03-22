@@ -3,11 +3,11 @@ package org.ias.tks.repoadapters.entities;
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class EntityEnt {
+public abstract class EntityEntity {
 
     private UUID id;
 
-    public EntityEnt() {
+    public EntityEntity() {
 
         this.id = UUID.randomUUID();
     }
@@ -23,8 +23,8 @@ public abstract class EntityEnt {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EntityEnt entityEnt)) return false;
-        return Objects.equals(id, entityEnt.id);
+        if (!(o instanceof EntityEntity entityEntity)) return false;
+        return Objects.equals(id, entityEntity.id);
     }
 
     @Override
@@ -34,7 +34,7 @@ public abstract class EntityEnt {
 
     @Override
     public String toString() {
-        return "EntityEnt{" +
+        return "EntityEntity{" +
                 "id=" + id +
                 '}';
     }

@@ -47,15 +47,15 @@ public class UserRepository extends AbstractRepository<User> {
         addUser(user3);
     }
 
-    public synchronized void activateUser( String login ) throws UserByLoginNotFound {
-        if( getUserByLogin(login) == null ) {
+    public synchronized void activateUser(String login) throws UserByLoginNotFound {
+        if (getUserByLogin(login) == null) {
             throw new UserByLoginNotFound();
         }
         getUserByLogin(login).setActive(true);
     }
 
-    public synchronized void deactivateUser( String login ) throws UserByLoginNotFound {
-        if( getUserByLogin(login) == null ) {
+    public synchronized void deactivateUser(String login) throws UserByLoginNotFound {
+        if (getUserByLogin(login) == null) {
             throw new UserByLoginNotFound();
         }
         getUserByLogin(login).setActive(false);
@@ -69,7 +69,7 @@ public class UserRepository extends AbstractRepository<User> {
                 .orElse(null);
     }
 
-    private User getUserByEmail( String login ) {
+    private User getUserByEmail(String login) {
         return getAll()
                 .stream()
                 .filter(e -> login.equals(e.getEmail()))
@@ -77,7 +77,7 @@ public class UserRepository extends AbstractRepository<User> {
                 .orElse(null);
     }
 
-    public List<User> searchUsersByLogin( String login ) {
+    public List<User> searchUsersByLogin(String login) {
         return getAll()
                 .stream()
                 .filter(e -> e.getLogin().toLowerCase().contains(login.toLowerCase()))
@@ -92,28 +92,23 @@ public class UserRepository extends AbstractRepository<User> {
                 .orElse(null);
     }
 
-    public synchronized void addUser( User user ) throws UserCreationException {
-        if(getUserByLogin(user.getLogin()) != null) {
+    public synchronized void addUser(User user) throws UserCreationException {
+        if (getUserByLogin(user.getLogin()) != null) {
             throw new UserCreationException("User login already exists");
         }
-        if(getUserByEmail(user.getEmail()) != null) {
+        if (getUserByEmail(user.getEmail()) != null) {
             throw new UserCreationException("User email already exists");
         }
         add(user);
     }
 
     public synchronized void updateUser(String login, User user) throws UserUpdateException {
-        if(getUserByLogin(login) == null) {
+        if (getUserByLogin(login) == null) {
             throw new UserUpdateException("User with given login does not exist");
         } else {
-//            if(getUserByEmail(user.getEmail()) != null) {
-//                System.out.println("gotu");
-//                throw new UserUpdateException("User email already exists");
-//            }
             delete(getUserByLogin(login));
             user.setLogin(login);
             add(user);
-            System.out.println("Juz po wszystkim");
         }
 
     }

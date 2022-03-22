@@ -1,5 +1,5 @@
 package org.ias.tks.repoadapters.entities;
 
-public interface SingableEnt {
+public interface SingableEntity {
     String getSingablePayload();
 }

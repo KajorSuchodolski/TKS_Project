@@ -18,9 +18,9 @@
             <web-resource-name>MVC-1.0-SNAPSHOT</web-resource-name>
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
-        <userEnt-data-constraint>
+        <userEntity-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </userEnt-data-constraint>
+        </userEntity-data-constraint>
     </org.ias.tks.appcore.security-constraint>
 
     <welcome-file-list>

@@ -4,9 +4,9 @@ import javax.annotation.security.DeclareRoles;
 import java.io.Serializable;
 
 @DeclareRoles("Admin")
-public class AdministratorEnt extends AccessLevelEnt implements Serializable {
+public class AdministratorEntity extends AccessLevelEntity implements Serializable {
 
-    public AdministratorEnt(AccessLevelTypeEnt accessLevelTypeEnt) {
+    public AdministratorEntity(AccessLevelTypeEntity accessLevelTypeEnt) {
         super(accessLevelTypeEnt);
     }
 

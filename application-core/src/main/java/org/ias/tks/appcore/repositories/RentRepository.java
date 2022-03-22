@@ -21,8 +21,6 @@ public class RentRepository extends AbstractRepository<Rent> {
     public RentRepository() {
     }
 
-
-
     public List<Rent> getRentsByCustomer(String login) {
         return getAll()
                 .stream()
@@ -38,7 +36,7 @@ public class RentRepository extends AbstractRepository<Rent> {
                 .orElse(null);
     }
 
-    public synchronized void endRent(String date, UUID rentId) {
+    public void endRent(String date, UUID rentId) {
         if(getRentById(rentId) == null) {
             throw new RentByIdNotFound();
         } else if (Objects.equals(date, "now")) {
@@ -57,7 +55,7 @@ public class RentRepository extends AbstractRepository<Rent> {
         }
     }
 
-    public synchronized void setRentedCostumesToNotRented(UUID rentId) {
+    public void setRentedCostumesToNotRented(UUID rentId) {
 
             Iterator<Costume> it = getRentById(rentId).getCostumes().iterator();
             while(it.hasNext()) {

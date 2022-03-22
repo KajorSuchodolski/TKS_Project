@@ -157,7 +157,7 @@ public class RentManager extends AbstractManager {
         rentRepository.endRent(date, rentId);
     }
 
-    public void deleteRentFromRepo(UUID rentId) throws RentByIdNotFound{
+    public void removeRent(UUID rentId) throws RentByIdNotFound{
         Rent rentToBeDeleted = rentRepository.getRentById(rentId);
         if (rentToBeDeleted == null) {
             throw new RentByIdNotFound();

@@ -12,9 +12,8 @@ import javax.json.bind.annotation.JsonbTransient;
 import java.io.Serializable;
 import java.util.Objects;
 
-@JsonbNillable(value = true)
+@JsonbNillable
 public class User extends Entity implements Singable, Serializable {
-
 
     @JsonbProperty
     private boolean isActive = true;

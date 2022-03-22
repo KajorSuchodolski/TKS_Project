@@ -3,16 +3,16 @@ package org.ias.tks.repoadapters.entities.user.access_levels;
 import javax.annotation.security.DeclareRoles;
 import java.io.Serializable;
 
-@DeclareRoles("Manager")
-public class ManagerEnt extends AccessLevelEnt implements Serializable {
+@DeclareRoles("Client")
+public class ClientEntity extends AccessLevelEntity implements Serializable {
 
-    public ManagerEnt(AccessLevelTypeEnt accessLevelTypeEnt) {
+    public ClientEntity(AccessLevelTypeEntity accessLevelTypeEnt) {
         super(accessLevelTypeEnt);
     }
 
     @Override
     public String getAccessLevelType() {
-        return "Manager";
+        return "Client";
     }
 
     @Override
@@ -20,3 +20,4 @@ public class ManagerEnt extends AccessLevelEnt implements Serializable {
         return super.toString();
     }
 }
+

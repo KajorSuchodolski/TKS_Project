@@ -138,7 +138,7 @@ public class RentController {
             return Response.status(Response.Status.BAD_REQUEST).entity("RentID parameter is empty").build();
         }
         try {
-            rentManager.deleteRentFromRepo(UUID.fromString(rentId));
+            rentManager.removeRent(UUID.fromString(rentId));
             return Response.ok(Response.Status.OK)
                     .entity("Rent removed successfully")
                     .build();

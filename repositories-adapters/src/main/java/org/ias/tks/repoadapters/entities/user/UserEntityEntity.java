@@ -1,30 +1,29 @@
 package org.ias.tks.repoadapters.entities.user;
 
-import org.ias.tks.repoadapters.entities.EntityEnt;
-import org.ias.tks.repoadapters.entities.SingableEnt;
-import org.ias.tks.repoadapters.entities.user.access_levels.AccessLevelEnt;
+import org.ias.tks.repoadapters.entities.EntityEntity;
+import org.ias.tks.repoadapters.entities.SingableEntity;
+import org.ias.tks.repoadapters.entities.user.access_levels.AccessLevelEntity;
 
-import javax.json.bind.annotation.JsonbTransient;
 import java.io.Serializable;
 import java.util.Objects;
 
 
-public class UserEnt extends EntityEnt implements SingableEnt, Serializable {
+public class UserEntityEntity extends EntityEntity implements SingableEntity, Serializable {
 
 
     private boolean isActive = true;
-    private AccessLevelEnt accessLevel;
+    private AccessLevelEntity accessLevel;
     private String firstName;
     private String lastName;
     private String login;
     private String email;
     private String password;
 
-    public UserEnt() {
+    public UserEntityEntity() {
 
     }
 
-    public UserEnt(String firstName, String lastName, String login, String password, String email, AccessLevelEnt accessLevel) {
+    public UserEntityEntity(String firstName, String lastName, String login, String password, String email, AccessLevelEntity accessLevel) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,7 +47,7 @@ public class UserEnt extends EntityEnt implements SingableEnt, Serializable {
         return accessLevel.getAccessLevelType();
     }
 
-    public void setAccessLevel(AccessLevelEnt accessLevel) {
+    public void setAccessLevel(AccessLevelEntity accessLevel) {
         this.accessLevel = accessLevel;
     }
 
@@ -76,8 +75,6 @@ public class UserEnt extends EntityEnt implements SingableEnt, Serializable {
         this.login = login;
     }
 
-
-    @JsonbTransient
     public String getPassword() {
         return password;
     }
@@ -98,9 +95,9 @@ public class UserEnt extends EntityEnt implements SingableEnt, Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserEnt userEnt)) return false;
+        if (!(o instanceof UserEntityEntity userEntity)) return false;
         if (!super.equals(o)) return false;
-        return isActive == userEnt.isActive && Objects.equals(accessLevel, userEnt.accessLevel) && Objects.equals(firstName, userEnt.firstName) && Objects.equals(lastName, userEnt.lastName) && Objects.equals(login, userEnt.login) && Objects.equals(email, userEnt.email) && Objects.equals(password, userEnt.password);
+        return isActive == userEntity.isActive && Objects.equals(accessLevel, userEntity.accessLevel) && Objects.equals(firstName, userEntity.firstName) && Objects.equals(lastName, userEntity.lastName) && Objects.equals(login, userEntity.login) && Objects.equals(email, userEntity.email) && Objects.equals(password, userEntity.password);
     }
 
     @Override
@@ -110,7 +107,7 @@ public class UserEnt extends EntityEnt implements SingableEnt, Serializable {
 
     @Override
     public String toString() {
-        return "UserEnt{" +
+        return "UserEntityEntity{" +
                 "isActive=" + isActive +
                 ", accessLevel=" + accessLevel +
                 ", firstName='" + firstName + '\'' +
@@ -120,7 +117,6 @@ public class UserEnt extends EntityEnt implements SingableEnt, Serializable {
                 '}';
     }
 
-    @JsonbTransient
     @Override
     public String getSingablePayload() {
         return login + getId().toString();

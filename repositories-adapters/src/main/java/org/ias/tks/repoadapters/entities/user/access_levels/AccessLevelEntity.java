@@ -2,17 +2,17 @@ package org.ias.tks.repoadapters.entities.user.access_levels;
 
 import java.io.Serializable;
 
-public abstract class AccessLevelEnt implements Serializable {
+public abstract class AccessLevelEntity implements Serializable {
 
-    private AccessLevelTypeEnt accessLevelTypeEnt;
+    private AccessLevelTypeEntity accessLevelTypeEnt;
 
-    public AccessLevelEnt(AccessLevelTypeEnt accessLevelTypeEnt) {
+    public AccessLevelEntity(AccessLevelTypeEntity accessLevelTypeEnt) {
         this.accessLevelTypeEnt = accessLevelTypeEnt;
     }
 
     public abstract String getAccessLevelType();
 
-    public void setAccessLevelType(AccessLevelTypeEnt accessLevelTypeEnt) {
+    public void setAccessLevelType(AccessLevelTypeEntity accessLevelTypeEnt) {
         this.accessLevelTypeEnt = accessLevelTypeEnt;
     }
 

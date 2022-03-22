@@ -1,12 +1,12 @@
 package org.ias.tks.repoadapters.entities.costume;
 
-import org.ias.tks.repoadapters.entities.EntityEnt;
-import org.ias.tks.repoadapters.entities.SingableEnt;
+import org.ias.tks.repoadapters.entities.EntityEntity;
+import org.ias.tks.repoadapters.entities.SingableEntity;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public class CostumeEnt extends EntityEnt implements SingableEnt {
+public class CostumeEntity extends EntityEntity implements SingableEntity {
 
     private boolean isRented;
     private CostumeSizeEnt costumeSizeEnt;
@@ -14,10 +14,10 @@ public class CostumeEnt extends EntityEnt implements SingableEnt {
     private String name;
     private double price;
 
-    public CostumeEnt() {
+    public CostumeEntity() {
     }
 
-    public CostumeEnt(String name, CostumeSizeEnt costumeSizeEnt, ForWhomEnt forWhomEnt, double price) {
+    public CostumeEntity(String name, CostumeSizeEnt costumeSizeEnt, ForWhomEnt forWhomEnt, double price) {
         this.isRented = false;
         this.costumeSizeEnt = costumeSizeEnt;
         this.name = name;
@@ -74,9 +74,8 @@ public class CostumeEnt extends EntityEnt implements SingableEnt {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CostumeEnt)) return false;
+        if (!(o instanceof CostumeEntity costumeEnt)) return false;
         if (!super.equals(o)) return false;
-        CostumeEnt costumeEnt = (CostumeEnt) o;
         return isRented == costumeEnt.isRented && costumeSizeEnt == costumeEnt.costumeSizeEnt && forWhomEnt == costumeEnt.forWhomEnt && Objects.equals(name, costumeEnt.name);
     }
 
@@ -87,7 +86,7 @@ public class CostumeEnt extends EntityEnt implements SingableEnt {
 
     @Override
     public String toString() {
-        return "CostumeEnt{" + "isRented=" + isRented + ", costumeSizeEnt=" + costumeSizeEnt + ", forWhomEnt=" + forWhomEnt + ", name='" + name + '\'' + '}';
+        return "CostumeEntity{" + "isRented=" + isRented + ", costumeSizeEnt=" + costumeSizeEnt + ", forWhomEnt=" + forWhomEnt + ", name='" + name + '\'' + '}';
     }
 
     @Override

@@ -1,46 +1,46 @@
 package org.ias.tks.repoadapters.entities;
 
-import org.ias.tks.repoadapters.entities.costume.CostumeEnt;
-import org.ias.tks.repoadapters.entities.user.UserEnt;
+import org.ias.tks.repoadapters.entities.costume.CostumeEntity;
+import org.ias.tks.repoadapters.entities.user.UserEntityEntity;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class RentEnt extends EntityEnt {
+public class RentEntity extends EntityEntity {
 
-    private UserEnt user;
-    private List<CostumeEnt> costumes;
+    private UserEntityEntity user;
+    private List<CostumeEntity> costumes;
     private double price;
     private LocalDate beginTime;
     private LocalDate endTime;
 
 
-    public RentEnt() {
+    public RentEntity() {
 
     }
 
-    public RentEnt(UserEnt user, List<CostumeEnt> costumes, double price, LocalDate beginTime) {
+    public RentEntity(UserEntityEntity user, List<CostumeEntity> costumes, double price, LocalDate beginTime) {
         this.user = user;
         this.costumes = costumes;
         this.price = price;
         this.beginTime = beginTime;
     }
 
-    public UserEnt getUser() {
+    public UserEntityEntity getUser() {
         return user;
     }
 
-    public void setUser(UserEnt user) {
+    public void setUser(UserEntityEntity user) {
         this.user = user;
     }
 
-    public List<CostumeEnt> getCostumes() {
+    public List<CostumeEntity> getCostumes() {
         return costumes;
     }
 
-    public void setCostumes(List<CostumeEnt> costumes) {
+    public void setCostumes(List<CostumeEntity> costumes) {
         this.costumes = costumes;
     }
 
@@ -76,7 +76,7 @@ public class RentEnt extends EntityEnt {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RentEnt rent)) return false;
+        if (!(o instanceof RentEntity rent)) return false;
         if (!super.equals(o)) return false;
         return Double.compare(rent.price, price) == 0 && Objects.equals(user, rent.user) && Objects.equals(costumes, rent.costumes) && Objects.equals(beginTime, rent.beginTime) && Objects.equals(endTime, rent.endTime);
     }
@@ -88,7 +88,7 @@ public class RentEnt extends EntityEnt {
 
     @Override
     public String toString() {
-        return "RentEnt{" +
+        return "RentEntity{" +
                 "user=" + user +
                 ", costumes=" + costumes +
                 ", price=" + price +
