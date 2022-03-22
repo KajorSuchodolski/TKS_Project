@@ -1,8 +1,7 @@
 package org.ias.tks.appports.infrastructure.rent;
 
-import java.util.List;
-import java.util.UUID;
+import org.ias.tks.appcore.domainmodel.model.rent.Rent;
 
 public interface CreateRentPort {
-    void addRent(String userLogin, List<UUID> costumeIds, String date);
+    void addRent(Rent rent);
 }

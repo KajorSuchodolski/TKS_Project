@@ -1,7 +1,7 @@
 package org.ias.tks.appcore.domainmodel.model.rent;
 
-import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.Model;
+import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.user.User;
 
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ public class Rent extends Model {
 
     }
 
-    public Rent( User user, List<Costume> costumes, double price, LocalDate beginTime) {
+    public Rent(User user, List<Costume> costumes, double price, LocalDate beginTime) {
         this.user = user;
         this.costumes = costumes;
         this.price = price;
@@ -33,7 +33,7 @@ public class Rent extends Model {
         return user;
     }
 
-    public void setUser( User user ) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -41,7 +41,7 @@ public class Rent extends Model {
         return costumes;
     }
 
-    public void setCostumes( List<Costume> costumes ) {
+    public void setCostumes(List<Costume> costumes) {
         this.costumes = costumes;
     }
 
@@ -49,7 +49,7 @@ public class Rent extends Model {
         return price;
     }
 
-    public void setPrice( double price ) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -57,7 +57,7 @@ public class Rent extends Model {
         return beginTime;
     }
 
-    public void setBeginTime( LocalDate beginTime ) {
+    public void setBeginTime(LocalDate beginTime) {
         this.beginTime = beginTime;
     }
 
@@ -65,7 +65,7 @@ public class Rent extends Model {
         return endTime;
     }
 
-    public void setEndTime( LocalDate endTime ) {
+    public void setEndTime(LocalDate endTime) {
         this.endTime = endTime;
     }
 
@@ -75,10 +75,10 @@ public class Rent extends Model {
     }
 
     @Override
-    public boolean equals( Object o ) {
-        if( this == o ) return true;
-        if( !(o instanceof Rent) ) return false;
-        if( !super.equals(o) ) return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Rent)) return false;
+        if (!super.equals(o)) return false;
         Rent rent = (Rent) o;
         return Double.compare(rent.price, price) == 0 && Objects.equals(user, rent.user) && Objects.equals(costumes, rent.costumes) && Objects.equals(beginTime, rent.beginTime) && Objects.equals(endTime, rent.endTime);
     }
