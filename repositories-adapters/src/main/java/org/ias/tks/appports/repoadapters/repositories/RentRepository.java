@@ -3,8 +3,8 @@ package org.ias.tks.appports.repoadapters.repositories;
 
 import org.ias.tks.appports.repoadapters.entities.costume.CostumeEntity;
 import org.ias.tks.appports.repoadapters.entities.rent.RentEntity;
-import org.ias.tks.appports.repoadapters.domain_model.exceptions.EndRentBeforeBeginException;
-import org.ias.tks.appports.repoadapters.domain_model.exceptions.RentByIdNotFound;
+import org.ias.tks.appports.repoadapters.exceptions.EndRentBeforeBeginException;
+import org.ias.tks.appports.repoadapters.exceptions.RentByIdNotFound;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.LocalDate;

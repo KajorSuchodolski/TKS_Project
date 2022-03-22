@@ -1,7 +1,5 @@
 package org.ias.tks.appports.repoadapters.repositories;
 
-
-
 import org.ias.tks.appports.repoadapters.entities.Entity;
 
 import java.util.*;

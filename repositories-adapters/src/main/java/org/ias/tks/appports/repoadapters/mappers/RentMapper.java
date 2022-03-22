@@ -14,12 +14,12 @@ public class RentMapper {
     private UserMapper userMapper;
 
     @Inject
-    private
+    private CostumeMapper costumeMapper;
 
     public RentEntity mapToRentEntity(Rent rent) {
         return new RentEntity(
                 userMapper.mapToUserEntity(rent.getUser()),
-                das,
+                costumeMapper.mapToCostumeEntityList(rent.getCostumes()),
                 rent.getPrice(),
                 rent.getBeginTime()
         );
@@ -28,8 +28,8 @@ public class RentMapper {
     public Rent mapToRent(RentEntity rent) {
 
         return new Rent(
-                userMapper.mapToUserEntity(rent.getUser()),
-                das,
+                userMapper.mapToUser(rent.getUser()),
+                costumeMapper.mapToCostumeList(rent.getCostumes()),
                 rent.getPrice(),
                 rent.getBeginTime()
         );
@@ -39,7 +39,7 @@ public class RentMapper {
         List<Rent> list = new ArrayList<>();
 
         for (RentEntity rentEntity : listEntity) {
-            list.add(mapToUser(rentEntity));
+            list.add(mapToRent(rentEntity));
         }
         return list;
     }

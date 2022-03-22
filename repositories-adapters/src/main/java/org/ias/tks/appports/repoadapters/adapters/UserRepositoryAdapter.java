@@ -4,6 +4,7 @@ import org.ias.tks.appcore.domainmodel.model.user.User;
 import org.ias.tks.appports.infrastructure.user.CreateUserPort;
 import org.ias.tks.appports.infrastructure.user.GetUserPort;
 import org.ias.tks.appports.infrastructure.user.UpdateUserPort;
+import org.ias.tks.appports.repoadapters.exceptions.UserUpdateException;
 import org.ias.tks.appports.repoadapters.mappers.UserMapper;
 import org.ias.tks.appports.repoadapters.repositories.UserRepository;
 
@@ -52,8 +53,12 @@ public class UserRepositoryAdapter implements CreateUserPort, GetUserPort, Updat
     }
 
     @Override
-    public void updateUser(String login, User user){
-        userRepository.updateUser(login,userMapper.mapToUserEntity(user));
+    public void updateUser(String login, User user) {
+        try {
+            userRepository.updateUser(login,userMapper.mapToUserEntity(user));
+        } catch (UserUpdateException e) {
+            e.printStackTrace();
+        }
 
     }
 

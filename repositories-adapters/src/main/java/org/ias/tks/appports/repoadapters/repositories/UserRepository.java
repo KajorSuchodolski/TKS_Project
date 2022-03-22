@@ -5,9 +5,9 @@ import org.ias.tks.appports.repoadapters.entities.user.access_levels.AccessLevel
 import org.ias.tks.appports.repoadapters.entities.user.access_levels.AdministratorEntity;
 import org.ias.tks.appports.repoadapters.entities.user.access_levels.ClientEntity;
 import org.ias.tks.appports.repoadapters.entities.user.access_levels.ManagerEntity;
-import org.ias.tks.appports.repoadapters.domain_model.exceptions.UserByLoginNotFound;
-import org.ias.tks.appports.repoadapters.domain_model.exceptions.UserCreationException;
-import org.ias.tks.appports.repoadapters.domain_model.exceptions.UserUpdateException;
+import org.ias.tks.appports.repoadapters.exceptions.UserByLoginNotFound;
+import org.ias.tks.appports.repoadapters.exceptions.UserCreationException;
+import org.ias.tks.appports.repoadapters.exceptions.UserUpdateException;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;

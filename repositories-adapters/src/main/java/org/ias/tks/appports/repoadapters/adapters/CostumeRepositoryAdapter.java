@@ -7,6 +7,7 @@ import org.ias.tks.appports.infrastructure.costume.RemoveCostumePort;
 import org.ias.tks.appports.infrastructure.costume.UpdateCostumePort;
 import org.ias.tks.appports.repoadapters.entities.costume.CostumeSizeEnt;
 import org.ias.tks.appports.repoadapters.entities.costume.ForWhomEnt;
+import org.ias.tks.appports.repoadapters.exceptions.CostumeInUseException;
 import org.ias.tks.appports.repoadapters.mappers.CostumeMapper;
 import org.ias.tks.appports.repoadapters.repositories.CostumeRepository;
 
@@ -59,7 +60,11 @@ public class CostumeRepositoryAdapter implements CreateCostumePort, GetCostumePo
 
     @Override
     public void removeCostume(UUID id) {
-        costumeRepository.removeCostume(id);
+        try {
+            costumeRepository.removeCostume(id);
+        } catch (CostumeInUseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

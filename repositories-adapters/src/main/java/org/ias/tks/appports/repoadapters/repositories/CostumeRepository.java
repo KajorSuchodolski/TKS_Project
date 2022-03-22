@@ -1,12 +1,11 @@
 package org.ias.tks.appports.repoadapters.repositories;
 
 
+import org.ias.tks.appports.repoadapters.exceptions.CostumeByIdNotFound;
+import org.ias.tks.appports.repoadapters.exceptions.CostumeInUseException;
 import org.ias.tks.appports.repoadapters.entities.costume.CostumeEntity;
 import org.ias.tks.appports.repoadapters.entities.costume.CostumeSizeEnt;
 import org.ias.tks.appports.repoadapters.entities.costume.ForWhomEnt;
-import org.ias.tks.appports.repoadapters.domain_model.exceptions.CostumeByIdNotFound;
-import org.ias.tks.appports.repoadapters.domain_model.exceptions.CostumeInUseException;
-
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
@@ -80,7 +79,7 @@ public class CostumeRepository extends AbstractRepository<CostumeEntity> {
 
     public CostumeEntity getCostumeById(UUID id) throws CostumeByIdNotFound {
         CostumeEntity tmpCostume = getById(id);
-        if(tmpCostume == null) {
+        if (tmpCostume == null) {
             throw new CostumeByIdNotFound();
         }
         return tmpCostume;
@@ -94,7 +93,6 @@ public class CostumeRepository extends AbstractRepository<CostumeEntity> {
     }
 
 
-
     // CREATE
 
     public synchronized void addCostume(CostumeEntity costume) {
@@ -104,10 +102,10 @@ public class CostumeRepository extends AbstractRepository<CostumeEntity> {
     // DELETE
 
     public synchronized void removeCostume(UUID id) throws CostumeByIdNotFound, CostumeInUseException {
-        if(getById(id) == null) {
+        if (getById(id) == null) {
             throw new CostumeByIdNotFound();
         }
-        if(getById(id).isRented()) {
+        if (getById(id).isRented()) {
             throw new CostumeInUseException();
         }
         delete(getById(id));
@@ -116,7 +114,7 @@ public class CostumeRepository extends AbstractRepository<CostumeEntity> {
     // UPDATE
 
     public synchronized void updateCostume(UUID id, CostumeEntity costume) throws CostumeByIdNotFound {
-        if(getById(id) == null) {
+        if (getById(id) == null) {
             throw new CostumeByIdNotFound();
         } else {
             delete(getById(id));
@@ -132,7 +130,6 @@ public class CostumeRepository extends AbstractRepository<CostumeEntity> {
     public synchronized void deactivateRent(UUID id) throws CostumeByIdNotFound {
         getCostumeById(id).setRented(false);
     }
-
 
 
 }
