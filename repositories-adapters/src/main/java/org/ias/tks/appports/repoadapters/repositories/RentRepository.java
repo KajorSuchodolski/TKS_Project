@@ -93,4 +93,6 @@ public class RentRepository extends AbstractRepository<RentEntity> {
                 .filter(e -> e.getCostumes().stream().anyMatch(c -> c.getId().equals(id)))
                 .collect(Collectors.toList());
     }
+
+
 }
