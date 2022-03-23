@@ -9,6 +9,7 @@ import org.ias.tks.appcore.domainmodel.model.user.access_levels.AccessLevelType;
 import org.ias.tks.appcore.domainmodel.model.user.access_levels.Administrator;
 import org.ias.tks.appcore.domainmodel.model.user.access_levels.Client;
 import org.ias.tks.appcore.domainmodel.model.user.access_levels.Manager;
+import org.ias.tks.appports.application.user.GetUserUseCase;
 import org.ias.tks.appports.infrastructure.user.CreateUserPort;
 import org.ias.tks.appports.infrastructure.user.GetUserPort;
 import org.ias.tks.appports.infrastructure.user.UpdateUserPort;
@@ -20,7 +21,7 @@ import java.util.UUID;
 
 
 @ApplicationScoped
-public class UserService {
+public class UserService implements GetUserUseCase {
 
     @Inject
     private CreateUserPort createUserPort;
@@ -60,7 +61,7 @@ public class UserService {
     }
 
     // READ
-
+    @Override
     public User getUserById(UUID id) throws UserByIdNotFound {
         User user = getUserPort.getUserById(id);
         if (user == null) {
@@ -69,6 +70,7 @@ public class UserService {
         return user;
     }
 
+    @Override
     public User getUserByLogin(String login) throws UserByLoginNotFound {
         User user = getUserPort.getUserByLogin(login);
         if (user == null) {
@@ -77,14 +79,17 @@ public class UserService {
         return user;
     }
 
+    @Override
     public List<User> getAll() {
         return getUserPort.getAll();
     }
 
+    @Override
     public List<User> searchUsersByLogin(String login) {
         return getUserPort.searchUsersByLogin(login);
     }
 
+    @Override
     public User findByLoginPasswordActive(String login, String password) throws UserByLoginNotFound {
         User user = getUserPort.findByLoginPasswordActive(login, password);
         if (user == null) {
