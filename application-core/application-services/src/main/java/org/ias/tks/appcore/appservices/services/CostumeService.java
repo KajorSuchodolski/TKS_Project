@@ -9,6 +9,8 @@ import org.ias.tks.appcore.domainmodel.global_config.ValidationParameter;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
+import org.ias.tks.appports.application.costume.createCostumeUseCase;
+import org.ias.tks.appports.application.costume.getCostumeUseCase;
 import org.ias.tks.appports.infrastructure.costume.CreateCostumePort;
 import org.ias.tks.appports.infrastructure.costume.GetCostumePort;
 import org.ias.tks.appports.infrastructure.costume.RemoveCostumePort;
@@ -20,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class CostumeService {
+public class CostumeService implements getCostumeUseCase, createCostumeUseCase {
 
     @Inject
     private CreateCostumePort createCostumePort;
@@ -39,6 +41,7 @@ public class CostumeService {
     }
 
     // CREATE
+    @Override
     public void addCostume(Costume costume) throws CostumeCreationException {
         if (costume.getForWhom() == null) {
             throw new CostumeCreationException("ForWhom field is empty");
@@ -81,22 +84,27 @@ public class CostumeService {
 
     // READ
 
+    @Override
     public Costume getCostumeById(UUID id) throws CostumeByIdNotFound {
         return getCostumePort.getCostumeById(id);
     }
 
+    @Override
     public List<Costume> getAll() {
         return getCostumePort.getAll();
     }
 
+    @Override
     public List<Costume> getAllByRentStatus(boolean flag) {
         return getCostumePort.getAllByRentStatus(flag);
     }
 
+    @Override
     public List<Costume> searchAllCostumesByName(String name) {
         return getCostumePort.searchAllCostumesByName(name);
     }
 
+    @Override
     public List<Costume> getAllCostumesByAge(String forWhom) throws EntityValidationException {
         try {
             return getCostumePort.getAllCostumesByAge(forWhom);
@@ -105,7 +113,7 @@ public class CostumeService {
         }
 
     }
-
+    @Override
     public List<Costume> getAllCostumesByParams(String age, String size) throws EntityValidationException {
         try {
             return getCostumePort.getAllCostumesByParams(age, size);
@@ -114,6 +122,7 @@ public class CostumeService {
         }
 
     }
+
 
     // UPDATE
 
