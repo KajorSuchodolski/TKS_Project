@@ -5,10 +5,12 @@ import org.ias.tks.appports.infrastructure.rent.*;
 import org.ias.tks.appports.repoadapters.mappers.RentMapper;
 import org.ias.tks.appports.repoadapters.repositories.RentRepository;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
+@ApplicationScoped
 public class RentRepositoryAdapter implements CreateRentPort, GetRentPort, GetUserRentsPort, GetCostumeRentsPort, UpdateRentPort, RemoveRentPort {
 
     @Inject

@@ -2,7 +2,6 @@ package org.ias.tks.appcore.domainmodel.model.user;
 
 import com.nimbusds.jose.shaded.json.annotate.JsonIgnore;
 import org.ias.tks.appcore.domainmodel.model.Model;
-import org.ias.tks.appcore.domainmodel.model.Singable;
 import org.ias.tks.appcore.domainmodel.model.user.access_levels.AccessLevel;
 
 import javax.json.bind.annotation.JsonbCreator;
@@ -13,7 +12,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @JsonbNillable
-public class User extends Model implements Singable, Serializable {
+public class User extends Model implements Serializable {
 
     @JsonbProperty
     private boolean isActive = true;
@@ -137,9 +136,4 @@ public class User extends Model implements Singable, Serializable {
                 '}';
     }
 
-    @JsonbTransient
-    @Override
-    public String getSingablePayload() {
-        return login + getId().toString();
-    }
 }

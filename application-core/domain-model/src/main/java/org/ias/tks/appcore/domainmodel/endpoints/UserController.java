@@ -4,7 +4,6 @@
 //import org.ias.tks.appcore.appservices.services.UserService;
 //import org.ias.tks.appcore.domainmodel.exceptions.*;
 //import org.ias.tks.appcore.domainmodel.model.user.User;
-//import org.ias.tks.appcore.domainmodel.filter.SignatureVerifier;
 //import org.ias.tks.appcore.domainmodel.model.user.access_levels.AccessLevelType;
 //import org.ias.tks.appcore.domainmodel.model.user.access_levels.Administrator;
 //import org.ias.tks.appcore.domainmodel.model.user.access_levels.Client;
@@ -45,7 +44,7 @@
 //        }
 //        try {
 //            User user = userService.getUserByLogin(login);
-//            return Response.ok().entity(user).header("Etag", SignatureVerifier.calculateEntitySignature(user)).build();
+//            return Response.ok().entity(user).build();
 //        } catch(UserByLoginNotFound e) {
 //            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
 //        }
@@ -117,14 +116,11 @@
 //                case "Manager" -> user.setAccessLevel(new Manager(AccessLevelType.MANAGER));
 //                default -> user.setAccessLevel(new Client(AccessLevelType.CLIENT));
 //            }
-//            if (!SignatureVerifier.verifyEntityIntegrity(etag, user)) {
-//                throw new IllegalArgumentException("Trying to modify the wrong costume!");
-//            }
 //            userService.updateUser(login, user);
 //            return Response.ok()
 //                    .entity("User updated successfully")
 //                    .build();
-//        } catch(org.ias.tks.appports.repoadapters.exceptions.UserUpdateException | EntityValidationException e) {
+//        } catch(EntityValidationException | org.ias.tks.appports.repoadapters.exceptions.UserUpdateException e) {
 //            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
 //        }
 //    }

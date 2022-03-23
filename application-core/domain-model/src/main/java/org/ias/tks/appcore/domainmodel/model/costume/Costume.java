@@ -1,12 +1,11 @@
 package org.ias.tks.appcore.domainmodel.model.costume;
 
 import org.ias.tks.appcore.domainmodel.model.Model;
-import org.ias.tks.appcore.domainmodel.model.Singable;
 
 import java.util.Objects;
 import java.util.UUID;
 
-public class Costume extends Model implements Singable {
+public class Costume extends Model {
 
     private boolean isRented;
     private CostumeSize costumeSize;
@@ -95,8 +94,4 @@ public class Costume extends Model implements Singable {
                 '}';
     }
 
-    @Override
-    public String getSingablePayload() {
-        return getId().toString();
-    }
 }

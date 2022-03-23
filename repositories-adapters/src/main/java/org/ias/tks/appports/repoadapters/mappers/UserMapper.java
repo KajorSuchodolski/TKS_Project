@@ -6,10 +6,12 @@ import org.ias.tks.appcore.domainmodel.model.user.access_levels.*;
 import org.ias.tks.appports.repoadapters.entities.user.UserEntity;
 import org.ias.tks.appports.repoadapters.entities.user.access_levels.*;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
 
 
+@ApplicationScoped
 public class UserMapper {
 
 

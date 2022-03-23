@@ -9,9 +9,11 @@ import org.ias.tks.appports.repoadapters.entities.costume.CostumeSizeEnt;
 import org.ias.tks.appports.repoadapters.entities.costume.ForWhomEnt;
 import org.ias.tks.appports.repoadapters.entities.user.UserEntity;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApplicationScoped
 public class CostumeMapper {
 
     public CostumeEntity mapToCostumeEntity(Costume costume) {

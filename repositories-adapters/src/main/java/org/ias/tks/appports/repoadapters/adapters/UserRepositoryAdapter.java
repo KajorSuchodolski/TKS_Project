@@ -9,10 +9,13 @@ import org.ias.tks.appports.repoadapters.mappers.UserMapper;
 import org.ias.tks.appports.repoadapters.repositories.UserRepository;
 
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
+@ApplicationScoped
 public class UserRepositoryAdapter implements CreateUserPort, GetUserPort, UpdateUserPort {
 
     @Inject

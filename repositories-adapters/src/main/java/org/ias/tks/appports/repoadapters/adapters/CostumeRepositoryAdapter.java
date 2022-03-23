@@ -11,10 +11,12 @@ import org.ias.tks.appports.repoadapters.exceptions.CostumeInUseException;
 import org.ias.tks.appports.repoadapters.mappers.CostumeMapper;
 import org.ias.tks.appports.repoadapters.repositories.CostumeRepository;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
+@ApplicationScoped
 public class CostumeRepositoryAdapter implements CreateCostumePort, GetCostumePort, RemoveCostumePort, UpdateCostumePort {
 
     @Inject
