@@ -1,53 +1,39 @@
 package org.ias.tks.appcore.domainmodel.model.user;
 
-import com.nimbusds.jose.shaded.json.annotate.JsonIgnore;
 import org.ias.tks.appcore.domainmodel.model.Model;
 import org.ias.tks.appcore.domainmodel.model.user.access_levels.AccessLevel;
 
-import javax.json.bind.annotation.JsonbCreator;
-import javax.json.bind.annotation.JsonbNillable;
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbTransient;
 import java.io.Serializable;
 import java.util.Objects;
 
-@JsonbNillable
 public class User extends Model implements Serializable {
 
-    @JsonbProperty
     private boolean isActive = true;
 
-    @JsonbProperty
     private AccessLevel accessLevel;
 
-    @JsonbProperty
     private String firstName;
 
-    @JsonbProperty
     private String lastName;
 
-    @JsonbProperty
     private String login;
 
-    @JsonbProperty
     private String email;
 
-    @JsonIgnore
     private String password;
 
     public User() {
 
     }
 
-    @JsonbCreator
-    public User(@JsonbProperty("firstName") String firstName, @JsonbProperty("lastName") String lastName, @JsonbProperty("login") String login, @JsonbProperty("password") String password, @JsonbProperty("email") String email, @JsonbProperty("accessLevel") AccessLevel accessLevel) {
+    public User(String firstName, String lastName, String login, String password, String email, AccessLevel accessLevel) {
 
-         this.firstName = firstName;
-         this.lastName = lastName;
-         this.login = login;
-         this.password = password;
-         this.email = email;
-         this.accessLevel = accessLevel;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.accessLevel = accessLevel;
 
     }
 
@@ -56,7 +42,7 @@ public class User extends Model implements Serializable {
         return isActive;
     }
 
-    public void setActive( boolean active ) {
+    public void setActive(boolean active) {
         isActive = active;
     }
 
@@ -64,7 +50,7 @@ public class User extends Model implements Serializable {
         return accessLevel.getAccessLevelType();
     }
 
-    public void setAccessLevel( AccessLevel accessLevel ) {
+    public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
 
@@ -72,7 +58,7 @@ public class User extends Model implements Serializable {
         return firstName;
     }
 
-    public void setFirstName( String firstName ) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -80,7 +66,7 @@ public class User extends Model implements Serializable {
         return lastName;
     }
 
-    public void setLastName( String lastName ) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -92,13 +78,11 @@ public class User extends Model implements Serializable {
         this.login = login;
     }
 
-
-    @JsonbTransient
     public String getPassword() {
         return password;
     }
 
-    public void setPassword( String password ) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -106,16 +90,16 @@ public class User extends Model implements Serializable {
         return email;
     }
 
-    public void setEmail( String email ) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
 
     @Override
-    public boolean equals( Object o ) {
-        if( this == o ) return true;
-        if( !(o instanceof User user) ) return false;
-        if( !super.equals(o) ) return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        if (!super.equals(o)) return false;
         return isActive == user.isActive && Objects.equals(accessLevel, user.accessLevel) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(login, user.login) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
     }
 

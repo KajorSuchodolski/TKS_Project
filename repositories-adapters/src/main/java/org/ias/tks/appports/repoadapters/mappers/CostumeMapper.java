@@ -18,19 +18,25 @@ public class CostumeMapper {
 
     public CostumeEntity mapToCostumeEntity(Costume costume) {
 
-        return new CostumeEntity(
+        CostumeEntity costumeEntity = new CostumeEntity(
                 costume.getName(),
                 CostumeSizeEnt.valueOf(costume.getCostumeSize().toString()),
                 ForWhomEnt.valueOf(costume.getForWhom().toString()),
                 costume.getPrice());
+
+        costumeEntity.setId(costume.getId());
+        return costumeEntity;
     }
 
     public Costume mapToCostume(CostumeEntity costumeEntity) {
-        return new Costume(
+        Costume costume = new Costume(
                 costumeEntity.getName(),
                 CostumeSize.valueOf(costumeEntity.getCostumeSize().toString()),
                 ForWhom.valueOf(costumeEntity.getForWhom().toString()),
                 costumeEntity.getPrice());
+
+        costume.setId(costumeEntity.getId());
+        return costume;
     }
 
 

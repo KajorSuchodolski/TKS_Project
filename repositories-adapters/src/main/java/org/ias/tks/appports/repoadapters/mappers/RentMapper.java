@@ -19,22 +19,27 @@ public class RentMapper {
     private CostumeMapper costumeMapper;
 
     public RentEntity mapToRentEntity(Rent rent) {
-        return new RentEntity(
+        RentEntity rentEntity = new RentEntity(
                 userMapper.mapToUserEntity(rent.getUser()),
                 costumeMapper.mapToCostumeEntityList(rent.getCostumes()),
                 rent.getPrice(),
                 rent.getBeginTime()
         );
+
+        rentEntity.setId(rent.getId());
+        return rentEntity;
     }
 
-    public Rent mapToRent(RentEntity rent) {
+    public Rent mapToRent(RentEntity rentEntity) {
 
-        return new Rent(
-                userMapper.mapToUser(rent.getUser()),
-                costumeMapper.mapToCostumeList(rent.getCostumes()),
-                rent.getPrice(),
-                rent.getBeginTime()
+        Rent rent = new Rent(
+                userMapper.mapToUser(rentEntity.getUser()),
+                costumeMapper.mapToCostumeList(rentEntity.getCostumes()),
+                rentEntity.getPrice(),
+                rentEntity.getBeginTime()
         );
+        rent.setId(rentEntity.getId());
+        return rent;
     }
 
     public List<Rent> mapToRentList(List<RentEntity> listEntity) {

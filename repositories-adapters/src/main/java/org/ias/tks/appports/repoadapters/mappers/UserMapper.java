@@ -14,7 +14,6 @@ import java.util.List;
 @ApplicationScoped
 public class UserMapper {
 
-
     // TODO
     // FIX ACCESS LEVEL ADDITION
     public UserEntity mapToUserEntity(User user) {
@@ -27,13 +26,16 @@ public class UserMapper {
             default -> new ClientEntity(AccessLevelTypeEntity.CLIENT);
         };
 
-        return new UserEntity(
+        UserEntity userEntity = new UserEntity(
                 user.getFirstName(),
                 user.getLastName(),
                 user.getLogin(),
                 user.getPassword(),
                 user.getEmail(),
                 accessLevel);
+
+        userEntity.setId(user.getId());
+        return userEntity;
     }
 
     public User mapToUser(UserEntity userEntity) {
@@ -45,13 +47,16 @@ public class UserMapper {
             default -> new Client(AccessLevelType.CLIENT);
         };
 
-        return new User(
+        User user = new User(
                 userEntity.getFirstName(),
                 userEntity.getLastName(),
                 userEntity.getLogin(),
                 userEntity.getPassword(),
                 userEntity.getEmail(),
                 accessLevel);
+
+        user.setId(userEntity.getId());
+        return user;
     }
 
     public List<User> mapToUserList(List<UserEntity> listEntity) {
