@@ -1,4 +1,4 @@
-package dto;
+package org.ias.tks.restadapters.dto;
 
 public class UserDto {
 

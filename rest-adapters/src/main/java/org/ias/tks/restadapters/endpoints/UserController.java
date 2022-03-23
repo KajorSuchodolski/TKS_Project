@@ -1,4 +1,4 @@
-package endpoints;
+package org.ias.tks.restadapters.endpoints;
 
 
 

@@ -1,4 +1,4 @@
-package dto;
+package org.ias.tks.restadapters.dto;
 
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;

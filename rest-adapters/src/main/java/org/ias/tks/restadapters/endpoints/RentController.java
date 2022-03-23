@@ -1,4 +1,4 @@
-package endpoints;//package org.ias.tks.appcore.domainmodel.endpoints;
+package org.ias.tks.restadapters.endpoints;//package org.ias.tks.appcore.domainmodel.endpoints;
 //
 //
 //import org.ias.tks.appcore.appservices.services.RentService;

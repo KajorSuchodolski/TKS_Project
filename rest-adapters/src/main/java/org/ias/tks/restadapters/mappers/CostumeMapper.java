@@ -1,6 +1,5 @@
-package mappers;
+package org.ias.tks.restadapters.mappers;
 
-import dto.CostumeDto;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 
 public class CostumeMapper {
