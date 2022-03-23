@@ -1,7 +1,8 @@
-package org.ias.tks.restadapters.dto;
+package org.ias.tks.restadapters.dto.user;
 
-public class UserDto {
+import org.ias.tks.restadapters.dto.ModelDTO;
 
+public class UserDto extends ModelDTO {
 
 
     private boolean isActive = true;

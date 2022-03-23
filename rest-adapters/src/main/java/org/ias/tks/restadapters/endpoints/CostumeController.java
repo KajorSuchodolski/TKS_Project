@@ -4,22 +4,18 @@ package org.ias.tks.restadapters.endpoints;//package org.ias.tks.appcore.domainm
 //import org.ias.tks.appcore.appservices.services.CostumeService;
 import org.ias.tks.appcore.domainmodel.exceptions.CostumeByIdNotFound;
 import org.ias.tks.appcore.domainmodel.exceptions.CostumeCreationException;
-import org.ias.tks.appcore.domainmodel.exceptions.CostumeInUseException;
 import org.ias.tks.appcore.domainmodel.exceptions.EntityValidationException;
 //import org.ias.tks.appcore.domainmodel.filter.SignatureVerifier;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
-import org.ias.tks.appports.application.costume.createCostumeUseCase;
-import org.ias.tks.appports.application.costume.getCostumeUseCase;
-import org.ias.tks.appports.application.costume.updateCostumeUseCase;
-import org.ias.tks.appports.application.costume.removeCostumeUseCase;
-import org.ias.tks.restadapters.dto.CostumeDto;
+import org.ias.tks.appports.application.costume.CreateCostumeUseCase;
+import org.ias.tks.appports.application.costume.GetCostumeUseCase;
+import org.ias.tks.appports.application.costume.UpdateCostumeUseCase;
+import org.ias.tks.appports.application.costume.RemoveCostumeUseCase;
+import org.ias.tks.restadapters.dto.costume.CostumeDTO;
 import org.ias.tks.restadapters.mappers.CostumeMapper;
 
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -30,23 +26,23 @@ import java.util.UUID;
 public class CostumeController {
 
     @Inject
-    private getCostumeUseCase getCostumeUseCase;
+    private GetCostumeUseCase getCostumeUseCase;
 
     @Inject
-    private createCostumeUseCase createCostumeUsecase;
+    private CreateCostumeUseCase createCostumeUsecase;
 
     @Inject
-    private updateCostumeUseCase updateCostumeUseCase;
+    private UpdateCostumeUseCase updateCostumeUseCase;
 
     @Inject
-    private removeCostumeUseCase removeCostumeUseCase;
+    private RemoveCostumeUseCase removeCostumeUseCase;
 
     @Inject
     private CostumeMapper costumeMapper;
     // READ
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed({"Admin", "Manager"})
+    //@RolesAllowed({"Admin", "ManagerDTO"})
     public Response getAll() {
         return Response.ok().entity(getCostumeUseCase.getAll()).build();
     }
@@ -54,7 +50,7 @@ public class CostumeController {
     @GET
     @Path("/all-rented")
     @Produces(MediaType.APPLICATION_JSON)
-   // @RolesAllowed({"Admin", "Manager", "Client"})
+   // @RolesAllowed({"Admin", "ManagerDTO", "ClientDTO"})
     public Response getAllRented() {
         return Response.ok().entity(getCostumeUseCase.getAllByRentStatus(true)).build();
     }
@@ -62,7 +58,7 @@ public class CostumeController {
     @GET
     @Path("/all-available")
     @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed({"Admin", "Manager", "Client"})
+    //@RolesAllowed({"Admin", "ManagerDTO", "ClientDTO"})
     public Response getAllAvailable() {
         return Response.ok().entity(getCostumeUseCase.getAllByRentStatus(false)).build();
     }
@@ -70,7 +66,7 @@ public class CostumeController {
     @GET
     @Path("/all-by-age")
     @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed({"Admin", "Manager"})
+    //@RolesAllowed({"Admin", "ManagerDTO"})
     public Response getAllCostumesByAge( @QueryParam("age") String age ) {
         if(age == null || age.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Age parameter is empty").build();
@@ -85,7 +81,7 @@ public class CostumeController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-//    @RolesAllowed({"Admin", "Manager"})
+//    @RolesAllowed({"Admin", "ManagerDTO"})
     public Response getCostumeById( @PathParam("id") String uuid ) {
         if(uuid == null || uuid.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty").build();
@@ -102,7 +98,7 @@ public class CostumeController {
     @GET
     @Path("/search-by-name")
     @Produces(MediaType.APPLICATION_JSON)
-   //@RolesAllowed({"Admin", "Manager"})
+   //@RolesAllowed({"Admin", "ManagerDTO"})
     public Response searchAllCostumesByName(@QueryParam("name") String name) {
         if(name == null || name.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Name parameter is empty").build();
@@ -113,7 +109,7 @@ public class CostumeController {
     @GET
     @Path("/costumes-by-params")
     @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed({"Admin", "Manager"})
+    //@RolesAllowed({"Admin", "ManagerDTO"})
     public Response getAllCostumesByParams(@QueryParam("age") String age, @QueryParam("size") String size) {
         if(age == null || age.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Age parameter is empty").build();
@@ -132,8 +128,8 @@ public class CostumeController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    //@RolesAllowed({"Admin", "Manager"})
-    public Response addCostume( CostumeDto costumeDto) {
+    //@RolesAllowed({"Admin", "ManagerDTO"})
+    public Response addCostume( CostumeDTO costumeDto) {
         if(costumeDto == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given costume is null").build();
         }
@@ -153,8 +149,8 @@ public class CostumeController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-//    @RolesAllowed({"Admin", "Manager"})
-    public Response updateCostume( @PathParam("id") String id, CostumeDto costumeDto){//, @NotNull @NotEmpty @HeaderParam("If-Match") String etag) throws CostumeByIdNotFound {
+//    @RolesAllowed({"Admin", "ManagerDTO"})
+    public Response updateCostume( @PathParam("id") String id, CostumeDTO costumeDto){//, @NotNull @NotEmpty @HeaderParam("If-Match") String etag) throws CostumeByIdNotFound {
         if(id == null || id.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty").build();
         }
@@ -181,13 +177,13 @@ public class CostumeController {
 //    @PUT
 //    @Path("/{id}/activate")
 //    @Produces(MediaType.APPLICATION_JSON)
-//    @RolesAllowed({"Admin", "Manager"})
+//    @RolesAllowed({"Admin", "ManagerDTO"})
 //    public Response activateRent(@PathParam("id") String id) {
 //        if(id == null || id.trim().equals("")) {
 //            return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty").build();
 //        }
 //        try {
-//            updateCostumeUseCase.activateRent(UUID.fromString(id));
+//            UpdateCostumeUseCase.activateRent(UUID.fromString(id));
 //            return Response.ok(Response.Status.OK)
 //                    .entity("Rent activated")
 //                    .build();
@@ -199,13 +195,13 @@ public class CostumeController {
 //    @PUT
 //    @Path("/{id}/deactivate")
 //    @Produces(MediaType.APPLICATION_JSON)
-//    @RolesAllowed({"Admin", "Manager"})
+//    @RolesAllowed({"Admin", "ManagerDTO"})
 //    public Response deactivateRent(@PathParam("id") String id) {
 //        if(id == null || id.trim().equals("")) {
 //            return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty").build();
 //        }
 //        try {
-//            updateCostumeUseCase.deactivateRent(UUID.fromString(id));
+//            UpdateCostumeUseCase.deactivateRent(UUID.fromString(id));
 //            return Response.ok(Response.Status.OK)
 //                    .entity("Rent activated")
 //                    .build();
@@ -217,7 +213,7 @@ public class CostumeController {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed({"Admin", "Manager"})
+    //@RolesAllowed({"Admin", "ManagerDTO"})
     public Response removeCostume(@PathParam("id") String id) {
         if(id == null || id.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty").build();

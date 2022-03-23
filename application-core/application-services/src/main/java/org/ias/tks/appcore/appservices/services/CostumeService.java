@@ -2,17 +2,16 @@ package org.ias.tks.appcore.appservices.services;
 
 import org.ias.tks.appcore.domainmodel.exceptions.CostumeByIdNotFound;
 import org.ias.tks.appcore.domainmodel.exceptions.CostumeCreationException;
-import org.ias.tks.appcore.domainmodel.exceptions.CostumeInUseException;
 import org.ias.tks.appcore.domainmodel.exceptions.EntityValidationException;
 import org.ias.tks.appcore.domainmodel.global_config.Validation;
 import org.ias.tks.appcore.domainmodel.global_config.ValidationParameter;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
-import org.ias.tks.appports.application.costume.createCostumeUseCase;
-import org.ias.tks.appports.application.costume.getCostumeUseCase;
-import org.ias.tks.appports.application.costume.removeCostumeUseCase;
-import org.ias.tks.appports.application.costume.updateCostumeUseCase;
+import org.ias.tks.appports.application.costume.CreateCostumeUseCase;
+import org.ias.tks.appports.application.costume.GetCostumeUseCase;
+import org.ias.tks.appports.application.costume.RemoveCostumeUseCase;
+import org.ias.tks.appports.application.costume.UpdateCostumeUseCase;
 import org.ias.tks.appports.infrastructure.costume.CreateCostumePort;
 import org.ias.tks.appports.infrastructure.costume.GetCostumePort;
 import org.ias.tks.appports.infrastructure.costume.RemoveCostumePort;
@@ -24,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class CostumeService implements getCostumeUseCase, createCostumeUseCase, removeCostumeUseCase,updateCostumeUseCase {
+public class CostumeService implements GetCostumeUseCase, CreateCostumeUseCase, RemoveCostumeUseCase, UpdateCostumeUseCase {
 
     @Inject
     private CreateCostumePort createCostumePort;

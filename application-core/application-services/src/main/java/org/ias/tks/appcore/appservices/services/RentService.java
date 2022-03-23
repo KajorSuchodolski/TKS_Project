@@ -4,6 +4,7 @@ import org.ias.tks.appcore.domainmodel.exceptions.*;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.rent.Rent;
 import org.ias.tks.appcore.domainmodel.model.user.User;
+import org.ias.tks.appports.application.rent.*;
 import org.ias.tks.appports.infrastructure.rent.*;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class RentService {
+public class RentService implements CreateRentUseCase, FinishRentUseCase, GetCostumeRentsUseCase, GetRentUseCase, GetUserRentsUseCase, RemoveRentUseCase {
 
     @Inject
     private UserService userManager;
@@ -71,6 +72,8 @@ public class RentService {
         return getRentPort.getAll();
     }
 
+    // TODO przeniesc funkcjonalnosc
+    //
     public List<Rent> getAllCurrent() {
         return getRentPort.getAll()
                 .stream()
@@ -78,7 +81,8 @@ public class RentService {
                 .collect(Collectors.toList());
     }
 
-    public void addRent(String userLogin, List<UUID> costumeIds, String date) throws UserByLoginNotFound, CostumeInUseException, CostumeByIdNotFound, DateInPastException, WrongDateFormatException {
+    @Override
+    public void addRent(String userLogin, List<UUID> costumeIds, String date) throws UserByLoginNotFound, CostumeByIdNotFound, DateInPastException, WrongDateFormatException, CostumeInUseException {
         if (userManager.getUserByLogin(userLogin) == null) {
             throw new UserByLoginNotFound();
         }

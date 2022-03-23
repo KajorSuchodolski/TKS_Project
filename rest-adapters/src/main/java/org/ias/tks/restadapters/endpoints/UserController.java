@@ -115,9 +115,9 @@ public class UserController {
 //        }
 //        try {
 //            switch(userService.getUserByLogin(login).getAccessLevel()) {
-//                case "Admin" -> user.setAccessLevel(new Administrator(AccessLevelType.ADMINISTRATOR));
-//                case "Manager" -> user.setAccessLevel(new Manager(AccessLevelType.MANAGER));
-//                default -> user.setAccessLevel(new Client(AccessLevelType.CLIENT));
+//                case "Admin" -> user.setAccessLevel(new AdministratorDTO(AccessLevelTypeDTO.ADMINISTRATOR));
+//                case "ManagerDTO" -> user.setAccessLevel(new ManagerDTO(AccessLevelTypeDTO.MANAGER));
+//                default -> user.setAccessLevel(new ClientDTO(AccessLevelTypeDTO.CLIENT));
 //            }
 //            userService.updateUser(login, user);
 //            return Response.ok()

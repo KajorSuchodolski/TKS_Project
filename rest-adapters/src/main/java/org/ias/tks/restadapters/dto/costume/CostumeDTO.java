@@ -1,20 +1,21 @@
-package org.ias.tks.restadapters.dto;
+package org.ias.tks.restadapters.dto.costume;
 
 
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
+import org.ias.tks.restadapters.dto.ModelDTO;
 
-public class CostumeDto {
+public class CostumeDTO extends ModelDTO {
     private boolean isRented;
     private CostumeSize costumeSize;
     private ForWhom forWhom;
     private String name;
     private double price;
 
-    public CostumeDto() {
+    public CostumeDTO() {
     }
 
-    public CostumeDto(String name, CostumeSize costumeSize, ForWhom forWhom, double price) {
+    public CostumeDTO(String name, CostumeSize costumeSize, ForWhom forWhom, double price) {
         this.isRented = false;
         this.costumeSize = costumeSize;
         this.name = name;

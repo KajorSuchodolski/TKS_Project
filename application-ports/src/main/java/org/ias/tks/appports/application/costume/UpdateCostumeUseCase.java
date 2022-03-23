@@ -4,7 +4,7 @@ import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 
 import java.util.UUID;
 
-public interface updateCostumeUseCase {
+public interface UpdateCostumeUseCase {
 
     void updateCostume(UUID id, Costume costume);
 }

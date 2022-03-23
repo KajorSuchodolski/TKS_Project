@@ -2,6 +2,6 @@ package org.ias.tks.appports.application.costume;
 
 import java.util.UUID;
 
-public interface removeCostumeUseCase {
+public interface RemoveCostumeUseCase {
     void removeCostume(UUID id);
 }
