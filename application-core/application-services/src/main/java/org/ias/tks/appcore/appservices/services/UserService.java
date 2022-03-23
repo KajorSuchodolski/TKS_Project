@@ -1,10 +1,7 @@
 package org.ias.tks.appcore.appservices.services;
 
 
-import org.ias.tks.appcore.domainmodel.exceptions.EntityValidationException;
-import org.ias.tks.appcore.domainmodel.exceptions.UserByIdNotFound;
-import org.ias.tks.appcore.domainmodel.exceptions.UserByLoginNotFound;
-import org.ias.tks.appcore.domainmodel.exceptions.UserCreationException;
+import org.ias.tks.appcore.domainmodel.exceptions.*;
 import org.ias.tks.appcore.domainmodel.global_config.Validation;
 import org.ias.tks.appcore.domainmodel.global_config.ValidationParameter;
 import org.ias.tks.appcore.domainmodel.model.user.User;
@@ -15,7 +12,6 @@ import org.ias.tks.appcore.domainmodel.model.user.access_levels.Manager;
 import org.ias.tks.appports.infrastructure.user.CreateUserPort;
 import org.ias.tks.appports.infrastructure.user.GetUserPort;
 import org.ias.tks.appports.infrastructure.user.UpdateUserPort;
-import org.ias.tks.appports.repoadapters.exceptions.UserUpdateException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,7 +20,7 @@ import java.util.UUID;
 
 
 @ApplicationScoped
-public class UserService extends AbstractService {
+public class UserService {
 
     @Inject
     private CreateUserPort createUserPort;

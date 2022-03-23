@@ -1,5 +1,6 @@
 package org.ias.tks.appcore.appservices.services;
 
+import org.ias.tks.appcore.domainmodel.exceptions.CostumeByIdNotFound;
 import org.ias.tks.appcore.domainmodel.exceptions.CostumeCreationException;
 import org.ias.tks.appcore.domainmodel.exceptions.CostumeInUseException;
 import org.ias.tks.appcore.domainmodel.exceptions.EntityValidationException;
@@ -12,7 +13,6 @@ import org.ias.tks.appports.infrastructure.costume.CreateCostumePort;
 import org.ias.tks.appports.infrastructure.costume.GetCostumePort;
 import org.ias.tks.appports.infrastructure.costume.RemoveCostumePort;
 import org.ias.tks.appports.infrastructure.costume.UpdateCostumePort;
-import org.ias.tks.appports.repoadapters.exceptions.CostumeByIdNotFound;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class CostumeService extends AbstractService {
+public class CostumeService {
 
     @Inject
     private CreateCostumePort createCostumePort;

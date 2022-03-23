@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class RentService extends AbstractService {
+public class RentService {
 
     @Inject
     private UserService userManager;
