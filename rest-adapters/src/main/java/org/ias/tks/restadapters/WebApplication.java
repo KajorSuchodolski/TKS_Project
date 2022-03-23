@@ -1,3 +1,5 @@
+package org.ias.tks.restadapters;
+
 import org.eclipse.microprofile.auth.LoginConfig;
 
 import javax.ws.rs.ApplicationPath;

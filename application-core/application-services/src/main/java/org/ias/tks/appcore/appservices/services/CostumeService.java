@@ -11,6 +11,8 @@ import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
 import org.ias.tks.appports.application.costume.createCostumeUseCase;
 import org.ias.tks.appports.application.costume.getCostumeUseCase;
+import org.ias.tks.appports.application.costume.removeCostumeUseCase;
+import org.ias.tks.appports.application.costume.updateCostumeUseCase;
 import org.ias.tks.appports.infrastructure.costume.CreateCostumePort;
 import org.ias.tks.appports.infrastructure.costume.GetCostumePort;
 import org.ias.tks.appports.infrastructure.costume.RemoveCostumePort;
@@ -22,7 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class CostumeService implements getCostumeUseCase, createCostumeUseCase {
+public class CostumeService implements getCostumeUseCase, createCostumeUseCase, removeCostumeUseCase,updateCostumeUseCase {
 
     @Inject
     private CreateCostumePort createCostumePort;
@@ -131,6 +133,7 @@ public class CostumeService implements getCostumeUseCase, createCostumeUseCase {
      *  FIX PRICE VALIDATION
      *  FIX THIS FCKING VALIDATION
      * */
+    @Override
     public void updateCostume(UUID id, Costume costume) throws CostumeByIdNotFound, EntityValidationException {
 
         Costume tmpCostume = new Costume();
@@ -166,7 +169,8 @@ public class CostumeService implements getCostumeUseCase, createCostumeUseCase {
     }
 
     // DELETE
-    public void removeCostume(UUID id) throws CostumeByIdNotFound, CostumeInUseException {
+    @Override
+    public void removeCostume(UUID id) {
         removeCostumePort.removeCostume(id);
     }
 }
