@@ -1,7 +1,9 @@
 package org.ias.tks.appcore.domainmodel.endpoints;
 
-import org.ias.tks.appcore.exceptions.*;
-import org.ias.tks.appcore.services.RentService;
+
+import org.ias.tks.appcore.appservices.services.RentService;
+import org.ias.tks.appcore.domainmodel.exceptions.*;
+import org.ias.tks.appports.repoadapters.exceptions.CostumeByIdNotFound;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -17,7 +19,7 @@ import java.util.UUID;
 public class RentController {
 
     @Inject
-    private RentService rentManager;
+    private RentService rentService;
 
     // CREATE
     @POST
@@ -35,7 +37,7 @@ public class RentController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given list is empty").build();
         }
         try {
-            rentManager.addRent(login, costumeIds, date);
+            rentService.addRent(login, costumeIds, date);
             return Response.ok(Response.Status.CREATED)
                     .entity("Rent added successfully")
                     .build();
@@ -53,7 +55,7 @@ public class RentController {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"Admin", "Client"})
     public Response getAll() {
-        return Response.ok().entity(rentManager.getAll()).build();
+        return Response.ok().entity(rentService.getAll()).build();
     }
 
     @GET
@@ -61,7 +63,7 @@ public class RentController {
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"Admin", "Client"})
     public Response getAllCurrent() {
-        return Response.ok().entity(rentManager.getAllCurrent()).build();
+        return Response.ok().entity(rentService.getAllCurrent()).build();
     }
 
     @GET
@@ -74,7 +76,7 @@ public class RentController {
         }
         try {
             return Response.ok()
-                    .entity(rentManager.getRentById(UUID.fromString(rentId)))
+                    .entity(rentService.getRentById(UUID.fromString(rentId)))
                     .build();
         } catch(RentByIdNotFound e){
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
@@ -89,7 +91,7 @@ public class RentController {
         if(login == null || login.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         } try {
-            return Response.ok().entity(rentManager.userCurrentRents(login)).build();
+            return Response.ok().entity(rentService.userCurrentRents(login)).build();
         } catch(UserByLoginNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
@@ -104,7 +106,7 @@ public class RentController {
         if(login == null || login.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         } try {
-            return Response.ok().entity(rentManager.userPastRents(login)).build();
+            return Response.ok().entity(rentService.userPastRents(login)).build();
         } catch(UserByLoginNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
@@ -120,7 +122,7 @@ public class RentController {
         }
         try {
             return Response.ok(Response.Status.OK)
-                    .entity(rentManager.getCostumeAllocations(UUID.fromString(costumeId)))
+                    .entity(rentService.getCostumeAllocations(UUID.fromString(costumeId)))
                     .build();
         } catch(CostumeByIdNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
@@ -138,7 +140,7 @@ public class RentController {
             return Response.status(Response.Status.BAD_REQUEST).entity("RentID parameter is empty").build();
         }
         try {
-            rentManager.removeRent(UUID.fromString(rentId));
+            rentService.removeRent(UUID.fromString(rentId));
             return Response.ok(Response.Status.OK)
                     .entity("Rent removed successfully")
                     .build();
@@ -165,7 +167,7 @@ public class RentController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Date parameter is empty").build();
         }
         try {
-            rentManager.endRent(date, UUID.fromString(rentId));
+            rentService.endRent(date, UUID.fromString(rentId));
             return Response.ok(Response.Status.OK)
                     .entity("Rent was ended successfully")
                     .build();

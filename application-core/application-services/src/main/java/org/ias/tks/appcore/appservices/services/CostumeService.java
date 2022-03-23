@@ -1,15 +1,18 @@
 package org.ias.tks.appcore.appservices.services;
 
-import org.ias.tks.appcore.exceptions.CostumeByIdNotFound;
-import org.ias.tks.appcore.exceptions.CostumeCreationException;
-import org.ias.tks.appcore.exceptions.CostumeInUseException;
-import org.ias.tks.appcore.exceptions.EntityValidationException;
-import org.ias.tks.appcore.global_config.Validation;
-import org.ias.tks.appcore.global_config.ValidationParameter;
-import org.ias.tks.appcore.model.costume.Costume;
-import org.ias.tks.appcore.model.costume.CostumeSize;
-import org.ias.tks.appcore.model.costume.ForWhom;
-import org.ias.tks.appcore.repositories.CostumeRepository;
+import org.ias.tks.appcore.domainmodel.exceptions.CostumeCreationException;
+import org.ias.tks.appcore.domainmodel.exceptions.CostumeInUseException;
+import org.ias.tks.appcore.domainmodel.exceptions.EntityValidationException;
+import org.ias.tks.appcore.domainmodel.global_config.Validation;
+import org.ias.tks.appcore.domainmodel.global_config.ValidationParameter;
+import org.ias.tks.appcore.domainmodel.model.costume.Costume;
+import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
+import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
+import org.ias.tks.appports.infrastructure.costume.CreateCostumePort;
+import org.ias.tks.appports.infrastructure.costume.GetCostumePort;
+import org.ias.tks.appports.infrastructure.costume.RemoveCostumePort;
+import org.ias.tks.appports.infrastructure.costume.UpdateCostumePort;
+import org.ias.tks.appports.repoadapters.exceptions.CostumeByIdNotFound;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,19 +22,20 @@ import java.util.UUID;
 @ApplicationScoped
 public class CostumeService extends AbstractService {
 
-    private CostumeRepository costumeRepository;
+    @Inject
+    private CreateCostumePort createCostumePort;
+
+    @Inject
+    private GetCostumePort getCostumePort;
+
+    @Inject
+    private UpdateCostumePort updateCostumePort;
+
+    @Inject
+    private RemoveCostumePort removeCostumePort;
 
     public CostumeService() {
         super();
-    }
-
-    @Inject
-    public void setCostumeRepository(CostumeRepository costumeRepository) {
-        this.costumeRepository = costumeRepository;
-    }
-
-    public CostumeRepository getCostumeRepository() {
-        return costumeRepository;
     }
 
     // CREATE
@@ -72,31 +76,30 @@ public class CostumeService extends AbstractService {
         }
 
 
-        costumeRepository.addCostume(costume);
+        createCostumePort.addCostume(costume);
     }
 
     // READ
 
     public Costume getCostumeById(UUID id) throws CostumeByIdNotFound {
-        return costumeRepository.getCostumeById(id);
+        return getCostumePort.getCostumeById(id);
     }
 
     public List<Costume> getAll() {
-        return costumeRepository.getAll();
+        return getCostumePort.getAll();
     }
 
     public List<Costume> getAllByRentStatus(boolean flag) {
-        return costumeRepository.getAllByRentStatus(flag);
+        return getCostumePort.getAllByRentStatus(flag);
     }
 
     public List<Costume> searchAllCostumesByName(String name) {
-        return costumeRepository.searchCostumesByName(name);
+        return getCostumePort.searchAllCostumesByName(name);
     }
 
     public List<Costume> getAllCostumesByAge(String forWhom) throws EntityValidationException {
         try {
-            ForWhom parameterValidationChecker = ForWhom.valueOf(forWhom);
-            return costumeRepository.getAllCostumesByAge(parameterValidationChecker);
+            return getCostumePort.getAllCostumesByAge(forWhom);
         } catch (IllegalArgumentException e) {
             throw new EntityValidationException("Invalid parameter for enum type: ForWhom");
         }
@@ -105,9 +108,7 @@ public class CostumeService extends AbstractService {
 
     public List<Costume> getAllCostumesByParams(String age, String size) throws EntityValidationException {
         try {
-            CostumeSize costumeSize = CostumeSize.valueOf(size);
-            ForWhom forWhom = ForWhom.valueOf(age);
-            return costumeRepository.getAllCostumesByParams(forWhom, costumeSize);
+            return getCostumePort.getAllCostumesByParams(age, size);
         } catch (IllegalArgumentException e) {
             throw new EntityValidationException("Invalid parameter for ForWhom or CostumeSize");
         }
@@ -122,7 +123,6 @@ public class CostumeService extends AbstractService {
      *  FIX THIS FCKING VALIDATION
      * */
     public void updateCostume(UUID id, Costume costume) throws CostumeByIdNotFound, EntityValidationException {
-
 
         Costume tmpCostume = new Costume();
 
@@ -153,19 +153,11 @@ public class CostumeService extends AbstractService {
         } else {
             tmpCostume.setPrice(costume.getPrice());
         }
-        costumeRepository.updateCostume(id, tmpCostume);
-    }
-
-    public void activateRent(UUID id) throws CostumeByIdNotFound {
-        costumeRepository.activateRent(id);
-    }
-
-    public void deactivateRent(UUID id) throws CostumeByIdNotFound {
-        costumeRepository.deactivateRent(id);
+        updateCostumePort.updateCostume(id, tmpCostume);
     }
 
     // DELETE
     public void removeCostume(UUID id) throws CostumeByIdNotFound, CostumeInUseException {
-        costumeRepository.removeCostume(id);
+        removeCostumePort.removeCostume(id);
     }
 }

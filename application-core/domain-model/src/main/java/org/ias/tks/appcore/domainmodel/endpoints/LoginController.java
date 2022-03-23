@@ -4,9 +4,9 @@ package org.ias.tks.appcore.domainmodel.endpoints;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import org.ias.tks.appcore.exceptions.UserByLoginNotFound;
-import org.ias.tks.appcore.exceptions.UserUpdateException;
-import org.ias.tks.appcore.services.UserService;
+import org.ias.tks.appcore.appservices.services.UserService;
+import org.ias.tks.appcore.domainmodel.exceptions.UserByLoginNotFound;
+import org.ias.tks.appcore.domainmodel.exceptions.UserUpdateException;
 import org.ias.tks.appcore.domainmodel.security.InMemoryIdentityStore;
 import org.ias.tks.appcore.domainmodel.security.JWTMechanism;
 
@@ -33,7 +33,7 @@ public class LoginController {
     private InMemoryIdentityStore identityStoreHandler;
 
     @Inject
-    private UserService userManager;
+    private UserService userService;
 
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -68,10 +68,9 @@ public class LoginController {
         JsonObject jsonBody = JsonParser.parseString(body).getAsJsonObject();
         String newPassword = jsonBody.get("password").getAsString();
         try {
-            System.out.println(login + "      " + newPassword);
-            userManager.updateUserPassword(login, newPassword);
+            userService.updateUserPassword(login, newPassword);
             return Response.ok().build();
-        } catch (UserByLoginNotFound | UserUpdateException e) {
+        } catch (UserByLoginNotFound | org.ias.tks.appports.repoadapters.exceptions.UserUpdateException e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e).build();
         }
     }

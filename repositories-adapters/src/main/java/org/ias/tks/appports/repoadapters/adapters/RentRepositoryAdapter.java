@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
-public class RentRepositoryAdapter implements CreateRentPort, GetRentPort, GetUserRentsPort, GetCostumeRentsPort, UpdateRentPort {
+public class RentRepositoryAdapter implements CreateRentPort, GetRentPort, GetUserRentsPort, GetCostumeRentsPort, UpdateRentPort, RemoveRentPort {
 
     @Inject
     private RentMapper rentMapper;
@@ -24,6 +24,11 @@ public class RentRepositoryAdapter implements CreateRentPort, GetRentPort, GetUs
     }
 
     @Override
+    public void add(Rent rent) {
+        rentRepository.add(rentMapper.mapToRentEntity(rent));
+    }
+
+    @Override
     public List<Rent> getCostumeAllocations(UUID id) {
         return rentMapper.mapToRentList(rentRepository.getCostumeAllocations(id));
     }
@@ -31,6 +36,11 @@ public class RentRepositoryAdapter implements CreateRentPort, GetRentPort, GetUs
     @Override
     public Rent getRentById(UUID rentId) {
         return rentMapper.mapToRent(rentRepository.getRentById(rentId));
+    }
+
+    @Override
+    public List<Rent> getAll() {
+        return rentMapper.mapToRentList(rentRepository.getAll());
     }
 
     @Override
@@ -55,4 +65,13 @@ public class RentRepositoryAdapter implements CreateRentPort, GetRentPort, GetUs
 
     }
 
+    @Override
+    public void setRentedCostumesToNotRented(UUID rentId) {
+        rentRepository.setRentedCostumesToNotRented(rentId);
+    }
+
+    @Override
+    public void delete(Rent rent) {
+        rentRepository.delete(rentMapper.mapToRentEntity(rent));
+    }
 }

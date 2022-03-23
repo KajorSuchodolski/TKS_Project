@@ -1,8 +1,9 @@
 package org.ias.tks.appcore.domainmodel.filter;
+
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
-import org.ias.tks.appcore.model.Singable;
+import org.ias.tks.appcore.domainmodel.model.Singable;
 
 import java.text.ParseException;
 
@@ -10,7 +11,7 @@ public class SignatureVerifier {
 
     private final static String SECRET = "51655468576D5A7134743777217A25432A46294A404E635266556A586E327235";
 
-    public static String calculateEntitySignature( Singable signableEntity) {
+    public static String calculateEntitySignature(Singable signableEntity) {
         try {
             JWSSigner signer = new MACSigner(SECRET);
             JWSObject jwsObject = new JWSObject(new JWSHeader(JWSAlgorithm.HS256), new Payload(signableEntity.getSingablePayload()));

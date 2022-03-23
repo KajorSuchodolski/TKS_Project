@@ -1,14 +1,14 @@
 package org.ias.tks.appcore.domainmodel.endpoints;
 
 
-import org.ias.tks.appcore.model.user.User;
-import org.ias.tks.appcore.model.user.access_levels.AccessLevelType;
-import org.ias.tks.appcore.model.user.access_levels.Administrator;
-import org.ias.tks.appcore.model.user.access_levels.Client;
-import org.ias.tks.appcore.model.user.access_levels.Manager;
-import org.ias.tks.appcore.exceptions.*;
+import org.ias.tks.appcore.appservices.services.UserService;
+import org.ias.tks.appcore.domainmodel.exceptions.*;
+import org.ias.tks.appcore.domainmodel.model.user.User;
 import org.ias.tks.appcore.domainmodel.filter.SignatureVerifier;
-import org.ias.tks.appcore.services.UserService;
+import org.ias.tks.appcore.domainmodel.model.user.access_levels.AccessLevelType;
+import org.ias.tks.appcore.domainmodel.model.user.access_levels.Administrator;
+import org.ias.tks.appcore.domainmodel.model.user.access_levels.Client;
+import org.ias.tks.appcore.domainmodel.model.user.access_levels.Manager;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -25,14 +25,14 @@ import java.util.UUID;
 public class UserController {
 
     @Inject
-    private UserService userManager;
+    private UserService userService;
 
     // READ
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({"Admin", "Client"})
     public Response getAll() {
-        return Response.ok().entity(userManager.getAll()).build();
+        return Response.ok().entity(userService.getAll()).build();
     }
 
     @GET
@@ -44,7 +44,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty!").build();
         }
         try {
-            User user = userManager.getUserByLogin(login);
+            User user = userService.getUserByLogin(login);
             return Response.ok().entity(user).header("Etag", SignatureVerifier.calculateEntitySignature(user)).build();
         } catch(UserByLoginNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
@@ -61,7 +61,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty!").build();
         }
         try {
-            return Response.ok().entity(userManager.getUserById(UUID.fromString(uuid))).build();
+            return Response.ok().entity(userService.getUserById(UUID.fromString(uuid))).build();
         } catch(UserByIdNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
@@ -75,7 +75,7 @@ public class UserController {
         if(login == null || login.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty!").build();
         }
-        return Response.ok().entity(userManager.searchUsersByLogin(login)).build();
+        return Response.ok().entity(userService.searchUsersByLogin(login)).build();
     }
 
     // CREATE
@@ -88,7 +88,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given user is null").build();
         }
         try {
-            userManager.addUser(user);
+            userService.addUser(user);
             return Response.ok(Response.Status.CREATED)
                     .entity("User has been added")
                     .build();
@@ -112,7 +112,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given user is null").build();
         }
         try {
-            switch(userManager.getUserByLogin(login).getAccessLevel()) {
+            switch(userService.getUserByLogin(login).getAccessLevel()) {
                 case "Admin" -> user.setAccessLevel(new Administrator(AccessLevelType.ADMINISTRATOR));
                 case "Manager" -> user.setAccessLevel(new Manager(AccessLevelType.MANAGER));
                 default -> user.setAccessLevel(new Client(AccessLevelType.CLIENT));
@@ -120,11 +120,11 @@ public class UserController {
             if (!SignatureVerifier.verifyEntityIntegrity(etag, user)) {
                 throw new IllegalArgumentException("Trying to modify the wrong costume!");
             }
-            userManager.updateUser(login, user);
+            userService.updateUser(login, user);
             return Response.ok()
                     .entity("User updated successfully")
                     .build();
-        } catch(UserUpdateException | EntityValidationException e) {
+        } catch(org.ias.tks.appports.repoadapters.exceptions.UserUpdateException | EntityValidationException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
@@ -138,7 +138,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         }
         try {
-            userManager.activateUser(login);
+            userService.activateUser(login);
             return Response.ok()
                     .entity("User activated")
                     .build();
@@ -156,7 +156,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         }
         try {
-            userManager.deactivateUser(login);
+            userService.deactivateUser(login);
             return Response.ok()
                     .entity("User deactivated")
                     .build();

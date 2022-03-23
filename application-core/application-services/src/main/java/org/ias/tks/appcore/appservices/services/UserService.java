@@ -1,13 +1,21 @@
 package org.ias.tks.appcore.appservices.services;
 
-import org.ias.tks.appcore.model.user.User;
-import org.ias.tks.appcore.model.user.access_levels.AccessLevelType;
-import org.ias.tks.appcore.model.user.access_levels.Administrator;
-import org.ias.tks.appcore.model.user.access_levels.Client;
-import org.ias.tks.appcore.exceptions.*;
-import org.ias.tks.appcore.global_config.Validation;
-import org.ias.tks.appcore.global_config.ValidationParameter;
-import org.ias.tks.appcore.repositories.UserRepository;
+
+import org.ias.tks.appcore.domainmodel.exceptions.EntityValidationException;
+import org.ias.tks.appcore.domainmodel.exceptions.UserByIdNotFound;
+import org.ias.tks.appcore.domainmodel.exceptions.UserByLoginNotFound;
+import org.ias.tks.appcore.domainmodel.exceptions.UserCreationException;
+import org.ias.tks.appcore.domainmodel.global_config.Validation;
+import org.ias.tks.appcore.domainmodel.global_config.ValidationParameter;
+import org.ias.tks.appcore.domainmodel.model.user.User;
+import org.ias.tks.appcore.domainmodel.model.user.access_levels.AccessLevelType;
+import org.ias.tks.appcore.domainmodel.model.user.access_levels.Administrator;
+import org.ias.tks.appcore.domainmodel.model.user.access_levels.Client;
+import org.ias.tks.appcore.domainmodel.model.user.access_levels.Manager;
+import org.ias.tks.appports.infrastructure.user.CreateUserPort;
+import org.ias.tks.appports.infrastructure.user.GetUserPort;
+import org.ias.tks.appports.infrastructure.user.UpdateUserPort;
+import org.ias.tks.appports.repoadapters.exceptions.UserUpdateException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -18,80 +26,72 @@ import java.util.UUID;
 @ApplicationScoped
 public class UserService extends AbstractService {
 
-    private UserRepository userRepository;
+    @Inject
+    private CreateUserPort createUserPort;
 
     @Inject
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private GetUserPort getUserPort;
 
-
+    @Inject
+    private UpdateUserPort updateUserPort;
     // CREATE
 
-    /*
-    *
-    * TODO
-    *  FIX VALIADATION
-    *
-    *
-    * */
-
-    public void addUser( User user) throws UserCreationException {
-        if( user.getLogin() == null ) {
+    public void addUser(User user) throws UserCreationException {
+        if (user.getLogin() == null) {
             throw new UserCreationException("Login field is empty");
         }
-        if( user.getEmail() == null ) {
+        if (user.getEmail() == null) {
             throw new UserCreationException("Email field is empty");
         }
-        if( user.getPassword() == null ) {
+        if (user.getPassword() == null) {
             throw new UserCreationException("Password field is empty");
         }
-        if( user.getFirstName() == null ) {
+        if (user.getFirstName() == null) {
             throw new UserCreationException("Firstname field is empty");
         }
-        if( user.getLastName() == null ) {
+        if (user.getLastName() == null) {
             throw new UserCreationException("Lastname field is empty");
         }
 
-        if(Validation.validateData(user.getFirstName(), ValidationParameter.FIRSTNAME)
+        if (Validation.validateData(user.getFirstName(), ValidationParameter.FIRSTNAME)
                 || Validation.validateData(user.getLastName(), ValidationParameter.LASTNAME)
                 || Validation.validateData(user.getLogin(), ValidationParameter.LOGIN)
                 || Validation.validateData(user.getPassword(), ValidationParameter.PASSWORD)
                 || Validation.validateData(user.getEmail(), ValidationParameter.EMAIL)) {
             throw new UserCreationException("Sth is fucked up with validation");
         }
-        userRepository.addUser(user);
+        createUserPort.addUser(user);
     }
 
     // READ
 
     public User getUserById(UUID id) throws UserByIdNotFound {
-        User user = userRepository.getById(id);
-        if(user == null) {
+        User user = getUserPort.getUserById(id);
+        if (user == null) {
             throw new UserByIdNotFound();
         }
         return user;
     }
 
     public User getUserByLogin(String login) throws UserByLoginNotFound {
-        User user = userRepository.getUserByLogin(login);
-        if(user == null) {
+        User user = getUserPort.getUserByLogin(login);
+        if (user == null) {
             throw new UserByLoginNotFound();
         }
         return user;
     }
 
     public List<User> getAll() {
-       return userRepository.getAll();
+        return getUserPort.getAll();
     }
 
     public List<User> searchUsersByLogin(String login) {
-        return userRepository.searchUsersByLogin(login);
+        return getUserPort.searchUsersByLogin(login);
     }
 
     public User findByLoginPasswordActive(String login, String password) throws UserByLoginNotFound {
-        User user = userRepository.findByLoginPasswordActive(login, password);
-        if(user == null) {
+        User user = getUserPort.findByLoginPasswordActive(login, password);
+        if (user == null) {
             throw new UserByLoginNotFound();
         }
         return user;
@@ -106,59 +106,47 @@ public class UserService extends AbstractService {
     public void updateUser(String login, User user) throws EntityValidationException, UserUpdateException {
         User tmpUser = new User();
         tmpUser.setLogin(login);
-        switch(user.getAccessLevel()) {
+        switch (user.getAccessLevel()) {
             case "Admin" -> tmpUser.setAccessLevel(new Administrator(AccessLevelType.ADMINISTRATOR));
             case "Manager" -> tmpUser.setAccessLevel(new Manager(AccessLevelType.MANAGER));
-            case "Client" -> tmpUser.setAccessLevel(new Client(AccessLevelType.CLIENT));
             default -> tmpUser.setAccessLevel(new Client(AccessLevelType.CLIENT));
         }
 
-        if(user.getFirstName() != null) {
-            if(Validation.validateData(user.getFirstName(), ValidationParameter.FIRSTNAME) ) {
+        if (user.getFirstName() != null) {
+            if (Validation.validateData(user.getFirstName(), ValidationParameter.FIRSTNAME)) {
                 throw new EntityValidationException("User firstname is invalid");
             }
             tmpUser.setFirstName(user.getFirstName());
         }
-        if(user.getLastName() != null) {
-            if(Validation.validateData(user.getLastName(), ValidationParameter.LASTNAME) ) {
+        if (user.getLastName() != null) {
+            if (Validation.validateData(user.getLastName(), ValidationParameter.LASTNAME)) {
                 throw new EntityValidationException("User lastname is invalid");
             }
             tmpUser.setLastName(user.getLastName());
         }
-        if(user.getPassword() != null) {
-            if(Validation.validateData(user.getPassword(), ValidationParameter.PASSWORD) ) {
+        if (user.getPassword() != null) {
+            if (Validation.validateData(user.getPassword(), ValidationParameter.PASSWORD)) {
                 throw new EntityValidationException("User password is invalid");
             }
             tmpUser.setPassword(user.getPassword());
         }
-        if(user.getEmail() != null) {
-            if(Validation.validateData(user.getEmail(), ValidationParameter.EMAIL)) {
+        if (user.getEmail() != null) {
+            if (Validation.validateData(user.getEmail(), ValidationParameter.EMAIL)) {
                 throw new EntityValidationException("User email is invalid");
             }
             tmpUser.setEmail(user.getEmail());
         }
         System.out.println("juz prawie" + user);
-        userRepository.updateUser(login, tmpUser);
+        updateUserPort.updateUser(login, tmpUser);
 
     }
 
     public void activateUser(String login) throws UserByLoginNotFound {
-        userRepository.activateUser(login);
+        updateUserPort.activateUser(login);
     }
 
     public void deactivateUser(String login) throws UserByLoginNotFound {
-        userRepository.deactivateUser(login);
+        updateUserPort.deactivateUser(login);
     }
-
-//    public User findUserByLoginPasswordActive(String login, String password) throws UserByLoginNotFound {
-//        //do napisania, karbo nie pokazał :(
-//    }
-
-    /*public User findByLoginPasswordActive(String login, String password){
-        System.out.println("Searching for login: ", + login + "and password:" + password);
-        return userRepository.
-    }*/
-
-
 
 }

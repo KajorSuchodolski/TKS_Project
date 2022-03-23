@@ -1,11 +1,10 @@
 package org.ias.tks.appcore.appservices.services;
 
-import org.ias.tks.domain_model.exceptions.CostumeInUseException;
-import org.ias.tks.domain_model.exceptions.UserByLoginNotFound;
-import org.ias.tks.domain_model.exceptions.UserInactiveException;
-import org.ias.tks.domain_model.model.costume.Costume;
-import org.ias.tks.domain_model.model.rent.Rent;
-import org.ias.tks.domain_model.model.user.User;
+import org.ias.tks.appcore.domainmodel.exceptions.*;
+import org.ias.tks.appcore.domainmodel.model.costume.Costume;
+import org.ias.tks.appcore.domainmodel.model.rent.Rent;
+import org.ias.tks.appcore.domainmodel.model.user.User;
+import org.ias.tks.appports.infrastructure.rent.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -18,16 +17,35 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class RentService extends AbstractService {
 
-    private RentRepository rentRepository;
+    @Inject
     private UserService userManager;
+
+    @Inject
     private CostumeService costumeManager;
 
+    @Inject
+    private CreateRentPort createRentPort;
+
+    @Inject
+    private GetCostumeRentsPort getCostumeRentsPort;
+
+    @Inject
+    private GetRentPort getRentPort;
+
+    @Inject
+    private GetUserRentsPort getUserRentsPort;
+
+    @Inject
+    private UpdateRentPort updateRentPort;
+
+    @Inject
+    private RemoveRentPort removeRentPort;
 
     @PostConstruct
     public void init() {
         User user = userManager.getUserByLogin("Radek460");
-        Costume costume1 = costumeManager.getCostumeRepository().getAll().get(0);
-        Costume costume2 = costumeManager.getCostumeRepository().getAll().get(1);
+        Costume costume1 = costumeManager.getAll().get(0);
+        Costume costume2 = costumeManager.getAll().get(1);
 
         List<UUID> costumeList = new ArrayList<>();
         costumeList.add(costume1.getId());
@@ -35,28 +53,14 @@ public class RentService extends AbstractService {
 
         try {
             addRent(user.getLogin(), costumeList, LocalDate.now().toString());
-        } catch(CostumeInUseException e) {
+        } catch (CostumeInUseException e) {
             e.printStackTrace();
         }
     }
 
-    @Inject
-    public void setRentRepository(RentRepository rentRepository) {
-        this.rentRepository = rentRepository;
-    }
-
-    @Inject
-    public void setUserManager(UserService userManager) {
-        this.userManager = userManager;
-    }
-
-    @Inject
-    public void setCostumeManager(CostumeService costumeManager) {
-        this.costumeManager = costumeManager;
-    }
 
     public List<Rent> getRentsByCustomer(String login) {
-        return rentRepository.getRentsByCustomer(login);
+        return getUserRentsPort.getRentsByCustomer(login);
     }
 
 //    public List<Rent> getRentsByDate(Predicate<Rent> predicate) {
@@ -64,11 +68,11 @@ public class RentService extends AbstractService {
 //    }
 
     public List<Rent> getAll() {
-        return rentRepository.getAll();
+        return getRentPort.getAll();
     }
 
     public List<Rent> getAllCurrent() {
-        return rentRepository.getAll()
+        return getRentPort.getAll()
                 .stream()
                 .filter(e -> e.getEndTime() == null)
                 .collect(Collectors.toList());
@@ -100,7 +104,7 @@ public class RentService extends AbstractService {
 
         double totalPrice = 0;
 
-        while(id.hasNext()) {
+        while (id.hasNext()) {
             Costume currentCostume = costumeManager.getCostumeById(id.next());
             if (currentCostume == null) {
                 throw new CostumeByIdNotFound();
@@ -116,19 +120,19 @@ public class RentService extends AbstractService {
         if (Objects.equals(date, "now")) {
             LocalDate dateRented = LocalDate.now();
             Rent newRent = new Rent(userManager.getUserByLogin(userLogin), costumes, totalPrice, dateRented);
-            rentRepository.add(newRent);
+            createRentPort.add(newRent);
         } else {
             LocalDate dateRented = LocalDate.parse(date);
 
             Rent newRent = new Rent(userManager.getUserByLogin(userLogin), costumes, totalPrice, dateRented);
-            rentRepository.add(newRent);
+            createRentPort.add(newRent);
         }
     }
 
     public Rent getRentById(UUID rentId) throws RentByIdNotFound {
-        Rent tmpRent = rentRepository.getRentById(rentId);
+        Rent tmpRent = getRentPort.getRentById(rentId);
 
-        if(tmpRent == null) {
+        if (tmpRent == null) {
             throw new RentByIdNotFound();
         }
         return tmpRent;
@@ -138,33 +142,34 @@ public class RentService extends AbstractService {
         if (userManager.getUserByLogin(userLogin) == null) {
             throw new UserByLoginNotFound();
         }
-        return rentRepository.userCurrentRents(userLogin);
+        return getUserRentsPort.userCurrentRents(userLogin);
     }
+
     public List<Rent> userPastRents(String userLogin) throws UserByLoginNotFound {
         if (userManager.getUserByLogin(userLogin) == null) {
             throw new UserByLoginNotFound();
         }
-        return rentRepository.userPastRents(userLogin);
+        return getUserRentsPort.userPastRents(userLogin);
     }
 
     public List<Rent> getCostumeAllocations(UUID id) {
         if (costumeManager.getCostumeById(id) == null) {
             throw new CostumeByIdNotFound();
         }
-        return rentRepository.getCostumeAllocations(id);
+        return getCostumeRentsPort.getCostumeAllocations(id);
     }
 
     public void endRent(String date, UUID rentId) throws RentByIdNotFound {
-        rentRepository.endRent(date, rentId);
+        updateRentPort.endRent(date, rentId);
     }
 
-    public void removeRent(UUID rentId) throws RentByIdNotFound{
-        Rent rentToBeDeleted = rentRepository.getRentById(rentId);
+    public void removeRent(UUID rentId) throws RentByIdNotFound {
+        Rent rentToBeDeleted = getRentPort.getRentById(rentId);
         if (rentToBeDeleted == null) {
             throw new RentByIdNotFound();
         }
-        rentRepository.setRentedCostumesToNotRented(rentId);
-        rentRepository.delete(rentToBeDeleted);
+        updateRentPort.setRentedCostumesToNotRented(rentId);
+        removeRentPort.delete(rentToBeDeleted);
     }
 
 }

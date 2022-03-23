@@ -123,13 +123,6 @@ public class CostumeRepository extends AbstractRepository<CostumeEntity> {
         }
     }
 
-    public synchronized void activateRent(UUID id) throws CostumeByIdNotFound {
-        getCostumeById(id).setRented(true);
-    }
-
-    public synchronized void deactivateRent(UUID id) throws CostumeByIdNotFound {
-        getCostumeById(id).setRented(false);
-    }
 
 
 }
