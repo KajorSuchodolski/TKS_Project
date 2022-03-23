@@ -1,6 +1,6 @@
 package org.ias.tks.appcore.appservices.services;
 
-import org.ias.tks.appcore.repositories.AbstractRepository;
+import org.ias.tks.appports.repoadapters.repositories.AbstractRepository;
 
 
 public abstract class AbstractService {

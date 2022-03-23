@@ -1,9 +1,9 @@
 package org.ias.tks.appcore.domainmodel.security;
 
 
-import org.ias.tks.appcore.model.user.User;
-import org.ias.tks.appcore.exceptions.UserByLoginNotFound;
-import org.ias.tks.appcore.services.UserService;
+import org.ias.tks.appcore.appservices.services.UserService;
+import org.ias.tks.appcore.domainmodel.exceptions.UserByLoginNotFound;
+import org.ias.tks.appcore.domainmodel.model.user.User;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,7 +19,7 @@ import java.util.Set;
 public class InMemoryIdentityStore implements IdentityStore {
 
     @Inject
-    UserService userManager;
+    private UserService userManager;
 
     @Override
     public CredentialValidationResult validate(Credential credential) {

@@ -22,6 +22,7 @@ public class UserMapper {
             case "Admin" -> new AdministratorEntity(AccessLevelTypeEntity.ADMINISTRATOR);
             case "Manager" -> new ManagerEntity(AccessLevelTypeEntity.MANAGER);
             case "Client" -> new ClientEntity(AccessLevelTypeEntity.CLIENT);
+            default -> new ClientEntity(AccessLevelTypeEntity.CLIENT);
         };
 
         return new UserEntity(
@@ -39,6 +40,7 @@ public class UserMapper {
             case "Admin" -> new Administrator(AccessLevelType.ADMINISTRATOR);
             case "Manager" -> new Manager(AccessLevelType.MANAGER);
             case "Client" -> new Client(AccessLevelType.CLIENT);
+            default -> new Client(AccessLevelType.CLIENT);
         };
 
         return new User(
