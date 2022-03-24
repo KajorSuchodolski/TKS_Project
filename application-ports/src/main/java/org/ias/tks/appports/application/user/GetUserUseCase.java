@@ -8,8 +8,12 @@ import java.util.UUID;
 
 public interface GetUserUseCase {
     User getUserById(UUID id) throws UserByIdNotFound;
+
     User getUserByLogin(String login);
+
     List<User> getAll();
+
     User findByLoginPasswordActive(String login, String password);
+
     List<User> searchUsersByLogin(String login);
 }

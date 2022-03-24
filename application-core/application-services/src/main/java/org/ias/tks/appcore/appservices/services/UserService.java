@@ -9,7 +9,9 @@ import org.ias.tks.appcore.domainmodel.model.user.access_levels.AccessLevelType;
 import org.ias.tks.appcore.domainmodel.model.user.access_levels.Administrator;
 import org.ias.tks.appcore.domainmodel.model.user.access_levels.Client;
 import org.ias.tks.appcore.domainmodel.model.user.access_levels.Manager;
+import org.ias.tks.appports.application.user.CreateUserUseCase;
 import org.ias.tks.appports.application.user.GetUserUseCase;
+import org.ias.tks.appports.application.user.UpdateUserUseCase;
 import org.ias.tks.appports.infrastructure.user.CreateUserPort;
 import org.ias.tks.appports.infrastructure.user.GetUserPort;
 import org.ias.tks.appports.infrastructure.user.UpdateUserPort;
@@ -21,7 +23,7 @@ import java.util.UUID;
 
 
 @ApplicationScoped
-public class UserService implements GetUserUseCase {
+public class UserService implements GetUserUseCase, CreateUserUseCase, UpdateUserUseCase {
 
     @Inject
     private CreateUserPort createUserPort;
@@ -100,11 +102,11 @@ public class UserService implements GetUserUseCase {
 
     // UPDATE
 
-    public void updateUserPassword(String login, String password) throws EntityValidationException, UserUpdateException {
+    public void updateUserPassword(String login, String password) throws EntityValidationException {
         getUserByLogin(login).setPassword(password);
     }
 
-    public void updateUser(String login, User user) throws EntityValidationException, UserUpdateException {
+    public void updateUser(String login, User user) throws EntityValidationException {
         User tmpUser = new User();
         tmpUser.setLogin(login);
         switch (user.getAccessLevel()) {
