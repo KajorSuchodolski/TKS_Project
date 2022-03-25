@@ -1,7 +1,7 @@
 package org.ias.tks.appports.repoadapters.adapters;
 
 import org.ias.tks.appcore.domainmodel.model.rent.Rent;
-import org.ias.tks.appports.infrastructure.rent.*;
+import org.ias.tks.appports.infrastructure.RentCRUDPorts;
 import org.ias.tks.appports.repoadapters.mappers.RentMapper;
 import org.ias.tks.appports.repoadapters.repositories.RentRepository;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class RentRepositoryAdapter implements CreateRentPort, GetRentPort, GetUserRentsPort, GetCostumeRentsPort, UpdateRentPort, RemoveRentPort {
+public class RentRepositoryAdapter implements RentCRUDPorts {
 
     @Inject
     private RentMapper rentMapper;

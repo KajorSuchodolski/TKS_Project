@@ -1,10 +1,7 @@
 package org.ias.tks.appports.repoadapters.adapters;
 
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
-import org.ias.tks.appports.infrastructure.costume.CreateCostumePort;
-import org.ias.tks.appports.infrastructure.costume.GetCostumePort;
-import org.ias.tks.appports.infrastructure.costume.RemoveCostumePort;
-import org.ias.tks.appports.infrastructure.costume.UpdateCostumePort;
+import org.ias.tks.appports.infrastructure.CostumeCRUDPorts;
 import org.ias.tks.appports.repoadapters.entities.costume.CostumeSizeEnt;
 import org.ias.tks.appports.repoadapters.entities.costume.ForWhomEnt;
 import org.ias.tks.appports.repoadapters.exceptions.CostumeInUseException;
@@ -17,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class CostumeRepositoryAdapter implements CreateCostumePort, GetCostumePort, RemoveCostumePort, UpdateCostumePort {
+public class CostumeRepositoryAdapter implements CostumeCRUDPorts {
 
     @Inject
     private CostumeRepository costumeRepository;
@@ -71,7 +68,7 @@ public class CostumeRepositoryAdapter implements CreateCostumePort, GetCostumePo
 
     @Override
     public void updateCostume(UUID id, Costume costume) {
-       costumeRepository.updateCostume(id, costumeMapper.mapToCostumeEntity(costume));
+        costumeRepository.updateCostume(id, costumeMapper.mapToCostumeEntity(costume));
     }
 
 

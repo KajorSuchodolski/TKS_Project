@@ -8,14 +8,8 @@ import org.ias.tks.appcore.domainmodel.global_config.ValidationParameter;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
-import org.ias.tks.appports.application.costume.CreateCostumeUseCase;
-import org.ias.tks.appports.application.costume.GetCostumeUseCase;
-import org.ias.tks.appports.application.costume.RemoveCostumeUseCase;
-import org.ias.tks.appports.application.costume.UpdateCostumeUseCase;
-import org.ias.tks.appports.infrastructure.costume.CreateCostumePort;
-import org.ias.tks.appports.infrastructure.costume.GetCostumePort;
-import org.ias.tks.appports.infrastructure.costume.RemoveCostumePort;
-import org.ias.tks.appports.infrastructure.costume.UpdateCostumePort;
+import org.ias.tks.appports.application.CostumeUseCases;
+import org.ias.tks.appports.infrastructure.CostumeCRUDPorts;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -23,19 +17,10 @@ import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class CostumeService implements GetCostumeUseCase, CreateCostumeUseCase, RemoveCostumeUseCase, UpdateCostumeUseCase {
+public class CostumeService implements CostumeUseCases {
 
     @Inject
-    private CreateCostumePort createCostumePort;
-
-    @Inject
-    private GetCostumePort getCostumePort;
-
-    @Inject
-    private UpdateCostumePort updateCostumePort;
-
-    @Inject
-    private RemoveCostumePort removeCostumePort;
+    private CostumeCRUDPorts costumeCRUDPorts;
 
     public CostumeService() {
         super();
@@ -80,44 +65,45 @@ public class CostumeService implements GetCostumeUseCase, CreateCostumeUseCase, 
         }
 
 
-        createCostumePort.addCostume(costume);
+        costumeCRUDPorts.addCostume(costume);
     }
 
     // READ
 
     @Override
     public Costume getCostumeById(UUID id) throws CostumeByIdNotFound {
-        return getCostumePort.getCostumeById(id);
+        return costumeCRUDPorts.getCostumeById(id);
     }
 
     @Override
     public List<Costume> getAll() {
-        return getCostumePort.getAll();
+        return costumeCRUDPorts.getAll();
     }
 
     @Override
     public List<Costume> getAllByRentStatus(boolean flag) {
-        return getCostumePort.getAllByRentStatus(flag);
+        return costumeCRUDPorts.getAllByRentStatus(flag);
     }
 
     @Override
     public List<Costume> searchAllCostumesByName(String name) {
-        return getCostumePort.searchAllCostumesByName(name);
+        return costumeCRUDPorts.searchAllCostumesByName(name);
     }
 
     @Override
     public List<Costume> getAllCostumesByAge(String forWhom) throws EntityValidationException {
         try {
-            return getCostumePort.getAllCostumesByAge(forWhom);
+            return costumeCRUDPorts.getAllCostumesByAge(forWhom);
         } catch (IllegalArgumentException e) {
             throw new EntityValidationException("Invalid parameter for enum type: ForWhom");
         }
 
     }
+
     @Override
     public List<Costume> getAllCostumesByParams(String age, String size) throws EntityValidationException {
         try {
-            return getCostumePort.getAllCostumesByParams(age, size);
+            return costumeCRUDPorts.getAllCostumesByParams(age, size);
         } catch (IllegalArgumentException e) {
             throw new EntityValidationException("Invalid parameter for ForWhom or CostumeSize");
         }
@@ -164,12 +150,12 @@ public class CostumeService implements GetCostumeUseCase, CreateCostumeUseCase, 
         } else {
             tmpCostume.setPrice(costume.getPrice());
         }
-        updateCostumePort.updateCostume(id, tmpCostume);
+        costumeCRUDPorts.updateCostume(id, tmpCostume);
     }
 
     // DELETE
     @Override
     public void removeCostume(UUID id) {
-        removeCostumePort.removeCostume(id);
+        costumeCRUDPorts.removeCostume(id);
     }
 }

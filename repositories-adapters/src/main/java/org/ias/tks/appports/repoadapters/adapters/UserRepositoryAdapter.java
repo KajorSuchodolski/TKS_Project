@@ -1,22 +1,18 @@
 package org.ias.tks.appports.repoadapters.adapters;
 
 import org.ias.tks.appcore.domainmodel.model.user.User;
-import org.ias.tks.appports.infrastructure.user.CreateUserPort;
-import org.ias.tks.appports.infrastructure.user.GetUserPort;
-import org.ias.tks.appports.infrastructure.user.UpdateUserPort;
+import org.ias.tks.appports.infrastructure.UserCRUDPorts;
 import org.ias.tks.appports.repoadapters.exceptions.UserUpdateException;
 import org.ias.tks.appports.repoadapters.mappers.UserMapper;
 import org.ias.tks.appports.repoadapters.repositories.UserRepository;
 
-
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
-public class UserRepositoryAdapter implements CreateUserPort, GetUserPort, UpdateUserPort {
+public class UserRepositoryAdapter implements UserCRUDPorts {
 
     @Inject
     private UserRepository userRepository;
@@ -47,7 +43,7 @@ public class UserRepositoryAdapter implements CreateUserPort, GetUserPort, Updat
 
     @Override
     public User findByLoginPasswordActive(String login, String password) {
-        return userMapper.mapToUser(userRepository.findByLoginPasswordActive(login,password));
+        return userMapper.mapToUser(userRepository.findByLoginPasswordActive(login, password));
     }
 
     @Override
@@ -58,7 +54,7 @@ public class UserRepositoryAdapter implements CreateUserPort, GetUserPort, Updat
     @Override
     public void updateUser(String login, User user) {
         try {
-            userRepository.updateUser(login,userMapper.mapToUserEntity(user));
+            userRepository.updateUser(login, userMapper.mapToUserEntity(user));
         } catch (UserUpdateException e) {
             e.printStackTrace();
         }

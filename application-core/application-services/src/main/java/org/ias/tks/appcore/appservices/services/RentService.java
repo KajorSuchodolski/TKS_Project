@@ -4,8 +4,8 @@ import org.ias.tks.appcore.domainmodel.exceptions.*;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.rent.Rent;
 import org.ias.tks.appcore.domainmodel.model.user.User;
-import org.ias.tks.appports.application.rent.*;
-import org.ias.tks.appports.infrastructure.rent.*;
+import org.ias.tks.appports.application.RentUseCases;
+import org.ias.tks.appports.infrastructure.RentCRUDPorts;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class RentService implements CreateRentUseCase, FinishRentUseCase, GetCostumeRentsUseCase, GetRentUseCase, GetUserRentsUseCase, RemoveRentUseCase {
+public class RentService implements RentUseCases {
 
     @Inject
     private UserService userManager;
@@ -25,22 +25,7 @@ public class RentService implements CreateRentUseCase, FinishRentUseCase, GetCos
     private CostumeService costumeManager;
 
     @Inject
-    private CreateRentPort createRentPort;
-
-    @Inject
-    private GetCostumeRentsPort getCostumeRentsPort;
-
-    @Inject
-    private GetRentPort getRentPort;
-
-    @Inject
-    private GetUserRentsPort getUserRentsPort;
-
-    @Inject
-    private UpdateRentPort updateRentPort;
-
-    @Inject
-    private RemoveRentPort removeRentPort;
+    private RentCRUDPorts rentCRUDPorts;
 
     @PostConstruct
     public void init() {
@@ -61,7 +46,7 @@ public class RentService implements CreateRentUseCase, FinishRentUseCase, GetCos
 
 
     public List<Rent> getRentsByCustomer(String login) {
-        return getUserRentsPort.getRentsByCustomer(login);
+        return rentCRUDPorts.getRentsByCustomer(login);
     }
 
 //    public List<Rent> getRentsByDate(Predicate<Rent> predicate) {
@@ -69,13 +54,13 @@ public class RentService implements CreateRentUseCase, FinishRentUseCase, GetCos
 //    }
 
     public List<Rent> getAll() {
-        return getRentPort.getAll();
+        return rentCRUDPorts.getAll();
     }
 
     // TODO przeniesc funkcjonalnosc
     //
     public List<Rent> getAllCurrent() {
-        return getRentPort.getAll()
+        return rentCRUDPorts.getAll()
                 .stream()
                 .filter(e -> e.getEndTime() == null)
                 .collect(Collectors.toList());
@@ -124,17 +109,17 @@ public class RentService implements CreateRentUseCase, FinishRentUseCase, GetCos
         if (Objects.equals(date, "now")) {
             LocalDate dateRented = LocalDate.now();
             Rent newRent = new Rent(userManager.getUserByLogin(userLogin), costumes, totalPrice, dateRented);
-            createRentPort.add(newRent);
+            rentCRUDPorts.add(newRent);
         } else {
             LocalDate dateRented = LocalDate.parse(date);
 
             Rent newRent = new Rent(userManager.getUserByLogin(userLogin), costumes, totalPrice, dateRented);
-            createRentPort.add(newRent);
+            rentCRUDPorts.add(newRent);
         }
     }
 
     public Rent getRentById(UUID rentId) throws RentByIdNotFound {
-        Rent tmpRent = getRentPort.getRentById(rentId);
+        Rent tmpRent = rentCRUDPorts.getRentById(rentId);
 
         if (tmpRent == null) {
             throw new RentByIdNotFound();
@@ -146,34 +131,34 @@ public class RentService implements CreateRentUseCase, FinishRentUseCase, GetCos
         if (userManager.getUserByLogin(userLogin) == null) {
             throw new UserByLoginNotFound();
         }
-        return getUserRentsPort.userCurrentRents(userLogin);
+        return rentCRUDPorts.userCurrentRents(userLogin);
     }
 
     public List<Rent> userPastRents(String userLogin) throws UserByLoginNotFound {
         if (userManager.getUserByLogin(userLogin) == null) {
             throw new UserByLoginNotFound();
         }
-        return getUserRentsPort.userPastRents(userLogin);
+        return rentCRUDPorts.userPastRents(userLogin);
     }
 
     public List<Rent> getCostumeAllocations(UUID id) {
         if (costumeManager.getCostumeById(id) == null) {
             throw new CostumeByIdNotFound();
         }
-        return getCostumeRentsPort.getCostumeAllocations(id);
+        return rentCRUDPorts.getCostumeAllocations(id);
     }
 
     public void endRent(String date, UUID rentId) throws RentByIdNotFound {
-        updateRentPort.endRent(date, rentId);
+        rentCRUDPorts.endRent(date, rentId);
     }
 
     public void removeRent(UUID rentId) throws RentByIdNotFound {
-        Rent rentToBeDeleted = getRentPort.getRentById(rentId);
+        Rent rentToBeDeleted = rentCRUDPorts.getRentById(rentId);
         if (rentToBeDeleted == null) {
             throw new RentByIdNotFound();
         }
-        updateRentPort.setRentedCostumesToNotRented(rentId);
-        removeRentPort.delete(rentToBeDeleted);
+        rentCRUDPorts.setRentedCostumesToNotRented(rentId);
+        rentCRUDPorts.delete(rentToBeDeleted);
     }
 
 }

@@ -2,7 +2,7 @@ package org.ias.tks.restadapters.endpoints;
 
 
 import org.ias.tks.appcore.domainmodel.exceptions.*;
-import org.ias.tks.appports.application.rent.*;
+import org.ias.tks.appports.application.RentUseCases;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,23 +17,7 @@ import java.util.UUID;
 public class RentController {
 
     @Inject
-    private GetRentUseCase getRentUseCase;
-
-    @Inject
-    private FinishRentUseCase finishRentUseCase;
-
-    @Inject
-    private GetCostumeRentsUseCase getCostumeRentsUseCase;
-
-    @Inject
-    private CreateRentUseCase createRentUseCase;
-
-    @Inject
-    private GetUserRentsUseCase getUserRentsUseCase;
-
-    @Inject
-    private RemoveRentUseCase removeRentUseCase;
-
+    private RentUseCases rentUseCases;
 
 
     // CREATE
@@ -41,26 +25,26 @@ public class RentController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ClientDTO"})
-    public Response addRent( @QueryParam("login") String login, @QueryParam("date") String date, List<UUID> costumeIds) {
-        if(login == null || login.trim().equals("")) {
+    public Response addRent(@QueryParam("login") String login, @QueryParam("date") String date, List<UUID> costumeIds) {
+        if (login == null || login.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         }
-        if(date == null || date.trim().equals("")) {
+        if (date == null || date.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Date parameter is empty").build();
         }
-        if(costumeIds == null || costumeIds.isEmpty()) {
+        if (costumeIds == null || costumeIds.isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given list is empty").build();
         }
         try {
-            createRentUseCase.addRent(login, costumeIds, date);
+            rentUseCases.addRent(login, costumeIds, date);
             return Response.ok(Response.Status.CREATED)
                     .entity("Rent added successfully")
                     .build();
-        } catch(CostumeInUseException e) {
+        } catch (CostumeInUseException e) {
             return Response.status(Response.Status.FORBIDDEN).entity(e.getMessage()).build();
-        } catch(CostumeByIdNotFound | UserByLoginNotFound e) {
+        } catch (CostumeByIdNotFound | UserByLoginNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-        } catch(DateInPastException | WrongDateFormatException e) {
+        } catch (DateInPastException | WrongDateFormatException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
@@ -70,7 +54,7 @@ public class RentController {
     @Produces(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ClientDTO"})
     public Response getAll() {
-        return Response.ok().entity(getRentUseCase.getAll()).build();
+        return Response.ok().entity(rentUseCases.getAll()).build();
     }
 
     @GET
@@ -78,7 +62,7 @@ public class RentController {
     @Produces(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ClientDTO"})
     public Response getAllCurrent() {
-        return Response.ok().entity(getUserRentsUseCase.getAllCurrent()).build();
+        return Response.ok().entity(rentUseCases.getAllCurrent()).build();
     }
 
     @GET
@@ -86,14 +70,14 @@ public class RentController {
     @Produces(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ClientDTO"})
     public Response getRentById(@PathParam("id") String rentId) {
-        if(rentId == null || rentId.trim().equals("")) {
+        if (rentId == null || rentId.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("RentID parameter is empty").build();
         }
         try {
             return Response.ok()
-                    .entity(getRentUseCase.getRentById(UUID.fromString(rentId)))
+                    .entity(rentUseCases.getRentById(UUID.fromString(rentId)))
                     .build();
-        } catch(RentByIdNotFound e){
+        } catch (RentByIdNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
@@ -103,11 +87,12 @@ public class RentController {
     @Produces(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ClientDTO"})
     public Response userCurrentRents(@PathParam("login") String login) {
-        if(login == null || login.trim().equals("")) {
+        if (login == null || login.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
-        } try {
-            return Response.ok().entity(getUserRentsUseCase.userCurrentRents(login)).build();
-        } catch(UserByLoginNotFound e) {
+        }
+        try {
+            return Response.ok().entity(rentUseCases.userCurrentRents(login)).build();
+        } catch (UserByLoginNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
 
@@ -117,12 +102,13 @@ public class RentController {
     @Path("/{login}/past-rents")
     @Produces(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ClientDTO"})
-    public Response userPastRents(@PathParam("login") String login)  {
-        if(login == null || login.trim().equals("")) {
+    public Response userPastRents(@PathParam("login") String login) {
+        if (login == null || login.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
-        } try {
-            return Response.ok().entity(getUserRentsUseCase.userPastRents(login)).build();
-        } catch(UserByLoginNotFound e) {
+        }
+        try {
+            return Response.ok().entity(rentUseCases.userPastRents(login)).build();
+        } catch (UserByLoginNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
@@ -132,14 +118,14 @@ public class RentController {
     @Produces(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ManagerDTO", "ClientDTO"})
     public Response getCostumeAllocations(@QueryParam("id") String costumeId) {
-        if(costumeId == null || costumeId.trim().equals("")) {
+        if (costumeId == null || costumeId.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("RentID parameter is empty").build();
         }
         try {
             return Response.ok(Response.Status.OK)
-                    .entity(getCostumeRentsUseCase.getCostumeAllocations(UUID.fromString(costumeId)))
+                    .entity(rentUseCases.getCostumeAllocations(UUID.fromString(costumeId)))
                     .build();
-        } catch(CostumeByIdNotFound e) {
+        } catch (CostumeByIdNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
@@ -150,45 +136,45 @@ public class RentController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ClientDTO"})
-    public Response deleteRent(@PathParam("id") String rentId)  {
-        if(rentId == null || rentId.trim().equals("")) {
+    public Response deleteRent(@PathParam("id") String rentId) {
+        if (rentId == null || rentId.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("RentID parameter is empty").build();
         }
         try {
-            removeRentUseCase.removeRent(UUID.fromString(rentId));
+            rentUseCases.removeRent(UUID.fromString(rentId));
             return Response.ok(Response.Status.OK)
                     .entity("Rent removed successfully")
                     .build();
-        } catch(RentByIdNotFound e) {
+        } catch (RentByIdNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
 
     /*
-    *
-    * TODO
-    *  CHANGE FUNCTIONALITY FROM REPO TO MANAGER (I AM SAYING ABOUT MOVING REPO BODY FUNCTION INTO THE MANAGER)
-    *  */
+     *
+     * TODO
+     *  CHANGE FUNCTIONALITY FROM REPO TO MANAGER (I AM SAYING ABOUT MOVING REPO BODY FUNCTION INTO THE MANAGER)
+     *  */
 
     @PUT
     @Path("/{id}/end")
     @Produces(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ClientDTO"})
-    public Response endRent(@PathParam("id") String rentId, @QueryParam("date") String date) throws RentByIdNotFound{
-        if(rentId == null || rentId.trim().equals("")) {
+    public Response endRent(@PathParam("id") String rentId, @QueryParam("date") String date) throws RentByIdNotFound {
+        if (rentId == null || rentId.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("RentID parameter is empty").build();
         }
-        if(date == null || date.trim().equals("")) {
+        if (date == null || date.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Date parameter is empty").build();
         }
         try {
-            finishRentUseCase.endRent(date, UUID.fromString(rentId));
+            rentUseCases.endRent(date, UUID.fromString(rentId));
             return Response.ok(Response.Status.OK)
                     .entity("Rent was ended successfully")
                     .build();
-        } catch(RentByIdNotFound e) {
+        } catch (RentByIdNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-        } catch(EndRentBeforeBeginException e) {
+        } catch (EndRentBeforeBeginException e) {
             return Response.status(Response.Status.FORBIDDEN).entity(e.getMessage()).build();
         }
     }
