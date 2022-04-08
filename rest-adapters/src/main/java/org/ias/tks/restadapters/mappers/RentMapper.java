@@ -1,7 +1,8 @@
 package org.ias.tks.restadapters.mappers;
 
 import org.ias.tks.appcore.domainmodel.model.rent.Rent;
-import org.ias.tks.restadapters.dto.rent.RentDTO;
+import org.ias.tks.restadapters.dto.rent.RentInputDTO;
+import org.ias.tks.restadapters.dto.rent.RentOutputDTO;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -17,41 +18,41 @@ public class RentMapper {
     @Inject
     private CostumeMapper costumeMapper;
 
-    public RentDTO mapToRentDTO(Rent rent) {
-        RentDTO rentDTO = new RentDTO(
-                userMapper.mapToUserInputDTO(rent.getUser()),
+    public RentOutputDTO mapToRentDTO(Rent rent) {
+        RentOutputDTO rentOutputDTO = new RentOutputDTO(
+                userMapper.mapToUserOutputDTO(rent.getUser()),
                 costumeMapper.mapToCostumeDTOList(rent.getCostumes()),
                 rent.getPrice(),
                 rent.getBeginTime()
         );
 
-        rentDTO.setId(rent.getId());
-        return rentDTO;
+        rentOutputDTO.setId(rent.getId());
+        return rentOutputDTO;
     }
 
-    public Rent mapToRent(RentDTO rentDTO) {
+    public Rent mapToRent(RentInputDTO rentInputDTO) {
 
         Rent rent = new Rent(
-                userMapper.mapToUser(rentDTO.getUser()),
-                costumeMapper.mapToCostumeList(rentDTO.getCostumes()),
-                rentDTO.getPrice(),
-                rentDTO.getBeginTime()
+                userMapper.mapToUser(rentInputDTO.getUser()),
+                costumeMapper.mapToCostumeList(rentInputDTO.getCostumes()),
+                rentInputDTO.getPrice(),
+                rentInputDTO.getBeginTime()
         );
-        rent.setId(rentDTO.getId());
+        rent.setId(rentInputDTO.getId());
         return rent;
     }
 
-    public List<Rent> mapToRentList(List<RentDTO> rentDTOS) {
+    public List<Rent> mapToRentList(List<RentInputDTO> rentInputDTOS) {
         List<Rent> list = new ArrayList<>();
 
-        for (RentDTO rentDTO : rentDTOS) {
-            list.add(mapToRent(rentDTO));
+        for (RentInputDTO rentInputDTO : rentInputDTOS) {
+            list.add(mapToRent(rentInputDTO));
         }
         return list;
     }
 
-    public List<RentDTO> mapToRentDTOList(List<Rent> list) {
-        List<RentDTO> listEntity = new ArrayList<>();
+    public List<RentOutputDTO> mapToRentDTOList(List<Rent> list) {
+        List<RentOutputDTO> listEntity = new ArrayList<>();
         for (Rent rent : list) {
             listEntity.add(mapToRentDTO(rent));
         }

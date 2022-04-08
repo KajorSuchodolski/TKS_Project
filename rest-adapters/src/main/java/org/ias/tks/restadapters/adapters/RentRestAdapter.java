@@ -2,7 +2,7 @@ package org.ias.tks.restadapters.adapters;
 
 import org.ias.tks.appcore.domainmodel.exceptions.CostumeInUseException;
 import org.ias.tks.appports.application.RentUseCases;
-import org.ias.tks.restadapters.dto.rent.RentDTO;
+import org.ias.tks.restadapters.dto.rent.RentOutputDTO;
 import org.ias.tks.restadapters.mappers.RentMapper;
 import org.ias.tks.restadapters.ports.RentRestPorts;
 
@@ -26,36 +26,36 @@ public class RentRestAdapter implements RentRestPorts {
     }
 
     @Override
-    public void add(RentDTO rent) {
+    public void add(RentOutputDTO rent) {
     }
 
     @Override
-    public List<RentDTO> getCostumeAllocations(UUID id) {
+    public List<RentOutputDTO> getCostumeAllocations(UUID id) {
         return rentMapper.mapToRentDTOList(rentUseCases.getCostumeAllocations(id));
     }
 
     @Override
-    public RentDTO getRentById(UUID rentId) {
+    public RentOutputDTO getRentById(UUID rentId) {
         return rentMapper.mapToRentDTO(rentUseCases.getRentById(rentId));
     }
 
     @Override
-    public List<RentDTO> getAll() {
+    public List<RentOutputDTO> getAll() {
         return rentMapper.mapToRentDTOList(rentUseCases.getAll());
     }
 
     @Override
-    public List<RentDTO> getRentsByCustomer(String login) {
+    public List<RentOutputDTO> getRentsByCustomer(String login) {
         return rentMapper.mapToRentDTOList(rentUseCases.getRentsByCustomer(login));
     }
 
     @Override
-    public List<RentDTO> userCurrentRents(String userLogin) {
+    public List<RentOutputDTO> userCurrentRents(String userLogin) {
         return rentMapper.mapToRentDTOList(rentUseCases.userCurrentRents(userLogin));
     }
 
     @Override
-    public List<RentDTO> userPastRents(String userLogin) {
+    public List<RentOutputDTO> userPastRents(String userLogin) {
         return rentMapper.mapToRentDTOList(rentUseCases.userPastRents(userLogin));
     }
 

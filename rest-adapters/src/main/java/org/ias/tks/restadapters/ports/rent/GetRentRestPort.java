@@ -1,12 +1,12 @@
 package org.ias.tks.restadapters.ports.rent;
 
-import org.ias.tks.restadapters.dto.rent.RentDTO;
+import org.ias.tks.restadapters.dto.rent.RentOutputDTO;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface GetRentRestPort {
-    RentDTO getRentById(UUID rentId);
+    RentOutputDTO getRentById(UUID rentId);
 
-    List<RentDTO> getAll();
+    List<RentOutputDTO> getAll();
 }

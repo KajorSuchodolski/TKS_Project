@@ -61,6 +61,7 @@ public class UserMapper {
     }
 
 
+
     public List<UserOutputDto> mapToUserDTOList(List<User> list) {
         List<UserOutputDto> userOutputDtos = new ArrayList<>();
         for (User user : list) {
