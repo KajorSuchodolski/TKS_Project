@@ -27,12 +27,12 @@ public class UserRestAdapter implements UserRestPorts {
 
     @Override
     public UserOutputDto getUserById(UUID id) {
-        return userMapper.mapToUserDTO(userUseCases.getUserById(id));
+        return userMapper.mapToUserOutputDTO(userUseCases.getUserById(id));
     }
 
     @Override
     public UserOutputDto getUserByLogin(String login) {
-        return userMapper.mapToUserDTO(userUseCases.getUserByLogin(login));
+        return userMapper.mapToUserOutputDTO(userUseCases.getUserByLogin(login));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class UserRestAdapter implements UserRestPorts {
 
     @Override
     public UserOutputDto findByLoginPasswordActive(String login, String password) {
-        return userMapper.mapToUserDTO(userUseCases.findByLoginPasswordActive(login, password));
+        return userMapper.mapToUserOutputDTO(userUseCases.findByLoginPasswordActive(login, password));
     }
 
     @Override

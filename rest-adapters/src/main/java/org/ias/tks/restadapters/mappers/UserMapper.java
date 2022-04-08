@@ -12,7 +12,7 @@ import java.util.List;
 @RequestScoped
 public class UserMapper {
 
-    public UserOutputDto mapToUserDTO(User user) {
+    public UserOutputDto mapToUserOutputDTO(User user) {
 
         // TODO
         UserOutputDto userOutputDto = new UserOutputDto(
@@ -24,6 +24,20 @@ public class UserMapper {
 
         userOutputDto.setId(user.getId());
         return userOutputDto;
+    }
+
+    public UserInputDto mapToUserInputDTO(User user) {
+
+        // TODO
+        UserInputDto userInputDto = new UserInputDto(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getLogin(),
+                user.getPassword(),
+                user.getEmail());
+
+        userInputDto.setId(user.getId());
+        return userInputDto;
     }
 
     public User mapToUser(UserInputDto userInputDto) {
@@ -50,7 +64,7 @@ public class UserMapper {
     public List<UserOutputDto> mapToUserDTOList(List<User> list) {
         List<UserOutputDto> userOutputDtos = new ArrayList<>();
         for (User user : list) {
-            userOutputDtos.add(mapToUserDTO(user));
+            userOutputDtos.add(mapToUserOutputDTO(user));
         }
         return userOutputDtos;
     }
