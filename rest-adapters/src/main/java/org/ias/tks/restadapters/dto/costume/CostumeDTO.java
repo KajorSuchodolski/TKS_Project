@@ -1,19 +1,25 @@
 package org.ias.tks.restadapters.dto.costume;
 
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
 import org.ias.tks.restadapters.dto.ModelDTO;
+import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class CostumeDTO extends ModelDTO {
+
     private boolean isRented;
     private CostumeSize costumeSize;
     private ForWhom forWhom;
     private String name;
     private double price;
 
-    public CostumeDTO() {
-    }
 
     public CostumeDTO(String name, CostumeSize costumeSize, ForWhom forWhom, double price) {
         this.isRented = false;
@@ -23,43 +29,8 @@ public class CostumeDTO extends ModelDTO {
         this.forWhom = forWhom;
     }
 
-    public boolean isRented() {
-        return isRented;
-    }
-
-    public void setRented(boolean rented) {
-        isRented = rented;
-    }
-
-    public CostumeSize getCostumeSize() {
-        return costumeSize;
-    }
-
-    public void setCostumeSize(CostumeSize costumeSize) {
-        this.costumeSize = costumeSize;
-    }
-
-    public ForWhom getForWhom() {
-        return forWhom;
-    }
-
-    public void setForWhom(ForWhom forWhom) {
-        this.forWhom = forWhom;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
+    @Override
+    public UUID getId() {
+        return super.getId();
     }
 }

@@ -1,16 +1,12 @@
 package org.ias.tks.restadapters.endpoints;
 
-
 import org.ias.tks.appcore.domainmodel.exceptions.EntityValidationException;
 import org.ias.tks.appcore.domainmodel.exceptions.UserByIdNotFound;
 import org.ias.tks.appcore.domainmodel.exceptions.UserByLoginNotFound;
 import org.ias.tks.appcore.domainmodel.exceptions.UserCreationException;
-import org.ias.tks.appcore.domainmodel.model.user.User;
-import org.ias.tks.appcore.domainmodel.model.user.access_levels.AccessLevelType;
-import org.ias.tks.appcore.domainmodel.model.user.access_levels.Administrator;
-import org.ias.tks.appcore.domainmodel.model.user.access_levels.Client;
-import org.ias.tks.appcore.domainmodel.model.user.access_levels.Manager;
-import org.ias.tks.appports.application.UserUseCases;
+import org.ias.tks.restadapters.dto.user.UserInputDto;
+import org.ias.tks.restadapters.dto.user.UserOutputDto;
+import org.ias.tks.restadapters.ports.UserRestPorts;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,14 +20,13 @@ import java.util.UUID;
 public class UserController {
 
     @Inject
-    private UserUseCases userUseCases;
-
+    private UserRestPorts userRestPorts;
 
     // READ
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
-        return Response.ok().entity(userUseCases.getAll()).build();
+        return Response.ok().entity(userRestPorts.getAll()).build();
     }
 
     @GET
@@ -43,7 +38,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty!").build();
         }
         try {
-            User user = userUseCases.getUserByLogin(login);
+            UserOutputDto user = userRestPorts.getUserByLogin(login);
             return Response.ok().entity(user).build();
         } catch (UserByLoginNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
@@ -60,7 +55,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty!").build();
         }
         try {
-            return Response.ok().entity(userUseCases.getUserById(UUID.fromString(uuid))).build();
+            return Response.ok().entity(userRestPorts.getUserById(UUID.fromString(uuid))).build();
         } catch (UserByIdNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
@@ -74,7 +69,7 @@ public class UserController {
         if (login == null || login.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty!").build();
         }
-        return Response.ok().entity(userUseCases.searchUsersByLogin(login)).build();
+        return Response.ok().entity(userRestPorts.searchUsersByLogin(login)).build();
     }
 
     // CREATE
@@ -82,12 +77,12 @@ public class UserController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin"})
-    public Response addUser(User user) {
+    public Response addUser(UserInputDto user) {
         if (user == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given user is null").build();
         }
         try {
-            userUseCases.addUser(user);
+            userRestPorts.addUser(user);
             return Response.ok(Response.Status.CREATED)
                     .entity("User has been added")
                     .build();
@@ -102,7 +97,7 @@ public class UserController {
     @Path("/{login}/update")
     @Produces(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin"})
-    public Response updateUser(@PathParam("login") String login, User user) {
+    public Response updateUser(@PathParam("login") String login, UserInputDto user) {
         if (login == null || login.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         }
@@ -110,12 +105,12 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given user is null").build();
         }
         try {
-            switch (userUseCases.getUserByLogin(login).getAccessLevel()) {
-                case "Admin" -> user.setAccessLevel(new Administrator(AccessLevelType.ADMINISTRATOR));
-                case "ManagerDTO" -> user.setAccessLevel(new Manager(AccessLevelType.MANAGER));
-                default -> user.setAccessLevel(new Client(AccessLevelType.CLIENT));
+            switch (userRestPorts.getUserByLogin(login).getAccessLevel()) {
+                case "Admin" -> user.setAccessLevel("Admin");
+                case "Manager" -> user.setAccessLevel("Manager");
+                default -> user.setAccessLevel("Client");
             }
-            userUseCases.updateUser(login, user);
+            userRestPorts.updateUser(login, user);
             return Response.ok()
                     .entity("User updated successfully")
                     .build();
@@ -133,7 +128,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         }
         try {
-            userUseCases.activateUser(login);
+            userRestPorts.activateUser(login);
             return Response.ok()
                     .entity("User activated")
                     .build();
@@ -151,7 +146,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         }
         try {
-            userUseCases.deactivateUser(login);
+            userRestPorts.deactivateUser(login);
             return Response.ok()
                     .entity("User deactivated")
                     .build();
