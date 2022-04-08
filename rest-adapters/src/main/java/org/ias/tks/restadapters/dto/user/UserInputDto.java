@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.ias.tks.restadapters.dto.ModelDTO;
 
+import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -36,6 +38,11 @@ public class UserInputDto extends ModelDTO {
         this.password = password;
         this.email = email;
 
+    }
+
+    @Override
+    public UUID getId() {
+        return super.getId();
     }
 
 }

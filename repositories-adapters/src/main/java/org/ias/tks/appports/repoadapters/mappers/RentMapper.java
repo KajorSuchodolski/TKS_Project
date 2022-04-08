@@ -4,12 +4,12 @@ package org.ias.tks.appports.repoadapters.mappers;
 import org.ias.tks.appcore.domainmodel.model.rent.Rent;
 import org.ias.tks.appports.repoadapters.entities.rent.RentEntity;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApplicationScoped
+@RequestScoped
 public class RentMapper {
 
     @Inject

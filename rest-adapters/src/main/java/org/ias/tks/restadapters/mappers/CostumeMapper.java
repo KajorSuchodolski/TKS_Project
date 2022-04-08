@@ -3,12 +3,12 @@ package org.ias.tks.restadapters.mappers;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.restadapters.dto.costume.CostumeDTO;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
 import java.util.List;
 
 //TODO needs to be refactored
-@ApplicationScoped
+@RequestScoped
 public class CostumeMapper {
 
     public Costume mapToCostume(CostumeDTO costumeDTO){
@@ -34,7 +34,7 @@ public class CostumeMapper {
         );
         //temporary conditional
         if(costume.getId() != null) {
-            costume.setId(costume.getId());
+            costumeDTO.setId(costume.getId());
         }
         return costumeDTO;
     }

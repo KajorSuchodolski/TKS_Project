@@ -22,45 +22,46 @@ public class UserRestAdapter implements UserRestPorts {
 
     @Override
     public void addUser(UserInputDto user) {
+        userUseCases.addUser(userMapper.mapToUser(user));
     }
 
     @Override
     public UserOutputDto getUserById(UUID id) {
-        return null;
+        return userMapper.mapToUserDTO(userUseCases.getUserById(id));
     }
 
     @Override
     public UserOutputDto getUserByLogin(String login) {
-        return null;
+        return userMapper.mapToUserDTO(userUseCases.getUserByLogin(login));
     }
 
     @Override
     public List<UserOutputDto> getAll() {
-        return null;
+        return userMapper.mapToUserDTOList(userUseCases.getAll());
     }
 
     @Override
     public UserOutputDto findByLoginPasswordActive(String login, String password) {
-        return null;
+        return userMapper.mapToUserDTO(userUseCases.findByLoginPasswordActive(login, password));
     }
 
     @Override
     public List<UserOutputDto> searchUsersByLogin(String login) {
-        return null;
+        return userMapper.mapToUserDTOList(userUseCases.searchUsersByLogin(login));
     }
 
     @Override
     public void updateUser(String login, UserInputDto user) {
-
+        userUseCases.updateUser(login, userMapper.mapToUser(user));
     }
 
     @Override
     public void activateUser(String login) {
-
+        userUseCases.activateUser(login);
     }
 
     @Override
     public void deactivateUser(String login) {
-
+        userUseCases.deactivateUser(login);
     }
 }

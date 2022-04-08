@@ -6,12 +6,12 @@ import org.ias.tks.appcore.domainmodel.model.user.access_levels.*;
 import org.ias.tks.appports.repoadapters.entities.user.UserEntity;
 import org.ias.tks.appports.repoadapters.entities.user.access_levels.*;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
 import java.util.List;
 
 
-@ApplicationScoped
+@RequestScoped
 public class UserMapper {
 
     // TODO
@@ -43,7 +43,6 @@ public class UserMapper {
         AccessLevel accessLevel = switch (userEntity.getAccessLevel()) {
             case "Admin" -> new Administrator(AccessLevelType.ADMINISTRATOR);
             case "Manager" -> new Manager(AccessLevelType.MANAGER);
-            case "Client" -> new Client(AccessLevelType.CLIENT);
             default -> new Client(AccessLevelType.CLIENT);
         };
 

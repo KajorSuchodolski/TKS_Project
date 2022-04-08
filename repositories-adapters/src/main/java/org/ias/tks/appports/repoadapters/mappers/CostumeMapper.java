@@ -3,17 +3,15 @@ package org.ias.tks.appports.repoadapters.mappers;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
-import org.ias.tks.appcore.domainmodel.model.user.User;
 import org.ias.tks.appports.repoadapters.entities.costume.CostumeEntity;
 import org.ias.tks.appports.repoadapters.entities.costume.CostumeSizeEnt;
 import org.ias.tks.appports.repoadapters.entities.costume.ForWhomEnt;
-import org.ias.tks.appports.repoadapters.entities.user.UserEntity;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApplicationScoped
+@RequestScoped
 public class CostumeMapper {
 
     public CostumeEntity mapToCostumeEntity(Costume costume) {
