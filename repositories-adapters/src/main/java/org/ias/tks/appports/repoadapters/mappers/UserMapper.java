@@ -35,6 +35,7 @@ public class UserMapper {
                 accessLevel);
 
         userEntity.setId(user.getId());
+        userEntity.setActive(user.isActive());
         return userEntity;
     }
 
@@ -55,6 +56,7 @@ public class UserMapper {
                 accessLevel);
 
         user.setId(userEntity.getId());
+        user.setActive(userEntity.isActive());
         return user;
     }
 
