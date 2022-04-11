@@ -1,14 +1,12 @@
-package org.ias.tks.restadapters.endpoints;//package org.ias.tks.appcore.domainmodel.endpoints;
+package org.ias.tks.restadapters.endpoints;
 
-
-//import org.ias.tks.appcore.appservices.services.CostumeService;
 
 import org.ias.tks.appcore.domainmodel.exceptions.CostumeByIdNotFound;
 import org.ias.tks.appcore.domainmodel.exceptions.CostumeCreationException;
 import org.ias.tks.appcore.domainmodel.exceptions.EntityValidationException;
+import org.ias.tks.restadapters.adapters.CostumeRestAdapter;
 import org.ias.tks.restadapters.dto.costume.CostumeDTO;
 import org.ias.tks.restadapters.mappers.CostumeMapper;
-import org.ias.tks.restadapters.ports.CostumeRestPorts;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,7 +20,7 @@ import java.util.UUID;
 public class CostumeController {
 
     @Inject
-    private CostumeRestPorts costumeRestPorts;
+    private CostumeRestAdapter costumeRestAdapter;
 
     @Inject
     private CostumeMapper costumeMapper;
@@ -32,7 +30,7 @@ public class CostumeController {
     @Produces(MediaType.APPLICATION_JSON)
     //@RolesAllowed({"Admin", "ManagerDTO"})
     public Response getAll() {
-        return Response.ok().entity(costumeRestPorts.getAll()).build();
+        return Response.ok().entity(costumeRestAdapter.getAll()).build();
     }
 
     @GET
@@ -40,7 +38,7 @@ public class CostumeController {
     @Produces(MediaType.APPLICATION_JSON)
     // @RolesAllowed({"Admin", "ManagerDTO", "ClientDTO"})
     public Response getAllRented() {
-        return Response.ok().entity(costumeRestPorts.getAllByRentStatus(true)).build();
+        return Response.ok().entity(costumeRestAdapter.getAllByRentStatus(true)).build();
     }
 
     @GET
@@ -48,7 +46,7 @@ public class CostumeController {
     @Produces(MediaType.APPLICATION_JSON)
     //@RolesAllowed({"Admin", "ManagerDTO", "ClientDTO"})
     public Response getAllAvailable() {
-        return Response.ok().entity(costumeRestPorts.getAllByRentStatus(false)).build();
+        return Response.ok().entity(costumeRestAdapter.getAllByRentStatus(false)).build();
     }
 
     @GET
@@ -60,7 +58,7 @@ public class CostumeController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Age parameter is empty").build();
         }
         try {
-            return Response.ok().entity(costumeRestPorts.getAllCostumesByAge(age)).build();
+            return Response.ok().entity(costumeRestAdapter.getAllCostumesByAge(age)).build();
         } catch (EntityValidationException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
@@ -75,7 +73,7 @@ public class CostumeController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty").build();
         }
         try {
-            CostumeDTO costumeFound = costumeRestPorts.getCostumeById(UUID.fromString(uuid));
+            CostumeDTO costumeFound = costumeRestAdapter.getCostumeById(UUID.fromString(uuid));
             return Response.ok(costumeFound).build();
 //                    .header("Etag", SignatureVerifier.calculateEntitySignature(costumeFound)).build();
         } catch (CostumeByIdNotFound e) {
@@ -91,7 +89,7 @@ public class CostumeController {
         if (name == null || name.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Name parameter is empty").build();
         }
-        return Response.ok().entity(costumeRestPorts.searchAllCostumesByName(name)).build();
+        return Response.ok().entity(costumeRestAdapter.searchAllCostumesByName(name)).build();
     }
 
     @GET
@@ -106,7 +104,7 @@ public class CostumeController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Size parameter is empty").build();
         }
         try {
-            return Response.ok().entity(costumeRestPorts.getAllCostumesByParams(age, size)).build();
+            return Response.ok().entity(costumeRestAdapter.getAllCostumesByParams(age, size)).build();
         } catch (EntityValidationException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
@@ -122,7 +120,7 @@ public class CostumeController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given costume is null").build();
         }
         try {
-            costumeRestPorts.addCostume(costumeDto);
+            costumeRestAdapter.addCostume(costumeDto);
             return Response.ok(Response.Status.CREATED)
                     .entity("Costume added!")
                     .build();
@@ -149,7 +147,7 @@ public class CostumeController {
 //            if (!SignatureVerifier.verifyEntityIntegrity(etag, costume)) {
 //                throw new IllegalArgumentException("Trying to modify the wrong costume!");
 //            }
-            costumeRestPorts.updateCostume(UUID.fromString(id), costumeDto);
+            costumeRestAdapter.updateCostume(UUID.fromString(id), costumeDto);
             return Response.ok(Response.Status.OK)
                     .entity("Costume updated successfully")
                     .build();
@@ -207,7 +205,7 @@ public class CostumeController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty").build();
         }
         try {
-            costumeRestPorts.removeCostume(UUID.fromString(id));
+            costumeRestAdapter.removeCostume(UUID.fromString(id));
             return Response.ok(Response.Status.OK)
                     .entity("Rent removed")
                     .build();

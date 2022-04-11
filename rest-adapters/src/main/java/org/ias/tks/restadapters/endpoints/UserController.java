@@ -4,9 +4,9 @@ import org.ias.tks.appcore.domainmodel.exceptions.EntityValidationException;
 import org.ias.tks.appcore.domainmodel.exceptions.UserByIdNotFound;
 import org.ias.tks.appcore.domainmodel.exceptions.UserByLoginNotFound;
 import org.ias.tks.appcore.domainmodel.exceptions.UserCreationException;
+import org.ias.tks.restadapters.adapters.UserRestAdapter;
 import org.ias.tks.restadapters.dto.user.UserInputDto;
 import org.ias.tks.restadapters.dto.user.UserOutputDto;
-import org.ias.tks.restadapters.ports.UserRestPorts;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,13 +20,13 @@ import java.util.UUID;
 public class UserController {
 
     @Inject
-    private UserRestPorts userRestPorts;
+    private UserRestAdapter userRestAdapter;
 
     // READ
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
-        return Response.ok().entity(userRestPorts.getAll()).build();
+        return Response.ok().entity(userRestAdapter.getAll()).build();
     }
 
     @GET
@@ -38,7 +38,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty!").build();
         }
         try {
-            UserOutputDto user = userRestPorts.getUserByLogin(login);
+            UserOutputDto user = userRestAdapter.getUserByLogin(login);
             return Response.ok().entity(user).build();
         } catch (UserByLoginNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
@@ -55,7 +55,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Id parameter is empty!").build();
         }
         try {
-            return Response.ok().entity(userRestPorts.getUserById(UUID.fromString(uuid))).build();
+            return Response.ok().entity(userRestAdapter.getUserById(UUID.fromString(uuid))).build();
         } catch (UserByIdNotFound e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
@@ -69,7 +69,7 @@ public class UserController {
         if (login == null || login.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty!").build();
         }
-        return Response.ok().entity(userRestPorts.searchUsersByLogin(login)).build();
+        return Response.ok().entity(userRestAdapter.searchUsersByLogin(login)).build();
     }
 
     // CREATE
@@ -82,7 +82,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given user is null").build();
         }
         try {
-            userRestPorts.addUser(user);
+            userRestAdapter.addUser(user);
             return Response.ok(Response.Status.CREATED)
                     .entity("User has been added")
                     .build();
@@ -105,12 +105,12 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Given user is null").build();
         }
         try {
-            switch (userRestPorts.getUserByLogin(login).getAccessLevel()) {
+            switch (userRestAdapter.getUserByLogin(login).getAccessLevel()) {
                 case "Admin" -> user.setAccessLevel("Admin");
                 case "Manager" -> user.setAccessLevel("Manager");
                 default -> user.setAccessLevel("Client");
             }
-            userRestPorts.updateUser(login, user);
+            userRestAdapter.updateUser(login, user);
             return Response.ok()
                     .entity("User updated successfully")
                     .build();
@@ -128,7 +128,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         }
         try {
-            userRestPorts.activateUser(login);
+            userRestAdapter.activateUser(login);
             return Response.ok()
                     .entity("User activated")
                     .build();
@@ -146,7 +146,7 @@ public class UserController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
         }
         try {
-            userRestPorts.deactivateUser(login);
+            userRestAdapter.deactivateUser(login);
             return Response.ok()
                     .entity("User deactivated")
                     .build();
