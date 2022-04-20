@@ -21,21 +21,15 @@ public class UserMapper {
                 user.getLogin(),
                 user.getEmail(),
                 user.isActive());
-
         userOutputDto.setId(user.getId());
+        userOutputDto.setAccessLevel(user.getAccessLevel());
         return userOutputDto;
     }
 
     public UserInputDto mapToUserInputDTO(User user) {
 
         // TODO
-        UserInputDto userInputDto = new UserInputDto(
-                user.getFirstName(),
-                user.getLastName(),
-                user.getLogin(),
-                user.getPassword(),
-                user.getEmail());
-
+        UserInputDto userInputDto = new UserInputDto(user.getFirstName(),user.getLastName(),user.getLogin(),user.getPassword(),user.getEmail(),user.getAccessLevel());
         userInputDto.setId(user.getId());
         return userInputDto;
     }
@@ -59,7 +53,6 @@ public class UserMapper {
         user.setId(userInputDto.getId());
         return user;
     }
-
 
 
     public List<UserOutputDto> mapToUserDTOList(List<User> list) {

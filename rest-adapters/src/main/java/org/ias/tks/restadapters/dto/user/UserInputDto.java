@@ -30,13 +30,14 @@ public class UserInputDto extends ModelDTO {
 
     private String password;
 
-    public UserInputDto(String firstName, String lastName, String login, String password, String email) {
+    public UserInputDto(String firstName, String lastName, String login, String password, String email, String accessLevel) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.password = password;
         this.email = email;
+        this.accessLevel = accessLevel;
 
     }
 
