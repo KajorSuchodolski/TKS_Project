@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+    display: grid;
+    grid-template-columns: 0.8fr 2fr 0.8fr;
+    grid-template-rows: 0.4fr 2.2fr 0.2fr;
+    gap: 0 0;
+    grid-template-areas:
+    "header header header"
+    "sidebar content content"
+    "footer footer footer";
+    /*width: 100%;*/
+}

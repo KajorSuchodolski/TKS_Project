@@ -1,0 +1,15 @@
+.sidebar {
+    grid-area: sidebar;
+    background-color: whitesmoke;
+    border-radius: 60px;
+    border-width: 5px;
+    border-color: black;
+    display: flex;
+    margin-right: 20px;
+    justify-content: center;
+    /*top: 50px;*/
+    margin: 40px 30px;
+    padding-top: 30px;
+
+}
+

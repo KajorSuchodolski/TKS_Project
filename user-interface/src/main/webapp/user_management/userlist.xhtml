@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <h:outputStylesheet name="css/table.css"/>
+        <h:outputStylesheet name="css/footer.css"/>
+        <h:outputStylesheet name="css/header.css"/>
+    </h:head>
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml">
+            <ui:define name="header">
+                <ui:include src="/templates/header.xhtml"></ui:include>
+            </ui:define>
+            <ui:define name="sidebar">
+                <ui:include src="/templates/sidebar.xhtml"/>
+            </ui:define>
+            <ui:define name = "content">
+                <div class="content">
+                <h3>${msg['userlist.userlist']}</h3>
+                <h:form id="searchUser">
+                    Login:
+                        <h:inputText id="loginSearchInput" value="#{userListBean.getLogin}"
+                                            requiredMessage="Login required">
+                        <p:ajax update="userTable" event="keyup" for="loginSearchInput" listener="#{userListBean.init()}"/>
+                    </h:inputText>
+                    <h:dataTable id="userTable" value="#{userListBean.allUsers}" var="user" styleClass="table" headerClass="tableHeader"
+                                 rowClasses = "tableOddRow,tableEvenRow">
+                        <h:column>
+                            <f:facet name = "header">Id</f:facet>
+                            <h:outputText value="#{user.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['userlist.active']}</f:facet>
+                            <h:outputText value="#{user.active}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Login</f:facet>
+                            <h:outputText value="#{user.login}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['userlist.firstName']}</f:facet>
+                            <h:outputText value="#{user.firstName}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['userlist.lastName']}</f:facet>
+                            <h:outputText value="#{user.lastName}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Email</f:facet>
+                            <h:outputText value="#{user.email}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['userlist.userAccountAction']}</f:facet>
+                            <h:commandButton action = "#{userListBean.activateUser(user.login)}" value = "${msg['userlist.activate']}"/>
+                            <h:commandButton action = "#{userListBean.deactivateUser(user.login)}" value = "${msg['userlist.deactivate']}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['global.details']}</f:facet>
+                            <h:commandButton action = "#{userDetailsBean.getAllRents(user.login)}" value = "${msg['global.details']}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['global.update']}</f:facet>
+                            <h:commandButton action = "#{userListBean.goUpdate(user.login)}" value = "${msg['global.update']}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+                <br/>
+                <h3>${msg['userlist.getSpecificUser']}</h3>
+                <h:form>
+                    Login: <h:inputText id="getLoginInput" value = "#{userListBean.getLogin}"
+                                        required="true" requiredMessage="Login required">
+                    <f:validateRegex pattern="[a-z]?(.|\-)+(\w+|\b)"/>
+                    <f:validateLength minimum="5" maximum="16"/>
+                    </h:inputText>
+                    <h:message for="getLoginInput" style="color: red"/>
+                    <br/>
+
+                    <h:commandButton action = "#{userListBean.getByLogin}" value = "Confirm"/>
+                    <br/>
+                </h:form>
+                ${msg['userlist.specificUserResult']} <h:outputText value = "#{userListBean.foundLoginUser}"/>
+
+                <h3>${msg['userlist.getSpecificUserId']}</h3>
+                <h:form>
+                    ID: <h:inputText id="getIdUserInput" value = "#{userListBean.getId}"
+                                        required="true" requiredMessage="ID required">
+                    <f:validateRegex pattern="\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b"/>
+                    </h:inputText>
+                    <h:message for="getIdUserInput" style="color: red"/>
+                    <br/>
+
+                    <h:commandButton action = "#{userListBean.getById}" value = "${msg['global.confirmButton']}"/>
+                    <br/>
+                </h:form>
+                ${msg['userlist.specificUserIdResult']} <h:outputText value = "#{userListBean.foundIdUser}"/>
+                <br/>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</ui:composition>

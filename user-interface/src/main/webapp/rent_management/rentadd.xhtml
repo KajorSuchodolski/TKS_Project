@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<!--    funkcję listowania powinien spelniac panel boczny - ktory zostanie dodany-->
+    <h:head>
+        <h:outputStylesheet name="css/table.css"/>
+    </h:head>
+    <h:body>
+        <h2>${msg['rentlist.addRent']}</h2>
+        <ui:composition template = "../templates/common.xhtml">
+            <ui:define name="header">
+                <ui:include src="/templates/header.xhtml"></ui:include>
+            </ui:define>
+            <ui:define name="sidebar">
+                <ui:include src="/templates/sidebar.xhtml"/>
+            </ui:define>
+            <ui:define name = "content">
+                <div class="content">
+                <h:form>
+                    <h2>${msg['rentlist.avaliblecostumes']}</h2>
+                    <h:dataTable value="#{rentCreateBean.allAvailableCostumes}" var="availableCostume" styleClass="table" headerClass="tableHeader"
+                                 rowClasses = "tableOddRow,tableEvenRow">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Select" />
+                            </f:facet>
+                            <h:selectBooleanCheckbox value="#{availableCostume.selected}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">Id</f:facet>
+                            <h:outputText value="#{availableCostume.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.costumeNames']}</f:facet>
+                            <h:outputText value="#{availableCostume.name}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.costumeSize']}</f:facet>
+                            <h:outputText value="#{availableCostume.costumeSize}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.forWhom']}</f:facet>
+                            <h:outputText value="#{availableCostume.forWhom}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.price']}</f:facet>
+                            <h:outputText value="#{availableCostume.price}"/>
+                        </h:column>
+                    </h:dataTable>
+                    ${msg['rentlist.userRent']}
+                    <h:selectOneMenu value="#{rentCreateBean.loginCreation}">
+                        <f:selectItems value="#{rentCreateBean.userList}" var="currentUser" itemValue="#{currentUser.login}"
+                                       itemLabel="#{currentUser.login}"/>
+                    </h:selectOneMenu>
+<!--                    <h:inputText id="loginInput" value = "#{rentBean.loginCreation}"-->
+<!--                                       required="true" requiredMessage="Login required" validatorMessage="Login is invalid">-->
+<!--                    <f:validateRegex pattern="[a-z]?(.|\-)+(\w+|\b)"/>-->
+<!--                    <f:validateLength minimum="5" maximum="16"/>-->
+<!--&lt;!&ndash;                    </h:inputText>&ndash;&gt;-->
+
+<!--                    <h:message for="loginInput" style="color: red"/>-->
+                    <br/>
+                    ${msg['rentlist.rentDate']} <h:inputText id="dateInput" value = "#{rentCreateBean.dateCreation}"
+                                       validator="#{rentCreateBean.validateDate}"
+                                       pt:placeholder="YYYY-MM-DD"/>
+                    <h:message for="dateInput" style="color: red"/>
+                    <br/>
+                    <h:commandButton action = "#{rentCreateBean.createRent}" value = "${msg['global.confirmButton']}"/>
+                </h:form>
+                </div>
+                <ui:define name="footer"/>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</ui:composition>
+

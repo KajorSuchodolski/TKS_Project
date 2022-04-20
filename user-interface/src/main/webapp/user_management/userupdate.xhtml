@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml">
+            <ui:define name="header">
+                <ui:include src="/templates/header.xhtml"></ui:include>
+            </ui:define>
+            <ui:define name="sidebar">
+                <ui:include src="/templates/sidebar.xhtml"/>
+            </ui:define>
+            <ui:define name = "content">
+                <div class="content">
+                <h:outputText value="#{userUpdateBean.userLogin}"/>
+                <h:form>
+
+                    ${msg['userlist.firstName']} <h:inputText id="firstNameInput" value = "#{userUpdateBean.updatedUser.firstName}"
+                                             required="false" requiredMessage="First name required" validatorMessage="First name is invalid">
+                    <f:validateRegex pattern="^[a-zA-Z]+(-[a-zA-Z]+)??$"/>
+                    <f:validateLength minimum="3" maximum="26"/>
+                    <p:ajax update="messageFirstName" event="keyup"/>
+                </h:inputText>
+                    <h:message id="messageFirstName" for="firstNameInput" style="color: red"/>
+                    <br/>
+
+                    ${msg['userlist.lastName']} <h:inputText id="lastNameInput" value = "#{userUpdateBean.updatedUser.lastName}"
+                                            required="false" requiredMessage="Last name required" validatorMessage="Last name is invalid">
+                    <f:validateRegex pattern="^[a-zA-Z]+(-[a-zA-Z]+)??$"/>
+                    <f:validateLength minimum="3" maximum="26"/>
+                    <p:ajax update="messageLastName" event="keyup"/>
+                </h:inputText>
+                    <h:message id="messageLastName" for="lastNameInput" style="color: red"/>
+                    <br/>
+
+                    Email: <h:inputText id="emailInput" value = "#{userUpdateBean.updatedUser.email}"
+                                        required="false" requiredMessage="Email required" validatorMessage="Email is invalid">
+                    <f:validateRegex pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)"/>
+                    <p:ajax update="messageEmail" event="keyup"/>
+                </h:inputText>
+                    <h:message id="messageEmail" for="emailInput" style="color: red"/>
+                    <br/>
+
+                    ${msg['userlist.password']} <h:inputSecret id="passwordInput" value = "#{userUpdateBean.updatedUser.password}"
+                                           required="false" requiredMessage="Password required" validatorMessage="Password is invalid">
+                    <f:validateRegex pattern="[a-z]?(.|\-)+(\w+|\b)"/>
+                    <p:ajax update="messagePassword" event="keyup"/>
+                </h:inputSecret>
+                    <h:message id="messagePassword" for="passwordInput" style="color: red"/>
+                    <br/>
+
+                    <h:commandButton action = "#{userUpdateBean.updateUser()}" value = "${msg['global.confirmButton']}"/>
+                    <br/>
+                    <br/>
+                </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</ui:composition>

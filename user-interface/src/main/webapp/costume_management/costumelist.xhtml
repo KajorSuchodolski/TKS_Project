@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+<!--    // funkcję listowania powinien spelniac panel boczny - ktory zostanie dodany-->
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml">
+            <ui:define name="header">
+                <ui:include src="/templates/header.xhtml"></ui:include>
+            </ui:define>
+            <ui:define name="sidebar">
+                <ui:include src="/templates/sidebar.xhtml"/>
+            </ui:define>
+            <ui:define name = "content">
+                <h3>${msg['header.listCostume']}</h3>
+                <h:form>
+                    ${msg['costumelist.name']} <h:inputText value = "#{costumeListBean.searchName}">
+                    <p:ajax update="costumeTable" event="keyup" listener="#{costumeListBean.init()}"/>
+                </h:inputText>
+                    <h:dataTable id="costumeTable" value="#{costumeListBean.allCostumes}" var="costume" styleClass="table" headerClass="tableHeader"
+                                 rowClasses = "tableOddRow,tableEvenRow">
+                        <h:column>
+                            <f:facet name = "header">Id</f:facet>
+                            <h:outputText value="#{costume.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['costumelist.rented']}</f:facet>
+                            <h:outputText value="#{costume.rented}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.costumeSize']}</f:facet>
+                            <h:outputText value="#{costume.costumeSize}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.forWhom']}</f:facet>
+                            <h:outputText value="#{costume.forWhom}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['costumelist.nameTable']}</f:facet>
+                            <h:outputText value="#{costume.name}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['costumelist.priceTable']}</f:facet>
+                            <h:outputText value="#{costume.price}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['global.details']}</f:facet>
+                            <h:commandButton action = "#{costumeDetailsBean.getAllRents(costume.id)}" value = "${msg['global.details']}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['global.update']}</f:facet>
+                            <h:commandButton action = "#{costumeListBean.goUpdate(costume.id)}" value = "${msg['global.update']}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['costumelist.deleteCostume']}</f:facet>
+                            <p:commandButton value="Delete" id="showDialog" type="button" onclick="PF('dialog').show();">
+
+                           </p:commandButton>
+                            <p:dialog header="U sure u want to delete?" widgetVar="dialog" modal="true" height="40">
+                                <h:outputText style="color: red; font-weight: bold" value="This item will be removed: ${costume.id}"/>
+                                <br/>
+                                <br/>
+                                <h:commandButton action = "#{costumeListBean.deleteCostume()}" value = "${msg['global.confirmButton']}">
+                                    <f:param value="#{costume.id}" name="deleted"/>
+                                </h:commandButton>
+                            </p:dialog>
+
+                        </h:column>
+                    </h:dataTable>
+
+                </h:form>
+                <h3>${msg['costumelist.findCostumeId']}</h3>
+                <h:form>
+                    Id: <h:inputText value = "#{costumeListBean.getId}"/>
+                    <br/>
+                    <h:commandButton action = "#{costumeListBean.getCostumeById}" value = "${msg['global.confirmButton']}"/>
+                </h:form>
+                ${msg['costumelist.foundCostumeId']}: <h:outputText value = "#{costumeListBean.gotById}"/>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</ui:composition>

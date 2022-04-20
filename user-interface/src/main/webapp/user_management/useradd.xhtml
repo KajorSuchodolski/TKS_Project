@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml">
+            <ui:define name="header">
+                <ui:include src="/templates/header.xhtml"></ui:include>
+            </ui:define>
+            <ui:define name="sidebar">
+                <ui:include src="/templates/sidebar.xhtml"/>
+            </ui:define>
+            <ui:define name = "content">
+                <h:form>
+
+                    ${msg['userlist.firstName']} <h:inputText id="firstNameInput" value = "#{userCreateBean.createdUser.firstName}"
+                                             required="true" requiredMessage="First name required" validatorMessage="First name is invalid">
+                    <f:validateRegex pattern="^[a-zA-Z]+(-[a-zA-Z]+)??$"/>
+                    <f:validateLength minimum="3" maximum="26"/>
+                    <p:ajax update="messageFirstName" event="keyup"/>
+                </h:inputText>
+                    <h:message id="messageFirstName" for="firstNameInput" style="color: red"/>
+                    <br/>
+
+                    ${msg['userlist.lastName']} <h:inputText id="lastNameInput" value = "#{userCreateBean.createdUser.lastName}"
+                                            required="true" requiredMessage="Last name required" validatorMessage="Last name is invalid">
+                    <f:validateRegex pattern="^[a-zA-Z]+(-[a-zA-Z]+)??$"/>
+                    <f:validateLength minimum="3" maximum="26"/>
+                    <p:ajax update="messageLastName" event="keyup"/>
+                </h:inputText>
+                    <h:message id="messageLastName" for="lastNameInput" style="color: red"/>
+                    <br/>
+
+                    Login: <h:inputText id="loginInput" value = "#{userCreateBean.createdUser.login}"
+                                        required="true" requiredMessage="Login required">
+                    <f:validateRegex pattern="[a-z]?(.|\-)+(\w+|\b)"/>
+                    <f:validateLength minimum="5" maximum="16"/>
+                    <p:ajax update="messageLogin" event="keyup"/>
+                </h:inputText>
+                    <h:message id="messageLogin" for="loginInput" style="color: red"/>
+                    <br/>
+
+                    Email: <h:inputText id="emailInput" value = "#{userCreateBean.createdUser.email}"
+                                        required="true" requiredMessage="Email required" validatorMessage="Email is invalid">
+                    <f:validateRegex pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)"/>
+                    <p:ajax update="messageEmail" event="keyup"/>
+                </h:inputText>
+                    <h:message id="messageEmail" for="emailInput" style="color: red"/>
+                    <br/>
+
+                    ${msg['userlist.password']} <h:inputSecret id="passwordInput" value = "#{userCreateBean.createdUser.password}"
+                                           required="true" requiredMessage="Password required" validatorMessage="Password is invalid">
+                    <f:validateRegex pattern="[a-z]?(.|\-)+(\w+|\b)"/>
+                    <p:ajax update="messagePassword" event="keyup"/>
+                </h:inputSecret>
+                    <h:message id="messagePassword" for="passwordInput" style="color: red"/>
+                    <br/>
+
+
+                    <h:commandButton action = "#{userCreateBean.createUser}" value = "${msg['global.confirmButton']}"/>
+
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</ui:composition>

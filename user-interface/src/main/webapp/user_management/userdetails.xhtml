@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml">
+            <ui:define name="header">
+                <ui:include src="/templates/header.xhtml"></ui:include>
+            </ui:define>
+            <ui:define name="sidebar">
+                <ui:include src="/templates/sidebar.xhtml"/>
+            </ui:define>
+            <ui:define name = "content">
+                <div class="content">
+                <c:choose>
+                    <c:when test="#{userDetailsBean.userRents.size() != 0}">
+                <h3>${msg['userlist.userDetails']} ${userDetailsBean.userDetailsLogin}</h3>
+                <h:form>
+                    <h:dataTable value="#{userDetailsBean.userRents}" var="rent" styleClass="table" headerClass="tableHeader"
+                                 rowClasses = "tableOddRow,tableEvenRow">
+                        <h:column>
+                            <f:facet name = "header">Id</f:facet>
+                            <h:outputText value="#{rent.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.beginTime']}</f:facet>
+                            <h:outputText value="#{rent.beginTime}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.endTime']}</f:facet>
+                            <c:choose>
+                                <c:when test="#{rent.endTime}">
+                                    <h:outputText value="#{rent.endTime}"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <h:outputText value="${msg['rentlist.endTimeNone']}"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.userLogin']}</f:facet>
+                            <h:outputText value="#{rent.user.login}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.costumeNames']}</f:facet>
+                            <h:dataTable value="#{rent.costumeName}" var="name">
+                                <h:column>
+                                    <h:outputText value="#{name}"/>
+                                </h:column>
+                            </h:dataTable>
+                        </h:column>
+                        <h:column>
+                            <f:facet name = "header">${msg['rentlist.price']}</f:facet>
+                            <h:outputText value="#{rent.price}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+                <br/>
+                <h:form>
+                    <h:commandButton action="#{userDetailsBean.goBack}" value="${msg['global.goBack']}"/>
+                </h:form>
+                    </c:when>
+                    <c:otherwise>
+                        <h3>${msg['userlist.userDetails']} <h:outputText value="#{userDetailsBean.userDetailsLogin}"/> </h3>
+                        <h:outputText value="${msg['userlist.userDetailsNotFound']}"/>
+                        <br/>
+                        <h:form>
+                            <h:commandButton action="#{userDetailsBean.goBack}" value="${msg['global.goBack']}"/>
+                        </h:form>
+                    </c:otherwise>
+                </c:choose>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</ui:composition>
