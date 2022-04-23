@@ -3,12 +3,15 @@ package org.ias.tks.restadapters.endpoints;
 
 import org.ias.tks.appcore.domainmodel.exceptions.*;
 import org.ias.tks.restadapters.adapters.RentRestAdapter;
+import org.ias.tks.restadapters.dto.rent.RentInputDTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,18 +27,12 @@ public class RentController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 //    @RolesAllowed({"Admin", "ClientDTO"})
-    public Response addRent(@QueryParam("login") String login, @QueryParam("date") String date, List<UUID> costumeIds) {
-        if (login == null || login.trim().equals("")) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
-        }
-        if (date == null || date.trim().equals("")) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Date parameter is empty").build();
-        }
-        if (costumeIds == null || costumeIds.isEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Given list is empty").build();
-        }
+    public Response addRent(@Valid RentInputDTO rentInputDTO) {
         try {
-            rentRestAdapter.addRent(login, costumeIds, date);
+            // it is just sad, like whole project :)
+            List<UUID> xd = new ArrayList<>();
+            xd.add(rentInputDTO.getCostumeUUID());
+            rentRestAdapter.addRent(rentInputDTO.getLogin(),xd,rentInputDTO.getDate().toString());
             return Response.ok(Response.Status.CREATED)
                     .entity("Rent added successfully")
                     .build();
@@ -55,14 +52,6 @@ public class RentController {
     public Response getAll() {
         return Response.ok().entity(rentRestAdapter.getAll()).build();
     }
-
-//    @GET
-//    @Path("/all-current-rents")
-//    @Produces(MediaType.APPLICATION_JSON)
-////    @RolesAllowed({"Admin", "ClientDTO"})
-//    public Response getAllCurrent() {
-//        return Response.ok().entity(rentRestPorts.getAllCurrent()).build();
-//    }
 
     @GET
     @Path("/{id}")
@@ -128,26 +117,6 @@ public class RentController {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
     }
-
-
-//    // DELETE
-//    @DELETE
-//    @Path("/{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-////    @RolesAllowed({"Admin", "ClientDTO"})
-//    public Response deleteRent(@PathParam("id") String rentId) {
-//        if (rentId == null || rentId.trim().equals("")) {
-//            return Response.status(Response.Status.BAD_REQUEST).entity("RentID parameter is empty").build();
-//        }
-//        try {
-//            rentRestPorts.removeRent(UUID.fromString(rentId));
-//            return Response.ok(Response.Status.OK)
-//                    .entity("Rent removed successfully")
-//                    .build();
-//        } catch (RentByIdNotFound e) {
-//            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-//        }
-//    }
 
     /*
      *

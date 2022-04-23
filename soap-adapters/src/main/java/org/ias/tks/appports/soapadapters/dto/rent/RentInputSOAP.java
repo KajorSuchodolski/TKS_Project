@@ -1,42 +1,37 @@
 package org.ias.tks.appports.soapadapters.dto.rent;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.ias.tks.appports.soapadapters.dto.ModelDTO;
-import org.ias.tks.appports.soapadapters.dto.costume.CostumeInputSOAP;
-import org.ias.tks.appports.soapadapters.dto.user.UserInputSOAP;
 
 
-import javax.xml.bind.annotation.XmlSchemaType;
+
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 
-
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RentOutputSOAP", propOrder = {
+        "login",
+        "costumeUUID",
+        "beginTime",
+})
 public class RentInputSOAP extends ModelDTO {
 
-    private String userUUID;
+    private String login;
     private String costumeUUID;
-    private double price;
-    @XmlSchemaType(name = "date")
     private LocalDate beginTime;
-    @XmlSchemaType(name = "date")
-    private LocalDate endTime;
 
-    public RentInputSOAP(String userUUID, String costumeUUID, double price, LocalDate beginTime) {
-        this.userUUID = userUUID;
+    public RentInputSOAP(String login, String costumeUUID, LocalDate beginTime) {
+        this.login = login;
         this.costumeUUID = costumeUUID;
-        this.price = price;
         this.beginTime = beginTime;
-    }
-
-    @Override
-    public String getId() {
-        return super.getId();
     }
 
 

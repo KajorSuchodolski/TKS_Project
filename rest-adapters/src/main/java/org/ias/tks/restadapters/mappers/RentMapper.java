@@ -30,27 +30,6 @@ public class RentMapper {
         return rentOutputDTO;
     }
 
-    public Rent mapToRent(RentInputDTO rentInputDTO) {
-
-        Rent rent = new Rent(
-                userMapper.mapToUser(rentInputDTO.getUser()),
-                costumeMapper.mapToCostumeList(rentInputDTO.getCostumes()),
-                rentInputDTO.getPrice(),
-                rentInputDTO.getBeginTime()
-        );
-        rent.setId(rentInputDTO.getId());
-        return rent;
-    }
-
-    public List<Rent> mapToRentList(List<RentInputDTO> rentInputDTOS) {
-        List<Rent> list = new ArrayList<>();
-
-        for (RentInputDTO rentInputDTO : rentInputDTOS) {
-            list.add(mapToRent(rentInputDTO));
-        }
-        return list;
-    }
-
     public List<RentOutputDTO> mapToRentDTOList(List<Rent> list) {
         List<RentOutputDTO> listEntity = new ArrayList<>();
         for (Rent rent : list) {
