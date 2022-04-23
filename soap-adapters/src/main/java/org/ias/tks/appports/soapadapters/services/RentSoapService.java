@@ -14,7 +14,7 @@ public class RentSoapService {
     @Inject
     private RentSOAPAdapter rentSOAPAdapter;
 
-//    public Response addRent(@QueryParam("login") String login, @QueryParam("date") String date, List<UUID> costumeIds) {
+    //    public Response addRent(@QueryParam("login") String login, @QueryParam("date") String date, List<UUID> costumeIds) {
 //        if (login == null || login.trim().equals("")) {
 //            return Response.status(Response.Status.BAD_REQUEST).entity("Login parameter is empty").build();
 //        }
@@ -42,10 +42,11 @@ public class RentSoapService {
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
 ////    @RolesAllowed({"Admin", "ClientDTO"})
+
     public List<RentOutputSOAP> getAll() {
         return rentSOAPAdapter.getAll();
     }
-//
+
 //
 //
 //    @GET

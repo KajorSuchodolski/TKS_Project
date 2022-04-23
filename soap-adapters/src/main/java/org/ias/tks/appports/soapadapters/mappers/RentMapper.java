@@ -36,43 +36,18 @@ public class RentMapper {
     @Inject
     private CostumeSOAPAdapter costumeSOAPAdapter;
 
+
     public RentOutputSOAP mapToRentSOAP(Rent rent) {
         RentOutputSOAP rentOutputSOAP = new RentOutputSOAP(
                 userMapper.mapToUserOutputSOAP(rent.getUser()),
                 costumeMapper.mapToCostumeSOAPList(rent.getCostumes()),
                 rent.getPrice(),
-                rent.getBeginTime()
+                rent.getBeginTime(),
+                rent.getEndTime()
         );
 
         rentOutputSOAP.setId(rent.getId().toString());
         return rentOutputSOAP;
-    }
-
-    public Rent mapToRent(RentInputSOAP rentInputSOAP) {
-
-        UserInputSOAP user = userSOAPAdapter.getUserByIdXD(UUID.fromString(rentInputSOAP.getUserUUID()));
-        CostumeOutputSOAP costume = costumeSOAPAdapter.getCostumeById(UUID.fromString(rentInputSOAP.getCostumeUUID()));
-
-        List<Costume> list = new ArrayList<>();
-        list.add(costumeMapper.mapToCostume(costume));
-
-        Rent rent = new Rent(
-                userMapper.mapToUser(user),
-                list,
-                rentInputSOAP.getPrice(),
-                rentInputSOAP.getBeginTime()
-        );
-        rent.setId(UUID.fromString(rentInputSOAP.getId()));
-        return rent;
-    }
-
-    public List<Rent> mapToRentList(List<RentInputSOAP> rentInputSOAPS) {
-        List<Rent> list = new ArrayList<>();
-
-        for (RentInputSOAP rentInputSOAP : rentInputSOAPS) {
-            list.add(mapToRent(rentInputSOAP));
-        }
-        return list;
     }
 
     public List<RentOutputSOAP> mapToRentSOAPList(List<Rent> list) {

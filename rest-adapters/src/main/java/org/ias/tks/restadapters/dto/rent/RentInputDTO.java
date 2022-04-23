@@ -7,6 +7,7 @@ import org.ias.tks.restadapters.dto.ModelDTO;
 import org.ias.tks.restadapters.dto.costume.CostumeDTO;
 import org.ias.tks.restadapters.dto.user.UserInputDto;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -16,17 +17,18 @@ import java.util.UUID;
 @NoArgsConstructor
 public class RentInputDTO extends ModelDTO {
 
-    private UserInputDto user;
-    private List<CostumeDTO> costumes;
-    private double price;
-    private LocalDate beginTime;
-    private LocalDate endTime;
+    @NotNull
+    private String login;
+    @NotNull
+    private UUID costumeUUID;
+    @NotNull
+    private LocalDate date;
 
-    public RentInputDTO(UserInputDto user, List<CostumeDTO> costumes, double price, LocalDate beginTime) {
-        this.user = user;
-        this.costumes = costumes;
-        this.price = price;
-        this.beginTime = beginTime;
+
+    public RentInputDTO(String login, UUID costumesUUID, LocalDate date) {
+        this.login = login;
+        this.costumeUUID = costumesUUID;
+        this.date = date;
     }
 
     @Override
