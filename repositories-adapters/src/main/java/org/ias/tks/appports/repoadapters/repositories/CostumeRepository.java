@@ -44,13 +44,14 @@ public class CostumeRepository extends AbstractRepository<CostumeEntity> {
                 "Zorro",
                 CostumeSizeEnt.XL,
                 ForWhomEnt.GIRLS,
-                100
+                110
         );
         addCostume(costume1);
         addCostume(costume2);
         addCostume(costume3);
         addCostume(costume4);
         addCostume(costume5);
+
     }
 
     // READ

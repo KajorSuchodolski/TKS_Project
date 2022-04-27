@@ -6,7 +6,7 @@ import java.util.*;
 
 public abstract class AbstractRepository<T extends Entity> {
 
-    private final Set<T> repository = new HashSet<>();
+    private final List<T> repository = new ArrayList<>();
 
 
     // C
