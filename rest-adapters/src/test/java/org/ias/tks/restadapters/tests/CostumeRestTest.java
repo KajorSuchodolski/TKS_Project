@@ -39,7 +39,6 @@ public class CostumeRestTest {
         Assertions.assertEquals("XL", costumes[0].getCostumeSize().toString());
         Assertions.assertEquals("BOYS", costumes[0].getForWhom().toString());
         Assertions.assertEquals(100, costumes[0].getPrice());
-
     }
 
     @Test
@@ -67,12 +66,16 @@ public class CostumeRestTest {
 
     @Test
     public void getByIdTest() {
+        CostumeDTO[] costumes = restClient.target(path)
+                .request(MediaType.APPLICATION_JSON)
+                .get(CostumeDTO[].class);
+        UUID id = costumes[0].getId();
 
-        CostumeDTO costume = restClient.target(path + "/" )
+        CostumeDTO costume = restClient.target(path + "/" + id)
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO.class);
 
-        System.out.println(costume);
+        Assertions.assertEquals(costume.getId(), id);
     }
 
     @Test
@@ -85,15 +88,19 @@ public class CostumeRestTest {
         Assertions.assertEquals(100, costumes[0].getPrice());
         Assertions.assertEquals(66, costumes[1].getPrice());
     }
-//
-//    @Test
-//    public void costumesByParamsTest() {
-//
-//    }
-//
-//
-//
-//
+
+    @Test
+    public void costumesByParamsTest() {
+        CostumeDTO[] costumes = restClient.target(path + "/costumes-by-params")
+                .queryParam("age","GIRLS")
+                .queryParam("size","XL")
+                .request(MediaType.APPLICATION_JSON)
+                .get(CostumeDTO[].class);
+
+        Assertions.assertEquals(66, costumes[0].getPrice());
+        Assertions.assertEquals(110, costumes[1].getPrice());
+    }
+
     @Test
     public void addCostumeTest() {
         CostumeDTO newCostume = new CostumeDTO("Fairy", CostumeSize.S, ForWhom.GIRLS, 120);
@@ -103,61 +110,55 @@ public class CostumeRestTest {
 
         Assertions.assertEquals(200, res.getStatus());
     }
-//
+
     @Test
     public void updateCostumeTest() {
         CostumeDTO[] costumes = restClient.target(path + "/search-by-name")
-                .queryParam("name","Furry")
+                .queryParam("name","Pope")
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
         UUID updatedCostumeId = costumes[0].getId();
 
-        CostumeDTO newCostume = new CostumeDTO("Cowiek Maupa", CostumeSize.M, ForWhom.MAN, 100);
+        CostumeDTO newCostume = new CostumeDTO("Hanyuu", CostumeSize.S, ForWhom.GIRLS, 90);
+
         Response res = restClient.target(path + "/" + updatedCostumeId.toString())
                 .request(MediaType.APPLICATION_JSON)
                 .put(Entity.entity(newCostume, MediaType.APPLICATION_JSON));
 
         Assertions.assertEquals(200, res.getStatus());
 
-        costumes = restClient.target(path + "/search-by-name")
+        CostumeDTO[] newCostumes = restClient.target(path + "/search-by-name")
                 .queryParam("name","Cowiek Maupa")
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
-        CostumeDTO updatedCostume = costumes[0];
+        CostumeDTO updatedCostume = newCostumes[0];
 
         Assertions.assertEquals("Cowiek Maupa", updatedCostume.getName());
-        Assertions.assertEquals(CostumeSize.M, updatedCostume.getCostumeSize());
-        Assertions.assertEquals(ForWhom.MAN, updatedCostume.getForWhom());
-        Assertions.assertEquals(100, updatedCostume.getPrice());
-
-
+        Assertions.assertEquals("S", updatedCostume.getCostumeSize().toString());
+        Assertions.assertEquals("MAN", updatedCostume.getForWhom().toString());
+        Assertions.assertEquals(90, updatedCostume.getPrice());
     }
 
     @Test
     public void deleteCostumeTest() throws InterruptedException {
-
         CostumeDTO[] costume = restClient.target(path + "/search-by-name")
-                .queryParam("name","Amogus Red Impostor")
+                .queryParam("name","Zorro")
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
-        UUID id = costume[0].getId();
 
-        Response res = restClient.target(path + "/" + id)
+        Response res = restClient.target(path + "/" + costume[0].getId())
                 .request(MediaType.APPLICATION_JSON)
                 .delete();
 
-        System.out.println(res.getStatus());
         Assertions.assertEquals(200, res.getStatus());
 
         CostumeDTO[] newCostume = restClient.target(path + "/search-by-name")
-                .queryParam("name","Amogus Red Impostor")
+                .queryParam("name","Zorro")
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
-        System.out.println(newCostume);
-        Assertions.assertNull(newCostume);
-
+        Assertions.assertTrue(newCostume.length == 0);
     }
 }

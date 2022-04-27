@@ -36,7 +36,4 @@ public class RentRestTest {
         //renty nie dzialaja, tylo
     }
 
-
-
-
 }
