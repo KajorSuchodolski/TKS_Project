@@ -5,6 +5,7 @@ import org.ias.tks.restadapters.dto.costume.CostumeDTO;
 
 import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 //TODO needs to be refactored
@@ -40,7 +41,7 @@ public class CostumeMapper {
     }
 
     public List<Costume> mapToCostumeList(List<CostumeDTO> listDTO) {
-        List<Costume> list = new ArrayList<>();
+        List<Costume> list = new LinkedList<>();
 
         for (CostumeDTO costumeEntity : listDTO) {
             list.add(mapToCostume(costumeEntity));
@@ -49,7 +50,7 @@ public class CostumeMapper {
     }
 
     public List<CostumeDTO> mapToCostumeDTOList(List<Costume> list) {
-        List<CostumeDTO> listDTO = new ArrayList<>();
+        List<CostumeDTO> listDTO = new LinkedList<>();
         for (Costume costume : list) {
             listDTO.add(mapToCostumeDTO(costume));
         }

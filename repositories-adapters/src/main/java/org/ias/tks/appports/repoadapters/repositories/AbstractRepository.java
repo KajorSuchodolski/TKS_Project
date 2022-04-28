@@ -6,7 +6,7 @@ import java.util.*;
 
 public abstract class AbstractRepository<T extends Entity> {
 
-    private final List<T> repository = new ArrayList<>();
+    private final List<T> repository = new LinkedList<>();
 
 
     // C

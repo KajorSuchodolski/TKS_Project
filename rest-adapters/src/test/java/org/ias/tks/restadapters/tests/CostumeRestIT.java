@@ -1,7 +1,6 @@
 package org.ias.tks.restadapters.tests;
 
 import lombok.extern.slf4j.Slf4j;
-import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
 import org.ias.tks.restadapters.dto.costume.CostumeDTO;
@@ -11,13 +10,12 @@ import javax.ws.rs.client.*;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
 import java.util.UUID;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Slf4j
-public class CostumeRestTest {
+public class CostumeRestIT {
 
     private static String path;
     private static Client restClient;
@@ -31,14 +29,16 @@ public class CostumeRestTest {
 
     @Test
     public void getAllTest() {
+
         CostumeDTO[] costumes = restClient.target(path)
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
-        Assertions.assertEquals("Furry Costume", costumes[0].getName());
-        Assertions.assertEquals("XL", costumes[0].getCostumeSize().toString());
-        Assertions.assertEquals("BOYS", costumes[0].getForWhom().toString());
-        Assertions.assertEquals(100, costumes[0].getPrice());
+        System.out.println(costumes[0].getName());
+        System.out.println(costumes.length);
+
+        Assertions.assertEquals(6, costumes.length);
+        Assertions.assertNotNull(costumes);
     }
 
     @Test
@@ -47,22 +47,11 @@ public class CostumeRestTest {
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
-        Assertions.assertEquals(100, costumes[0].getPrice());
-        Assertions.assertEquals(66, costumes[1].getPrice());
-        Assertions.assertEquals(42, costumes[2].getPrice());
-        Assertions.assertEquals(10, costumes[3].getPrice());
-        Assertions.assertEquals(110, costumes[4].getPrice());
+
+        Assertions.assertEquals(6, costumes.length);
+        Assertions.assertNotNull(costumes);
     }
 
-    @Test
-    public void getAllByAge() {
-        CostumeDTO[] costumesMan = restClient.target(path + "/all-by-age")
-                .queryParam("age", ForWhom.MAN)
-                .request(MediaType.APPLICATION_JSON)
-                .get(CostumeDTO[].class);
-
-        Assertions.assertEquals("Pope", costumesMan[0].getName());
-    }
 
     @Test
     public void getByIdTest() {
@@ -85,8 +74,8 @@ public class CostumeRestTest {
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
-        Assertions.assertEquals(100, costumes[0].getPrice());
-        Assertions.assertEquals(66, costumes[1].getPrice());
+        Assertions.assertEquals("Furry Costume", costumes[0].getName());
+        Assertions.assertEquals("Furry Costume", costumes[1].getName());
     }
 
     @Test
@@ -97,8 +86,10 @@ public class CostumeRestTest {
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
-        Assertions.assertEquals(66, costumes[0].getPrice());
-        Assertions.assertEquals(110, costumes[1].getPrice());
+        Assertions.assertEquals(ForWhom.GIRLS, costumes[0].getForWhom());
+        Assertions.assertEquals(ForWhom.GIRLS, costumes[0].getForWhom());
+        Assertions.assertEquals(CostumeSize.XL, costumes[1].getCostumeSize());
+        Assertions.assertEquals(CostumeSize.XL, costumes[1].getCostumeSize());
     }
 
     @Test
@@ -107,6 +98,7 @@ public class CostumeRestTest {
         Response res = restClient.target(path)
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(newCostume, MediaType.APPLICATION_JSON));
+
 
         Assertions.assertEquals(200, res.getStatus());
     }
@@ -129,16 +121,16 @@ public class CostumeRestTest {
         Assertions.assertEquals(200, res.getStatus());
 
         CostumeDTO[] newCostumes = restClient.target(path + "/search-by-name")
-                .queryParam("name","Cowiek Maupa")
+                .queryParam("name","Amogus Red Impostor")
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
         CostumeDTO updatedCostume = newCostumes[0];
 
-        Assertions.assertEquals("Cowiek Maupa", updatedCostume.getName());
+        Assertions.assertEquals("Amogus Red Impostor", updatedCostume.getName());
         Assertions.assertEquals("S", updatedCostume.getCostumeSize().toString());
-        Assertions.assertEquals("MAN", updatedCostume.getForWhom().toString());
-        Assertions.assertEquals(90, updatedCostume.getPrice());
+        Assertions.assertEquals("BOYS", updatedCostume.getForWhom().toString());
+        Assertions.assertEquals(10, updatedCostume.getPrice());
     }
 
     @Test

@@ -9,6 +9,7 @@ import org.ias.tks.appports.repoadapters.entities.costume.ForWhomEnt;
 
 import javax.enterprise.context.RequestScoped;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @RequestScoped
@@ -39,7 +40,7 @@ public class CostumeMapper {
 
 
     public List<Costume> mapToCostumeList(List<CostumeEntity> listEntity) {
-        List<Costume> list = new ArrayList<>();
+        List<Costume> list = new LinkedList<>();
 
         for (CostumeEntity costumeEntity : listEntity) {
             list.add(mapToCostume(costumeEntity));
@@ -48,7 +49,7 @@ public class CostumeMapper {
     }
 
     public List<CostumeEntity> mapToCostumeEntityList(List<Costume> list) {
-        List<CostumeEntity> listEntity = new ArrayList<>();
+        List<CostumeEntity> listEntity = new LinkedList<>();
         for (Costume costume : list) {
             listEntity.add(mapToCostumeEntity(costume));
         }

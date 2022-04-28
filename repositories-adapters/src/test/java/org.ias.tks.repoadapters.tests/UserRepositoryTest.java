@@ -1,3 +1,5 @@
+package org.ias.tks.repoadapters.tests;
+
 import org.ias.tks.appports.repoadapters.entities.user.UserEntity;
 import org.ias.tks.appports.repoadapters.entities.user.access_levels.AccessLevelTypeEntity;
 import org.ias.tks.appports.repoadapters.entities.user.access_levels.ClientEntity;

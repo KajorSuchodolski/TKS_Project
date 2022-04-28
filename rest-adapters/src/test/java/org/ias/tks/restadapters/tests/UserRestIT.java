@@ -1,8 +1,5 @@
 package org.ias.tks.restadapters.tests;
 
-import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
-import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
-import org.ias.tks.restadapters.dto.costume.CostumeDTO;
 import org.ias.tks.restadapters.dto.user.UserInputDto;
 import org.ias.tks.restadapters.dto.user.UserOutputDto;
 import org.junit.jupiter.api.*;
@@ -16,11 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
-import java.util.UUID;
-
 @Slf4j
-public class UserRestTest {
+public class UserRestIT {
 
     private static String path;
     private static Client restClient;
@@ -38,11 +32,8 @@ public class UserRestTest {
                 .request(MediaType.APPLICATION_JSON)
                 .get(UserOutputDto[].class);
 
-        Assertions.assertEquals("Radoslaw", users[0].getFirstName());
-        Assertions.assertEquals("Zyzik", users[0].getLastName());
-        Assertions.assertEquals("radek2000@onet.pl", users[0].getEmail());
-        Assertions.assertEquals("KajorSuchodolski", users[0].getLogin());
-        Assertions.assertEquals("Manager", users[0].getAccessLevel().toString());
+        Assertions.assertEquals(4, users.length);
+        Assertions.assertNotNull(users);
     }
 
     @Test
