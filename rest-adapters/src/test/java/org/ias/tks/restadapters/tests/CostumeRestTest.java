@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.ias.tks.appcore.domainmodel.model.costume.Costume;
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
+import org.ias.tks.appports.repoadapters.entities.costume.ForWhomEnt;
 import org.ias.tks.restadapters.dto.costume.CostumeDTO;
 import org.junit.jupiter.api.*;
 
@@ -29,6 +30,7 @@ public class CostumeRestTest {
         restClient = clientBuilder.build();
     }
 
+    @Order(1)
     @Test
     public void getAllTest() {
         CostumeDTO[] costumes = restClient.target(path)
@@ -41,6 +43,7 @@ public class CostumeRestTest {
         Assertions.assertEquals(100, costumes[0].getPrice());
     }
 
+    @Order(2)
     @Test
     public void getAllAvailableTest() {
         CostumeDTO[] costumes = restClient.target(path + "/all-available")
@@ -54,16 +57,18 @@ public class CostumeRestTest {
         Assertions.assertEquals(110, costumes[4].getPrice());
     }
 
+    @Order(3)
     @Test
     public void getAllByAge() {
         CostumeDTO[] costumesMan = restClient.target(path + "/all-by-age")
-                .queryParam("age", ForWhom.MAN)
+                .queryParam("age", "MAN")
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
         Assertions.assertEquals("Pope", costumesMan[0].getName());
     }
 
+    @Order(3)
     @Test
     public void getByIdTest() {
         CostumeDTO[] costumes = restClient.target(path)
@@ -78,6 +83,7 @@ public class CostumeRestTest {
         Assertions.assertEquals(costume.getId(), id);
     }
 
+    @Order(4)
     @Test
     public void searchByNameTest() {
         CostumeDTO[] costumes = restClient.target(path + "/search-by-name")
@@ -89,6 +95,7 @@ public class CostumeRestTest {
         Assertions.assertEquals(66, costumes[1].getPrice());
     }
 
+    @Order(5)
     @Test
     public void costumesByParamsTest() {
         CostumeDTO[] costumes = restClient.target(path + "/costumes-by-params")
@@ -101,6 +108,7 @@ public class CostumeRestTest {
         Assertions.assertEquals(110, costumes[1].getPrice());
     }
 
+    @Order(6)
     @Test
     public void addCostumeTest() {
         CostumeDTO newCostume = new CostumeDTO("Fairy", CostumeSize.S, ForWhom.GIRLS, 120);
@@ -111,6 +119,7 @@ public class CostumeRestTest {
         Assertions.assertEquals(200, res.getStatus());
     }
 
+    @Order(7)
     @Test
     public void updateCostumeTest() {
         CostumeDTO[] costumes = restClient.target(path + "/search-by-name")
@@ -129,18 +138,19 @@ public class CostumeRestTest {
         Assertions.assertEquals(200, res.getStatus());
 
         CostumeDTO[] newCostumes = restClient.target(path + "/search-by-name")
-                .queryParam("name","Cowiek Maupa")
+                .queryParam("name","Hanyuu")
                 .request(MediaType.APPLICATION_JSON)
                 .get(CostumeDTO[].class);
 
         CostumeDTO updatedCostume = newCostumes[0];
 
-        Assertions.assertEquals("Cowiek Maupa", updatedCostume.getName());
+        Assertions.assertEquals("Hanyuu", updatedCostume.getName());
         Assertions.assertEquals("S", updatedCostume.getCostumeSize().toString());
-        Assertions.assertEquals("MAN", updatedCostume.getForWhom().toString());
+        Assertions.assertEquals("GIRLS", updatedCostume.getForWhom().toString());
         Assertions.assertEquals(90, updatedCostume.getPrice());
     }
 
+    @Order(8)
     @Test
     public void deleteCostumeTest() throws InterruptedException {
         CostumeDTO[] costume = restClient.target(path + "/search-by-name")

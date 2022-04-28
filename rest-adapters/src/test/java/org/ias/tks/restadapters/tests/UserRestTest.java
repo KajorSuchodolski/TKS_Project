@@ -32,6 +32,7 @@ public class UserRestTest {
         restClient = clientBuilder.build();
     }
 
+    @Order(1)
     @Test
     public void getAllTest() {
         UserOutputDto[] users = restClient.target(path)
@@ -45,6 +46,7 @@ public class UserRestTest {
         Assertions.assertEquals("Manager", users[0].getAccessLevel().toString());
     }
 
+    @Order(2)
     @Test
     public void getByLoginTest() {
         UserOutputDto foundUser = restClient.target(path + "/get-by-login")
@@ -55,6 +57,7 @@ public class UserRestTest {
         Assertions.assertEquals("radek2000@onet.pl", foundUser.getEmail());
     }
 
+    @Order(3)
     @Test
     public void addUserTest() {
         UserInputDto newUser = new UserInputDto("Anna", "Broniewska", "annabron1234",
@@ -73,6 +76,7 @@ public class UserRestTest {
         Assertions.assertEquals(200, res.getStatus());
     }
 
+    @Order(4)
     @Test
     public void getUserByIdTest() {
         UserOutputDto foundUser = restClient.target(path + "/get-by-login")
@@ -88,6 +92,7 @@ public class UserRestTest {
         Assertions.assertEquals(foundUser.getEmail(), foundUserById.getEmail());
     }
 
+    @Order(5)
     @Test
     public void searchUserByLoginTest() {
         UserOutputDto[] foundUsers = restClient.target(path + "/search-by-login")
@@ -99,6 +104,7 @@ public class UserRestTest {
         Assertions.assertEquals("Kowalski", foundUsers[1].getLastName());
     }
 
+    @Order(6)
     @Test
     public void uptadeUserTest() {
         UserOutputDto foundUser = restClient.target(path + "/get-by-login")
@@ -128,6 +134,7 @@ public class UserRestTest {
         Assertions.assertEquals("Manager", foundModifiedUser.getAccessLevel());
     }
 
+    @Order(7)
     @Test
     public void deactivateUserTest() {
         Response response = restClient.target(path + "/KajorSuchodolski/deactivate")
@@ -144,6 +151,7 @@ public class UserRestTest {
         Assertions.assertFalse(user.isActive());
     }
 
+    @Order(8)
     @Test
     public void activateUserTest() {
         Response response = restClient.target(path + "/KajorSuchodolski/activate")
