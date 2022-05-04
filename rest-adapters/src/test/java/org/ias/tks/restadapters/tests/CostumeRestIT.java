@@ -27,6 +27,7 @@ public class CostumeRestIT {
         restClient = clientBuilder.build();
     }
 
+    @Order(1)
     @Test
     public void getAllTest() {
 
@@ -37,10 +38,11 @@ public class CostumeRestIT {
         System.out.println(costumes[0].getName());
         System.out.println(costumes.length);
 
-        Assertions.assertEquals(6, costumes.length);
+        Assertions.assertEquals(5, costumes.length);
         Assertions.assertNotNull(costumes);
     }
 
+    @Order(2)
     @Test
     public void getAllAvailableTest() {
         CostumeDTO[] costumes = restClient.target(path + "/all-available")
@@ -48,11 +50,11 @@ public class CostumeRestIT {
                 .get(CostumeDTO[].class);
 
 
-        Assertions.assertEquals(6, costumes.length);
+        Assertions.assertEquals(5, costumes.length);
         Assertions.assertNotNull(costumes);
     }
 
-
+    @Order(3)
     @Test
     public void getByIdTest() {
         CostumeDTO[] costumes = restClient.target(path)
@@ -67,6 +69,7 @@ public class CostumeRestIT {
         Assertions.assertEquals(costume.getId(), id);
     }
 
+    @Order(4)
     @Test
     public void searchByNameTest() {
         CostumeDTO[] costumes = restClient.target(path + "/search-by-name")
@@ -78,6 +81,7 @@ public class CostumeRestIT {
         Assertions.assertEquals("Furry Costume", costumes[1].getName());
     }
 
+    @Order(5)
     @Test
     public void costumesByParamsTest() {
         CostumeDTO[] costumes = restClient.target(path + "/costumes-by-params")
@@ -92,6 +96,7 @@ public class CostumeRestIT {
         Assertions.assertEquals(CostumeSize.XL, costumes[1].getCostumeSize());
     }
 
+    @Order(6)
     @Test
     public void addCostumeTest() {
         CostumeDTO newCostume = new CostumeDTO("Fairy", CostumeSize.S, ForWhom.GIRLS, 120);
@@ -103,6 +108,7 @@ public class CostumeRestIT {
         Assertions.assertEquals(200, res.getStatus());
     }
 
+    @Order(7)
     @Test
     public void updateCostumeTest() {
         CostumeDTO[] costumes = restClient.target(path + "/search-by-name")
@@ -133,6 +139,7 @@ public class CostumeRestIT {
         Assertions.assertEquals(10, updatedCostume.getPrice());
     }
 
+    @Order(8)
     @Test
     public void deleteCostumeTest() throws InterruptedException {
         CostumeDTO[] costume = restClient.target(path + "/search-by-name")
