@@ -3,6 +3,7 @@ package org.ias.tks.restadapters.tests;
 import lombok.extern.slf4j.Slf4j;
 import org.ias.tks.appcore.domainmodel.model.costume.CostumeSize;
 import org.ias.tks.appcore.domainmodel.model.costume.ForWhom;
+import org.ias.tks.appports.repoadapters.repositories.RentRepository;
 import org.ias.tks.restadapters.dto.costume.CostumeDTO;
 import org.junit.jupiter.api.*;
 
@@ -19,6 +20,7 @@ public class CostumeRestIT {
 
     private static String path;
     private static Client restClient;
+    private RentRepository rentRepo;
 
     @BeforeEach
     public void config() {
