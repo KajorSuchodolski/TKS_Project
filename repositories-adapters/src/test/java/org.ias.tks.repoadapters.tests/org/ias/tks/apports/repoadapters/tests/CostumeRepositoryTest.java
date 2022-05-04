@@ -1,4 +1,4 @@
-package org.ias.tks.repoadapters.tests;
+package org.ias.tks.apports.repoadapters.tests;
 
 import org.ias.tks.appports.repoadapters.entities.costume.CostumeEntity;
 import org.ias.tks.appports.repoadapters.entities.costume.CostumeSizeEnt;

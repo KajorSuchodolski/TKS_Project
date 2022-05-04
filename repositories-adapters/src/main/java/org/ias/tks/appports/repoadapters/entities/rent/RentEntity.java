@@ -19,7 +19,6 @@ public class RentEntity extends Entity {
 
 
     public RentEntity() {
-
     }
 
     public RentEntity(UserEntity user, List<CostumeEntity> costumes, double price, LocalDate beginTime) {
