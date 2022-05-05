@@ -106,9 +106,15 @@ public class UserController {
         }
         try {
             switch (userRestAdapter.getUserByLogin(login).getAccessLevel()) {
-                case "Admin" -> user.setAccessLevel("Admin");
-                case "Manager" -> user.setAccessLevel("Manager");
-                default -> user.setAccessLevel("Client");
+                case "Admin":
+                    user.setAccessLevel("Admin");
+                    break;
+                case "Manager":
+                    user.setAccessLevel("Manager");
+                    break;
+                default:
+                    user.setAccessLevel("Client");
+                    break;
             }
             userRestAdapter.updateUser(login, user);
             return Response.ok()

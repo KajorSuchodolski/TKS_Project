@@ -36,10 +36,18 @@ public class UserMapper {
 
     public User mapToUser(UserInputDto userInputDto) {
 
-        AccessLevel accessLevel = switch (userInputDto.getAccessLevel()) {
-            case "Admin" -> new Administrator(AccessLevelType.ADMINISTRATOR);
-            case "Manager" -> new Manager(AccessLevelType.MANAGER);
-            default -> new Client(AccessLevelType.CLIENT);
+        AccessLevel accessLevel;
+
+        switch (userInputDto.getAccessLevel()) {
+            case "Admin":
+                accessLevel = new Administrator(AccessLevelType.ADMINISTRATOR);
+                break;
+            case "Manager":
+                accessLevel = new Manager(AccessLevelType.MANAGER);
+                break;
+            default:
+                accessLevel = new Client(AccessLevelType.CLIENT);
+                break;
         };
 
         User user = new User(

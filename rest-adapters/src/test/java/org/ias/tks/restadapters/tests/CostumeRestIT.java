@@ -37,7 +37,7 @@ public class CostumeRestIT {
         System.out.println(costumes[0].getName());
         System.out.println(costumes.length);
 
-        Assertions.assertEquals(6, costumes.length);
+        Assertions.assertEquals(5, costumes.length);
         Assertions.assertNotNull(costumes);
     }
 
@@ -48,7 +48,7 @@ public class CostumeRestIT {
                 .get(CostumeDTO[].class);
 
 
-        Assertions.assertEquals(6, costumes.length);
+        Assertions.assertEquals(5, costumes.length);
         Assertions.assertNotNull(costumes);
     }
 
@@ -88,8 +88,6 @@ public class CostumeRestIT {
 
         Assertions.assertEquals(ForWhom.GIRLS, costumes[0].getForWhom());
         Assertions.assertEquals(ForWhom.GIRLS, costumes[0].getForWhom());
-        Assertions.assertEquals(CostumeSize.XL, costumes[1].getCostumeSize());
-        Assertions.assertEquals(CostumeSize.XL, costumes[1].getCostumeSize());
     }
 
     @Test

@@ -18,26 +18,6 @@
     <dependencies>
         <dependency>
             <groupId>org.ias.tks</groupId>
-            <artifactId>application-ports</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ias.tks</groupId>
-            <artifactId>domain-model</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ias.tks</groupId>
-            <artifactId>application-services</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ias.tks</groupId>
-            <artifactId>repositories-adapters</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ias.tks</groupId>
             <artifactId>rest-adapters</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

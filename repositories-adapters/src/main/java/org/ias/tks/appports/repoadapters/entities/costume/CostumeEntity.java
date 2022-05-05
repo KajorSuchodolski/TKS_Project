@@ -71,13 +71,13 @@ public class CostumeEntity extends Entity implements SingableEntity {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CostumeEntity costumeEnt)) return false;
-        if (!super.equals(o)) return false;
-        return isRented == costumeEnt.isRented && costumeSizeEnt == costumeEnt.costumeSizeEnt && forWhomEnt == costumeEnt.forWhomEnt && Objects.equals(name, costumeEnt.name);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof CostumeEntity costumeEnt)) return false;
+//        if (!super.equals(o)) return false;
+//        return isRented == costumeEnt.isRented && costumeSizeEnt == costumeEnt.costumeSizeEnt && forWhomEnt == costumeEnt.forWhomEnt && Objects.equals(name, costumeEnt.name);
+//    }
 
     @Override
     public int hashCode() {

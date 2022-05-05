@@ -20,12 +20,12 @@ public abstract class Model {
         this.id = id;
     }
 
-    @Override
-    public boolean equals( Object o ) {
-        if( this == o ) return true;
-        if( !(o instanceof Model model) ) return false;
-        return Objects.equals(id, model.id);
-    }
+//    @Override
+//    public boolean equals( Object o ) {
+//        if( this == o ) return true;
+//        if( !(o instanceof Model model) ) return false;
+//        return Objects.equals(id, model.id);
+//    }
 
     @Override
     public int hashCode() {

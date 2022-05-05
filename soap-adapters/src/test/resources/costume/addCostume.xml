@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <S:Body xmlns:ns2="http://services.soapadapters.tks.ias.org/">
+        <ns2:addCostume>
+           <arg0>simpleArg0</arg0>
+        </ns2:addCostume>
+    </S:Body>
+</S:Envelope>

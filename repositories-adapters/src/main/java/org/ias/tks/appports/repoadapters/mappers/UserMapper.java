@@ -19,11 +19,17 @@ public class UserMapper {
     public UserEntity mapToUserEntity(User user) {
 
         // TODO
-        AccessLevelEntity accessLevel = switch (user.getAccessLevel()) {
-            case "Admin" -> new AdministratorEntity(AccessLevelTypeEntity.ADMINISTRATOR);
-            case "Manager" -> new ManagerEntity(AccessLevelTypeEntity.MANAGER);
-            case "Client" -> new ClientEntity(AccessLevelTypeEntity.CLIENT);
-            default -> new ClientEntity(AccessLevelTypeEntity.CLIENT);
+        AccessLevelEntity accessLevel;
+        switch (user.getAccessLevel()) {
+            case "Admin":
+                accessLevel = new AdministratorEntity(AccessLevelTypeEntity.ADMINISTRATOR);
+                break;
+            case "Manager":
+                accessLevel = new ManagerEntity(AccessLevelTypeEntity.MANAGER);
+                break;
+            default:
+                accessLevel = new ClientEntity(AccessLevelTypeEntity.CLIENT);
+                break;
         };
 
         UserEntity userEntity = new UserEntity(
@@ -41,10 +47,17 @@ public class UserMapper {
 
     public User mapToUser(UserEntity userEntity) {
 
-        AccessLevel accessLevel = switch (userEntity.getAccessLevel()) {
-            case "Admin" -> new Administrator(AccessLevelType.ADMINISTRATOR);
-            case "Manager" -> new Manager(AccessLevelType.MANAGER);
-            default -> new Client(AccessLevelType.CLIENT);
+        AccessLevel accessLevel;
+        switch (userEntity.getAccessLevel()) {
+            case "Admin":
+                accessLevel = new Administrator(AccessLevelType.ADMINISTRATOR);
+                break;
+            case "Manager":
+                accessLevel = new Manager(AccessLevelType.MANAGER);
+                break;
+            default:
+                accessLevel = new Client(AccessLevelType.CLIENT);
+                break;
         };
 
         User user = new User(

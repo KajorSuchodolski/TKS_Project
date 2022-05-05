@@ -92,13 +92,13 @@ public class UserEntity extends Entity implements SingableEntity, Serializable {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserEntity userEntity)) return false;
-        if (!super.equals(o)) return false;
-        return isActive == userEntity.isActive && Objects.equals(accessLevel, userEntity.accessLevel) && Objects.equals(firstName, userEntity.firstName) && Objects.equals(lastName, userEntity.lastName) && Objects.equals(login, userEntity.login) && Objects.equals(email, userEntity.email) && Objects.equals(password, userEntity.password);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof UserEntity userEntity)) return false;
+//        if (!super.equals(o)) return false;
+//        return isActive == userEntity.isActive && Objects.equals(accessLevel, userEntity.accessLevel) && Objects.equals(firstName, userEntity.firstName) && Objects.equals(lastName, userEntity.lastName) && Objects.equals(login, userEntity.login) && Objects.equals(email, userEntity.email) && Objects.equals(password, userEntity.password);
+//    }
 
     @Override
     public int hashCode() {

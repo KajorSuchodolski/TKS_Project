@@ -103,9 +103,15 @@ public class UserService implements UserUseCases {
         User tmpUser = new User();
         tmpUser.setLogin(login);
         switch (user.getAccessLevel()) {
-            case "Admin" -> tmpUser.setAccessLevel(new Administrator(AccessLevelType.ADMINISTRATOR));
-            case "Manager" -> tmpUser.setAccessLevel(new Manager(AccessLevelType.MANAGER));
-            default -> tmpUser.setAccessLevel(new Client(AccessLevelType.CLIENT));
+            case "Admin" :
+                tmpUser.setAccessLevel(new Administrator(AccessLevelType.ADMINISTRATOR));
+                break;
+            case "Manager":
+                tmpUser.setAccessLevel(new Manager(AccessLevelType.MANAGER));
+                break;
+            default:
+                tmpUser.setAccessLevel(new Client(AccessLevelType.CLIENT));
+                break;
         }
 
         if (user.getFirstName() != null) {

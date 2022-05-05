@@ -74,13 +74,13 @@ public class RentEntity extends Entity {
         return super.getId();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RentEntity rent)) return false;
-        if (!super.equals(o)) return false;
-        return Double.compare(rent.price, price) == 0 && Objects.equals(user, rent.user) && Objects.equals(costumes, rent.costumes) && Objects.equals(beginTime, rent.beginTime) && Objects.equals(endTime, rent.endTime);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof RentEntity rent)) return false;
+//        if (!super.equals(o)) return false;
+//        return Double.compare(rent.price, price) == 0 && Objects.equals(user, rent.user) && Objects.equals(costumes, rent.costumes) && Objects.equals(beginTime, rent.beginTime) && Objects.equals(endTime, rent.endTime);
+//    }
 
     @Override
     public int hashCode() {
