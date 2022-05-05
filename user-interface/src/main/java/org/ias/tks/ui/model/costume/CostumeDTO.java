@@ -92,13 +92,13 @@ public class CostumeDTO extends EntityDTO {
         this.etag = etag;
     }
 
-    @Override
-    public boolean equals( Object o ) {
-        if( this == o ) return true;
-        if( !(o instanceof CostumeDTO costumeDTO) ) return false;
-        if( !super.equals(o) ) return false;
-        return isRented == costumeDTO.isRented && costumeSize == costumeDTO.costumeSize && forWhom == costumeDTO.forWhom && Objects.equals(name, costumeDTO.name);
-    }
+//    @Override
+//    public boolean equals( Object o ) {
+//        if( this == o ) return true;
+//        if( !(o instanceof CostumeDTO costumeDTO) ) return false;
+//        if( !super.equals(o) ) return false;
+//        return isRented == costumeDTO.isRented && costumeSize == costumeDTO.costumeSize && forWhom == costumeDTO.forWhom && Objects.equals(name, costumeDTO.name);
+//    }
 
     @Override
     public int hashCode() {

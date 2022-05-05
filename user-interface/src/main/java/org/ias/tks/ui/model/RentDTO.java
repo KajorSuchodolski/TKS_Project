@@ -83,13 +83,13 @@ public class RentDTO extends EntityDTO {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public boolean equals( Object o ) {
-        if( this == o ) return true;
-        if( !(o instanceof RentDTO rentDTO) ) return false;
-        if( !super.equals(o) ) return false;
-        return Double.compare(rentDTO.price, price) == 0 && Objects.equals(user, rentDTO.user) && Objects.equals(costumes, rentDTO.costumes) && Objects.equals(beginTime, rentDTO.beginTime) && Objects.equals(endTime, rentDTO.endTime);
-    }
+//    @Override
+//    public boolean equals( Object o ) {
+//        if( this == o ) return true;
+//        if( !(o instanceof RentDTO rentDTO) ) return false;
+//        if( !super.equals(o) ) return false;
+//        return Double.compare(rentDTO.price, price) == 0 && Objects.equals(user, rentDTO.user) && Objects.equals(costumes, rentDTO.costumes) && Objects.equals(beginTime, rentDTO.beginTime) && Objects.equals(endTime, rentDTO.endTime);
+//    }
 
     @Override
     public int hashCode() {

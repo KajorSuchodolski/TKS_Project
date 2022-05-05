@@ -15,12 +15,12 @@ public abstract class EntityDTO {
     }
 
 
-    @Override
-    public boolean equals( Object o ) {
-        if( this == o ) return true;
-        if( !(o instanceof EntityDTO entityDTO) ) return false;
-        return Objects.equals(id, entityDTO.id);
-    }
+//    @Override
+//    public boolean equals( Object o ) {
+//        if( this == o ) return true;
+//        if( !(o instanceof EntityDTO entityDTO) ) return false;
+//        return Objects.equals(id, entityDTO.id);
+//    }
 
     @Override
     public int hashCode() {
