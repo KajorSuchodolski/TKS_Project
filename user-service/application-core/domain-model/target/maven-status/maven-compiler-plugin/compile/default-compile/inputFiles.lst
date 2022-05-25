@@ -1,0 +1,15 @@
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\model\user\User.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\exceptions\UserUpdateException.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\global_config\Validation.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\model\user\access_levels\Administrator.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\exceptions\UserByIdNotFound.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\model\user\access_levels\Manager.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\global_config\ValidationParameter.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\exceptions\UserCreationException.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\exceptions\UserInactiveException.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\exceptions\EntityValidationException.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\model\user\access_levels\AccessLevel.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\model\user\access_levels\AccessLevelType.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\exceptions\UserByLoginNotFound.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\model\user\access_levels\Client.java
+C:\Users\Radek\Desktop\TKS\UserService\application-core\domain-model\src\main\java\org\ias\tks\appcore\domainmodel\model\Model.java

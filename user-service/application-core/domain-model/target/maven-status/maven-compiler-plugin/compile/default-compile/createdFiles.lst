@@ -1,0 +1,16 @@
+org\ias\tks\appcore\domainmodel\exceptions\UserByLoginNotFound.class
+org\ias\tks\appcore\domainmodel\model\user\User.class
+org\ias\tks\appcore\domainmodel\model\user\access_levels\Client.class
+org\ias\tks\appcore\domainmodel\exceptions\UserByIdNotFound.class
+org\ias\tks\appcore\domainmodel\model\Model.class
+org\ias\tks\appcore\domainmodel\model\user\access_levels\Administrator.class
+org\ias\tks\appcore\domainmodel\exceptions\UserCreationException.class
+org\ias\tks\appcore\domainmodel\model\user\access_levels\AccessLevel.class
+org\ias\tks\appcore\domainmodel\exceptions\UserInactiveException.class
+org\ias\tks\appcore\domainmodel\global_config\ValidationParameter.class
+org\ias\tks\appcore\domainmodel\global_config\Validation$1.class
+org\ias\tks\appcore\domainmodel\model\user\access_levels\Manager.class
+org\ias\tks\appcore\domainmodel\global_config\Validation.class
+org\ias\tks\appcore\domainmodel\exceptions\EntityValidationException.class
+org\ias\tks\appcore\domainmodel\exceptions\UserUpdateException.class
+org\ias\tks\appcore\domainmodel\model\user\access_levels\AccessLevelType.class
