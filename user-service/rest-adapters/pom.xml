@@ -107,6 +107,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <deployWar>true</deployWar>
                     <payaraVersion>5.2022.1</payaraVersion>
                     <deployWar>true</deployWar>
                     <daemon>true</daemon>
