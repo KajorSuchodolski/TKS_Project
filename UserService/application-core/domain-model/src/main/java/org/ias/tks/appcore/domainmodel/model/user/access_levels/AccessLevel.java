@@ -1,7 +1,10 @@
 package org.ias.tks.appcore.domainmodel.model.user.access_levels;
 
+import lombok.Setter;
+
 import java.io.Serializable;
 
+@Setter
 public abstract class AccessLevel implements Serializable {
 
     private AccessLevelType accessLevelType;
@@ -12,9 +15,6 @@ public abstract class AccessLevel implements Serializable {
 
     public abstract String getAccessLevelType();
 
-    public void setAccessLevelType(AccessLevelType accessLevelType) {
-        this.accessLevelType = accessLevelType;
-    }
 
     @Override
     public String toString() {
