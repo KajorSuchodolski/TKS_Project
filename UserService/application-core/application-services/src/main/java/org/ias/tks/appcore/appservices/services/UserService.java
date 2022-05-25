@@ -103,7 +103,7 @@ public class UserService implements UserUseCases {
         User tmpUser = new User();
         tmpUser.setLogin(login);
         switch (user.getAccessLevel()) {
-            case "Admin" :
+            case "Admin":
                 tmpUser.setAccessLevel(new Administrator(AccessLevelType.ADMINISTRATOR));
                 break;
             case "Manager":
