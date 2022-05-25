@@ -13,9 +13,7 @@
         <module>application-core</module>
         <module>application-ports</module>
         <module>repositories-adapters</module>
-        <module>web-application</module>
         <module>rest-adapters</module>
-        <module>user-interface</module>
     </modules>
 
     <properties>
