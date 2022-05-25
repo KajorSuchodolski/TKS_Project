@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.ias.tks</groupId>
-    <artifactId>RentService</artifactId>
+    <artifactId>rent-service</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -15,7 +15,6 @@
         <module>repositories-adapters</module>
         <module>web-application</module>
         <module>rest-adapters</module>
-        <module>soap-adapters</module>
         <module>user-interface</module>
     </modules>
 
