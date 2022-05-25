@@ -30,4 +30,15 @@ public class User extends Model implements Serializable {
     public String getAccessLevel() {
         return accessLevel.getAccessLevelType();
     }
+
+    public User(String firstName, String lastName, String login, String password, String email, AccessLevel accessLevel) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.accessLevel = accessLevel;
+
+    }
 }
